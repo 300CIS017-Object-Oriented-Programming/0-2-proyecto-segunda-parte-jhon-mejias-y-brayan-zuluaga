@@ -1,65 +1,80 @@
-import streamlit as st
-from game_controller import AdministrarEventos
+from typing import List, Dict
+class AdministrarEventos:
+    def __init__(self):
+        self.filantropicos: List[Filantropico] = []
+        self.bares: List[Bar] = []
+        self.teatros: List[Teatro] = []
+        self.artistas: Dict[str, Artista] = {}
+        self.menu = True
+        self.creando_evento = False
+        self.editando_evento = False
+        self.eliminando_evento = False
+        self.generando_reportes = False
+        self.vendiendo_boletas = False
+        self.creando_artista = False
+        self.asignando_artista = False
+        self.mostrando_detalles_evento = False
+        self.imprimiendo_eventos = False
 
-# Initialize the event manager
-event_manager = AdministrarEventos()
+    def activate_menu(self):
+        self.menu = True
+    def activate_creando_evento(self):
+        self.creando_evento = True
+    def activate_editando_evento(self):
+        self.editando_evento = True
+    def activate_eliminando_evento(self):
+        self.eliminando_evento = True
+    def activate_generando_reportes(self):
+        self.generando_reportes = True
+    def activate_vendiendo_boletas(self):
+        self.vendiendo_boletas = True
+    def activate_creando_artista(self):
+        self.creando_artista = True
+    def activate_asignando_artista(self):
+        self.asignando_artista = True
+    def activate_mostrando_detalles_evento(self):
+        self.mostrando_detalles_evento = True
+    def activate_imprimiendo_eventos(self):
+        self.imprimiendo_eventos = True
 
-# Define Streamlit app
-def main():
-    st.title("Event Management System")
+    def desactivate_menu(self):
+        self.menu = False
+    def desactivate_creando_evento(self):
+        self.creando_evento = False
+    def desactivate_editando_evento(self):
+        self.editando_evento = False
+    def desactivate_eliminando_evento(self):
+        self.eliminando_evento = False
+    def desactivate_generando_reportes(self):
+        self.generando_reportes = False
+    def desactivate_vendiendo_boletas(self):
+        self.vendiendo_boletas = False
+    def desactivate_creando_artista(self):
+        self.creando_artista = False
+    def desactivate_asignando_artista(self):
+        self.asignando_artista = False
+    def desactivate_mostrando_detalles_evento(self):
+        self.mostrando_detalles_evento = False
+    def desactivate_imprimiendo_eventos(self):
+        self.imprimiendo_eventos = False
 
-    # Sidebar menu
-    menu = ["Crear Evento", "Editar Evento", "Eliminar Evento", "Fase de Ventas", "Generar Reportes", "Vender Boletas", "Crear Artista", "Asignar Artista", "Mostrar Detalles de Evento", "Imprimir Eventos"]
-    choice = st.sidebar.selectbox("Menu", menu)
-
-    if choice == "Crear Evento":
-        st.subheader("Crear Nuevo Evento")
-        event_manager.crear_evento()
-
-    elif choice == "Editar Evento":
-        st.subheader("Editar Evento Existente")
-        event_manager.editar_evento()
-
-    elif choice == "Eliminar Evento":
-        st.subheader("Eliminar Evento Existente")
-        event_manager.eliminar_evento()
-
-    elif choice == "Fase de Ventas":
-        st.subheader("Actualizar Fase de Ventas")
-        event_manager.fase_ventas()
-
-    elif choice == "Generar Reportes":
-        report_options = ["Reporte de Ventas", "Reporte Financiero", "Reporte de Compradores", "Reporte de Artistas"]
-        report_choice = st.selectbox("Seleccione el tipo de reporte", report_options)
-
-        if report_choice == "Reporte de Ventas":
-            event_manager.generar_ventas()
-        elif report_choice == "Reporte Financiero":
-            event_manager.generar_financiero()
-        elif report_choice == "Reporte de Compradores":
-            event_manager.generar_compradores()
-        elif report_choice == "Reporte de Artistas":
-            event_manager.generar_artistas()
-
-    elif choice == "Vender Boletas":
-        st.subheader("Venta de Boletas")
-        event_manager.vender_boletas()
-
-    elif choice == "Crear Artista":
-        st.subheader("Crear Nuevo Artista")
-        event_manager.crear_artista()
-
-    elif choice == "Asignar Artista":
-        st.subheader("Asignar Artista a Evento")
-        event_manager.asignar_artista()
-
-    elif choice == "Mostrar Detalles de Evento":
-        st.subheader("Mostrar Detalles de Evento")
-        event_manager.mostrar_detalles_evento()
-
-    elif choice == "Imprimir Eventos":
-        st.subheader("Eventos Registrados")
-        event_manager.imprimir_eventos()
-
-if __name__ == "__main__":
-    main()
+    def get_menu(self):
+        return self.menu
+    def get_creando_evento(self):
+        return self.creando_evento
+    def get_editando_evento(self):
+        return self.editando_evento
+    def get_eliminando_evento(self):
+        return self.eliminando_evento
+    def get_generando_reportes(self):
+        return self.generando_reportes
+    def get_vendiendo_boletas(self):
+        return self.vendiendo_boletas
+    def get_creando_artista(self):
+        return self.creando_artista
+    def get_asignando_artista(self):
+        return self.asignando_artista
+    def get_mostrando_detalles_evento(self):
+        return self.mostrando_detalles_evento
+    def get_imprimiendo_eventos(self):
+        return self.imprimiendo_eventos

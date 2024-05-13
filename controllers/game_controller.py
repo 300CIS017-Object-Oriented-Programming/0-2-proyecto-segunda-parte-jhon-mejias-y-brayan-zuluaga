@@ -1,5 +1,5 @@
 from typing import List, Dict
-from models import Filantropico, Bar, Teatro, Evento, Asistente
+from models import Filantropico, Bar, Teatro, Evento, Asistente, Artista, Boleteria
 
 class AdministrarEventos:
     def __init__(self):

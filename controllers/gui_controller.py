@@ -1,10 +1,10 @@
 from typing import List, Dict
-class AdministrarEventos:
+class GuiController:
     def __init__(self):
-        self.filantropicos: List[Filantropico] = []
-        self.bares: List[Bar] = []
-        self.teatros: List[Teatro] = []
-        self.artistas: Dict[str, Artista] = {}
+        #self.filantropicos: List[Filantropico] = []
+        #self.bares: List[Bar] = []
+        #self.teatros: List[Teatro] = []
+        #self.artistas: Dict[str, Artista] = {}
         self.menu = True
         self.creando_evento = False
         self.editando_evento = False

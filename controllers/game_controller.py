@@ -440,37 +440,29 @@ class AdministrarEventos:
         if not evento_encontrado:
             print("Error: El evento no existe.")
 
-    def mostrar_detalles_evento(self):
-        tipo_evento = input("Ingrese el tipo de evento (bar, teatro, filantropico): ")
+    def mostrar_detalles_evento(self, tipo_evento, nombre_evento):
+        evento_encontrado = None
 
-        evento_encontrado = False
-        if tipo_evento == "bar":
-            nombre_evento = input("Ingrese el nombre del evento Bar: ")
+        if tipo_evento.lower() == "bar":
             for bar in self.bares:
                 if bar.get_nombre() == nombre_evento:
-                    bar.mostrar_detalles()
-                    evento_encontrado = True
+                    evento_encontrado = bar
                     break
-        elif tipo_evento == "teatro":
-            nombre_evento = input("Ingrese el nombre del evento Teatro: ")
+        elif tipo_evento.lower() == "teatro":
             for teatro in self.teatros:
                 if teatro.get_nombre() == nombre_evento:
-                    teatro.mostrar_detalles()
-                    evento_encontrado = True
+                    evento_encontrado = teatro
                     break
-        elif tipo_evento == "filantropico":
-            nombre_evento = input("Ingrese el nombre del evento Filantropico: ")
+        elif tipo_evento.lower() == "filantropico":
             for filantropico in self.filantropicos:
                 if filantropico.get_nombre() == nombre_evento:
-                    filantropico.mostrar_detalles()
-                    evento_encontrado = True
+                    evento_encontrado = filantropico
                     break
-        else:
-            print("Tipo de evento no válido.")
-            evento_encontrado = True
 
-        if not evento_encontrado:
-            print("Error: El evento no existe.")
+        if evento_encontrado:
+            return evento_encontrado.mostrar_detalles()
+        else:
+            return None
 
     def imprimir_eventos(self):
         print("Eventos de tipo Bar:")
@@ -539,37 +531,7 @@ class AdministrarEventos:
         if not evento_encontrado:
             print("Error: El evento no existe.")
 
-    def mostrar_detalles_evento(self):
-        tipo_evento = input("Ingrese el tipo de evento (bar, teatro, filantropico): ")
 
-        evento_encontrado = False
-        if tipo_evento == "bar":
-            nombre_evento = input("Ingrese el nombre del evento Bar: ")
-            for bar in self.bares:
-                if bar.get_nombre() == nombre_evento:
-                    bar.mostrar_detalles()
-                    evento_encontrado = True
-                    break
-        elif tipo_evento == "teatro":
-            nombre_evento = input("Ingrese el nombre del evento Teatro: ")
-            for teatro in self.teatros:
-                if teatro.get_nombre() == nombre_evento:
-                    teatro.mostrar_detalles()
-                    evento_encontrado = True
-                    break
-        elif tipo_evento == "filantropico":
-            nombre_evento = input("Ingrese el nombre del evento Filantropico: ")
-            for filantropico in self.filantropicos:
-                if filantropico.get_nombre() == nombre_evento:
-                    filantropico.mostrar_detalles()
-                    evento_encontrado = True
-                    break
-        else:
-            print("Tipo de evento no válido.")
-            evento_encontrado = True
-
-        if not evento_encontrado:
-            print("Error: El evento no existe.")
 
     def imprimir_eventos(self):
         print("Eventos de tipo Bar:")

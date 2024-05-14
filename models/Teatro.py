@@ -1,8 +1,8 @@
 from models.Evento import Evento  # Importa la clase Evento si ya ha sido convertida a Python
 
 class Teatro(Evento):
-    def __init__(self, nombre, fecha, horaInicio, horaShow, lugar, direccion, ciudad, estado, aforo):
-        super().__init__(nombre, fecha, horaInicio, horaShow, lugar, direccion, ciudad, estado, aforo)
+    def __init__(self, nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo):
+        super().__init__(nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo)
         self.costo = 0
 
     def get_asistentes(self):
@@ -88,9 +88,11 @@ class Teatro(Evento):
     def agregar_asistente(self, asistente):
         self.asistentes.append(asistente)
 
+
     def mostrar_detalles(self):
-        # Implementa la lógica para mostrar los detalles del evento (nombre, fecha, lugar, etc.)
-        pass
+        return f"Nombre: {self.nombre}\nFecha: {self.fecha}\nHora de inicio: {self.hora_inicio}\nHora del show: {self.hora_show}\nLugar: {self.lugar}\nDirección: {self.direccion}\nCiudad: {self.ciudad}\nEstado: {self.estado}\nAforo: {self.aforo}\nCosto: {self.costo}"
+
+
 
     def sumar_personas(self):
         self.personas += 1

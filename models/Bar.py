@@ -2,8 +2,8 @@ from models.Evento import Evento
 
 
 class Bar(Evento):
-    def __init__(self, nombre, fecha, horaInicio, horaShow, lugar, direccion, ciudad, estado, aforo,pago_artistas):
-        super().__init__(nombre, fecha, horaInicio, horaShow, lugar, direccion, ciudad, estado, aforo)
+    def __init__(self, nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo,pago_artistas):
+        super().__init__(nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo)
         self.pago_artistas = pago_artistas
     def pagar_comediante(self):
         # Implementa la lógica para pagar al comediante si es necesario
@@ -86,8 +86,8 @@ class Bar(Evento):
         return self.artistas
 
     def mostrar_detalles(self):
-        # Implementa la lógica para mostrar los detalles del evento (nombre, fecha, lugar, etc.)
-        pass
+        return f"Nombre: {self.nombre}\nFecha: {self.fecha}\nHora de inicio: {self.hora_inicio}\nHora del show: {self.hora_show}\nLugar: {self.lugar}\nDirección: {self.direccion}\nCiudad: {self.ciudad}\nEstado: {self.estado}\nAforo: {self.aforo}\nPago a artistas: {self.pago_artistas}"
+
 
     def get_asistentes(self):
         return self.asistentes

@@ -52,6 +52,9 @@ class View():
             self.eliminar_evento()
         if st.session_state['gui_view'].get_imprimiendo_eventos():
             self.imprimir_eventos()
+        if st.session_state['gui_view'].get_mostrando_detalles_evento():
+            self.mostrar_detalles_evento()
+
 
 
         footer_html = """
@@ -199,6 +202,10 @@ class View():
             st.session_state['gui_view'].activate_editando_evento()
             st.session_state['gui_view'].desactivate_menu()
 
+        if st.button("Mostrar Detalles de Evento"):
+            st.session_state['gui_view'].activate_mostrando_detalles_evento()
+            st.session_state['gui_view'].desactivate_menu()
+
         if st.button("Imprimir eventos"):
             st.session_state['gui_view'].activate_imprimiendo_eventos()
             st.session_state['gui_view'].desactivate_menu()
@@ -230,6 +237,9 @@ class View():
                 st.success(f"El evento {nombre_evento} ha sido eliminado exitosamente.")
             else:
                 st.error(f"No se encontró ningún evento con el nombre {nombre_evento}.")
+        if st.button("Atrás"):
+            st.session_state['gui_view'].desactivate_eliminando_evento()
+            st.session_state['gui_view'].activate_menu()
 
     def vender_boletas(self):
         st.title("Vender Boletas")
@@ -273,20 +283,20 @@ class View():
         if st.button("Asignar"):
             st.session_state['controler'].asignar_artista(tipo_evento.lower(), nombre_evento, nombre_artista)
 
-
     def mostrar_detalles_evento(self):
         st.title("Mostrar Detalles de Evento")
-        container = st.container()
-        col1, col2 = container.columns(2)
+        tipo_evento = st.selectbox("Seleccione el tipo de evento", ["bar", "teatro", "filantropico"])
+        nombre_evento = st.text_input("Ingrese el nombre del evento a mostrar")
 
-        with col1:
-            tipo_evento = st.selectbox("Tipo de evento", ["Bar", "Teatro", "Filantropico"])
-            nombre_evento = st.text_input("Nombre del evento")
-
-        with col2:
-            if st.button("Mostrar"):
-                st.session_state['controler'].mostrar_detalles_evento(tipo_evento.lower(), nombre_evento)
-
+        if st.button("Mostrar Detalles"):
+            detalles = st.session_state['controler'].mostrar_detalles_evento(tipo_evento, nombre_evento)
+            if detalles:
+                st.write(detalles)
+            else:
+                st.error(f"No se encontró ningún evento con el nombre {nombre_evento}.")
+        if st.button("Atrás"):
+            st.session_state['gui_view'].desactivate_mostrando_detalles_evento()
+            st.session_state['gui_view'].activate_menu()
 
     def imprimir_eventos(self):
         st.title("Imprimir Eventos")

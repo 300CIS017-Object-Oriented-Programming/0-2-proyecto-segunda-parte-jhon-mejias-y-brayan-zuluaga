@@ -1,11 +1,11 @@
 from abc import ABC, abstractmethod
 
 class Evento(ABC):
-    def __init__(self, nombre, fecha, horaInicio, horaShow, lugar, direccion, ciudad, estado, aforo):
+    def __init__(self, nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo):
         self.nombre = nombre
         self.fecha = fecha
-        self.horaInicio = horaInicio
-        self.horaShow = horaShow
+        self.hora_inicio = hora_inicio
+        self.hora_show = hora_show
         self.lugar = lugar
         self.direccion = direccion
         self.ciudad = ciudad

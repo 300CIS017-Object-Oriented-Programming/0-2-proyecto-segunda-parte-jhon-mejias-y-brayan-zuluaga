@@ -1,8 +1,8 @@
 from models.Evento import Evento  # Importa la clase Evento si ya ha sido convertida a Python
 
 class Filantropico(Evento):
-    def __init__(self, nombre, fecha, horaInicio, horaShow, lugar, direccion, ciudad, estado, aforo):
-        super().__init__(nombre, fecha, horaInicio, horaShow, lugar, direccion, ciudad, estado, aforo)
+    def __init__(self, nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo):
+        super().__init__(nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo)
         self.patrocinadores = {}  # Un diccionario vacío para almacenar los patrocinadores y sus valores
 
     def agregar_patrocinador(self, patrocinador):
@@ -91,8 +91,8 @@ class Filantropico(Evento):
         return self.artistas
 
     def mostrar_detalles(self):
-        # Implementa la lógica para mostrar los detalles del evento (nombre, fecha, lugar, etc.)
-        pass
+        patrocinadores = ', '.join(self.patrocinadores)
+        return f"Nombre: {self.nombre}\nFecha: {self.fecha}\nHora de inicio: {self.hora_inicio}\nHora del show: {self.hora_show}\nLugar: {self.lugar}\nDirección: {self.direccion}\nCiudad: {self.ciudad}\nEstado: {self.estado}\nAforo: {self.aforo}\nPatrocinadores: {patrocinadores}"
     def get_asistentes(self):
         return self.asistentes
     def agregar_boleteria(self, nuevaBoleteria):

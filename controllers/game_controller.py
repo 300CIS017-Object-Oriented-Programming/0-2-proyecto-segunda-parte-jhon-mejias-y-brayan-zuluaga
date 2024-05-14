@@ -193,15 +193,15 @@ class AdministrarEventos:
             print("No se encontró ningún evento con el artista ingresado.")
 
 
-    def crear_bar(self):
+    def crear_bar(self, nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo):
         bar = Bar(nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo)
         self.bares.append(bar)
 
-    def crear_teatro(self):
+    def crear_teatro(self, nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo):
         teatro = Teatro(nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo)
         teatro.costo_alquiler()
         self.teatros.append(teatro)
-    def crear_filantropico(self):
+    def crear_filantropico(self, nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo):
         filantropico = Filantropico(nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo)
         self.filantropicos.append(filantropico)
 

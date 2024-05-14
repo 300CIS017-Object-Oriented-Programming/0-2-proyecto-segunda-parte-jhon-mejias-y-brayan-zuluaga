@@ -72,17 +72,20 @@ class View():
         col1, col2, col3 = st.columns(3)
 
         with col1:
-            if st.button("Crear Evento Bar"):
+            if st.checkbox("Crear Evento Bar", key='crear_evento_bar'):
                 self.crear_evento_bar()
 
         with col2:
-            if st.button("Crear Evento Teatro"):
+            if st.checkbox("Crear Evento Teatro", key='crear_evento_teatro'):
                 self.crear_evento_teatro()
 
         with col3:
-            if st.button("Crear Evento Filantropico"):
+            if st.checkbox("Crear Evento Filantropico", key='crear_evento_filantropico'):
                 self.crear_evento_filantropico()
 
+        if st.button("Atrás"):
+            st.session_state['gui_view'].desactivate_creando_evento()
+            st.session_state['gui_view'].activate_menu()
     def crear_evento_bar(self):
 
         st.title("Crear Evento Bar")
@@ -110,26 +113,8 @@ class View():
                 st.session_state['controler'].crear_bar(nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad,
                                                         estado, aforo)
                 st.success("Evento Bar creado exitosamente.")
-                st.session_state['gui_view'].activate_agregando_items()
 
-                if st.session_state['gui_view'].get_agregando_items():
-                    with st.sidebar.form("agregar_categoria"):
-                        nombre = st.text_input("Nombre de la categoria:")
-                        precio = st.number_input("Precio de la categoria:", min_value=0)
-                        creado1 = st.form_submit_button("Agregar categoria")
-                        if creado1:
-                            if st.session_state['controlador'].agregar_categoria(nombre, precio):
-                                st.sidebar.success("Categoria agregada con éxito")
-                        with st.sidebar.form("agregar_artista"):
-                            nombre = st.text_input("Nombre del artista:")
-                            creado2 = st.form_submit_button("Agregar artista")
-                            if creado2:
-                                if st.session_state['controler'].agregar_artista(nombre):
-                                    st.sidebar.success("Artista agregado con éxito")
-                    if st.sidebar.button("Finalizar"):
-                        st.session_state['gui_view'].desactivate_agregando_items()
-                        st.session_state['gui_view'].desactivate_creando_evento()
-                        st.session_state['gui_view'].activate_menu()
+
     def crear_evento_teatro(self):
         st.title("Crear Evento Teatro")
         col1, col2 = st.columns(2)  # Crear dos columnas

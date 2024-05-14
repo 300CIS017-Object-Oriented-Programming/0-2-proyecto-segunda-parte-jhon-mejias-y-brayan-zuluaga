@@ -22,6 +22,20 @@ class TestEventCreation(unittest.TestCase):
         bar = Bar("Evento3", "2023-12-14", "20:00", "22:00", "Lugar3", "Direccion3", "Ciudad3", "Estado3", 300, 10000)
         # Verificar que la instancia se ha creado correctamente
         self.assertEqual(bar.get_nombre(), "Evento3")
+    def test_agregar_asistente(self):
+        filantropico = Filantropico("Evento1", "2023-12-12", "18:00", "20:00", "Lugar1", "Direccion1", "Ciudad1", "Estado1", 100)
+        filantropico.agregar_asistente("Asistente1")
+        self.assertEqual(filantropico.get_asistentes(), ["Asistente1"])
+
+    def test_set_nombre(self):
+        filantropico = Filantropico("Evento1", "2023-12-12", "18:00", "20:00", "Lugar1", "Direccion1", "Ciudad1", "Estado1", 100)
+        filantropico.set_nombre("NuevoEvento")
+        self.assertEqual(filantropico.get_nombre(), "NuevoEvento")
+
+    def test_set_fecha(self):
+        filantropico = Filantropico("Evento1", "2023-12-12", "18:00", "20:00", "Lugar1", "Direccion1", "Ciudad1", "Estado1", 100)
+        filantropico.set_fecha("2023-12-13")
+        self.assertEqual(filantropico.get_fecha(), "2023-12-13")
 
 if __name__ == '__main__':
     unittest.main()

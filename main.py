@@ -1,4 +1,4 @@
-from View import view
+from view import main_view
 import streamlit as st
 
 def main():
@@ -8,8 +8,9 @@ def main():
         page_icon="😁",  # Icono de la pestaña
         layout="wide",
         initial_sidebar_state="auto")
-    # Contenido de la aplicación
-    control = view.View()
-    control.funciones_vista()
+
+    control = main_view.View()
+    control.inicio()
     return 0
+
 main()

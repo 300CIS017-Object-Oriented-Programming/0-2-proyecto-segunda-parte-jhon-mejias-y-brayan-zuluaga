@@ -192,33 +192,19 @@ class AdministrarEventos:
         if not artista_encontrado:
             print("No se encontró ningún evento con el artista ingresado.")
 
-    def crear_evento(self):
-        tipo_evento = input("Qué tipo de evento desea crear? (bar, teatro, filantropico): ")
-        nombre = input("Ingrese el nombre del evento: ")
-        fecha = input("Ingrese la fecha del evento: ")
-        hora_inicio = input("Ingrese la hora de inicio del evento: ")
-        hora_show = input("Ingrese la hora del show: ")
-        lugar = input("Ingrese el lugar del evento: ")
-        direccion = input("Ingrese la dirección del evento: ")
-        ciudad = input("Ingrese la ciudad del evento: ")
-        estado = input("Ingrese el estado del evento: ")
-        aforo = int(input("Ingrese el aforo del evento: "))
 
-        if tipo_evento == "bar":
-            print("Creando evento de tipo Bar...")
-            bar = Bar(nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo)
-            self.bares.append(bar)
-        elif tipo_evento == "teatro":
-            print("Creando evento de tipo Teatro...")
-            teatro = Teatro(nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo)
-            teatro.costo_alquiler()
-            self.teatros.append(teatro)
-        elif tipo_evento == "filantropico":
-            print("Creando evento de tipo Filantropico...")
-            filantropico = Filantropico(nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo)
-            self.filantropicos.append(filantropico)
-        else:
-            print("Tipo de evento no válido.")
+    def crear_bar(self):
+        bar = Bar(nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo)
+        self.bares.append(bar)
+
+    def crear_teatro(self):
+        teatro = Teatro(nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo)
+        teatro.costo_alquiler()
+        self.teatros.append(teatro)
+    def crear_filantropico(self):
+        filantropico = Filantropico(nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo)
+        self.filantropicos.append(filantropico)
+
 
     def editar_evento(self):
         tipo_evento = input("Ingrese el tipo de evento a editar (bar, teatro, filantropico): ")

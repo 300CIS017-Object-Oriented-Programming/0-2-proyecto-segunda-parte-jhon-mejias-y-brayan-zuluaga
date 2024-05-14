@@ -2,9 +2,9 @@ from models.Evento import Evento
 
 
 class Bar(Evento):
-    def __init__(self, nombre, fecha, horaInicio, horaShow, lugar, direccion, ciudad, estado, aforo):
+    def __init__(self, nombre, fecha, horaInicio, horaShow, lugar, direccion, ciudad, estado, aforo,pago_artistas):
         super().__init__(nombre, fecha, horaInicio, horaShow, lugar, direccion, ciudad, estado, aforo)
-
+        self.pago_artistas = pago_artistas
     def pagarComediante(self):
         # Implementa la lógica para pagar al comediante si es necesario
         pass

@@ -84,31 +84,52 @@ class View():
                 self.crear_evento_filantropico()
 
     def crear_evento_bar(self):
+
         st.title("Crear Evento Bar")
         col1, col2 = st.columns(2)  # Crear dos columnas
 
         with st.form(key='bar_form'):
             with col1:
                 nombre = st.text_input("Ingrese el nombre del evento: ")
-                fecha = st.text_input("Ingrese la fecha del evento: ")
-                hora_inicio = st.text_input("Ingrese la hora de inicio del evento: ")
+                fecha = st.date_input("Ingrese la fecha del evento: ")
+                hora_inicio = st.time_input("Ingrese la hora de inicio del evento: ", key="hora_inicio_bar")
                 lugar = st.text_input("Ingrese el lugar del evento: ")
                 direccion = st.text_input("Ingrese la dirección del evento: ")
 
-            with col2:
-                hora_show = st.text_input("Ingrese la hora del show: ")
-                ciudad = st.text_input("Ingrese la ciudad del evento: ")
-                estado = st.selectbox("Ingrese el estado del evento: ", ["Estado 1", "Estado 2", "Estado 3",
-                                                                         "Estado 4"])  # Seleccionar entre cuatro estados predefinidos
-                aforo = st.text_input("Ingrese el aforo del evento: ")
 
+
+            with col2:
+                hora_show = st.time_input("Ingrese la hora del show: ", key="hora_show_bar")
+                ciudad = st.text_input("Ingrese la ciudad del evento: ")
+                estado = st.selectbox("Estado del evento:",options=["Por realizar","Realizado" , "Cancelado", "Aplazado", "Cerrado"])
+                aforo = st.text_input("Ingrese el aforo del evento: ")
+                pago_artistas = st.slider("Valor a pagar al Artista:", min_value=0, max_value=10000,value=5000)
             submit_button = st.form_submit_button(label='Finalizar')
             if submit_button:
                 aforo = int(aforo)  # Convertir el aforo a un entero
                 st.session_state['controler'].crear_bar(nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad,
                                                         estado, aforo)
                 st.success("Evento Bar creado exitosamente.")
+                st.session_state['gui_view'].activate_agregando_items()
 
+                if st.session_state['gui_view'].get_agregando_items():
+                    with st.sidebar.form("agregar_categoria"):
+                        nombre = st.text_input("Nombre de la categoria:")
+                        precio = st.number_input("Precio de la categoria:", min_value=0)
+                        creado1 = st.form_submit_button("Agregar categoria")
+                        if creado1:
+                            if st.session_state['controlador'].agregar_categoria(nombre, precio):
+                                st.sidebar.success("Categoria agregada con éxito")
+                        with st.sidebar.form("agregar_artista"):
+                            nombre = st.text_input("Nombre del artista:")
+                            creado2 = st.form_submit_button("Agregar artista")
+                            if creado2:
+                                if st.session_state['controler'].agregar_artista(nombre):
+                                    st.sidebar.success("Artista agregado con éxito")
+                    if st.sidebar.button("Finalizar"):
+                        st.session_state['gui_view'].desactivate_agregando_items()
+                        st.session_state['gui_view'].desactivate_creando_evento()
+                        st.session_state['gui_view'].activate_menu()
     def crear_evento_teatro(self):
         st.title("Crear Evento Teatro")
         col1, col2 = st.columns(2)  # Crear dos columnas
@@ -116,16 +137,15 @@ class View():
         with st.form(key='teatro_form'):
             with col1:
                 nombre = st.text_input("Ingrese el nombre del evento: ")
-                fecha = st.text_input("Ingrese la fecha del evento: ")
-                hora_inicio = st.text_input("Ingrese la hora de inicio del evento: ")
+                fecha = st.date_input("Ingrese la fecha del evento: ")
+                hora_inicio = st.time_input("Ingrese la hora de inicio del evento: ", key="hora_inicio_teatro")
                 lugar = st.text_input("Ingrese el lugar del evento: ")
                 direccion = st.text_input("Ingrese la dirección del evento: ")
 
             with col2:
-                hora_show = st.text_input("Ingrese la hora del show: ")
+                hora_show = st.time_input("Ingrese la hora del show: ", key="hora_show_teatro")
                 ciudad = st.text_input("Ingrese la ciudad del evento: ")
-                estado = st.selectbox("Ingrese el estado del evento: ", ["Estado 1", "Estado 2", "Estado 3",
-                                                                         "Estado 4"])  # Seleccionar entre cuatro estados predefinidos
+                estado = st.selectbox("Estado del evento:",options=["Por realizar","Realizado" , "Cancelado", "Aplazado", "Cerrado"])
                 aforo = st.text_input("Ingrese el aforo del evento: ")
 
             submit_button = st.form_submit_button(label='Finalizar')
@@ -142,16 +162,15 @@ class View():
         with st.form(key='filantropico_form'):
             with col1:
                 nombre = st.text_input("Ingrese el nombre del evento: ")
-                fecha = st.text_input("Ingrese la fecha del evento: ")
-                hora_inicio = st.text_input("Ingrese la hora de inicio del evento: ")
+                fecha = st.date_input("Ingrese la fecha del evento: ")
+                hora_inicio = st.time_input("Ingrese la hora de inicio del evento: ", key="hora_inicio_filantropico")
                 lugar = st.text_input("Ingrese el lugar del evento: ")
                 direccion = st.text_input("Ingrese la dirección del evento: ")
 
             with col2:
-                hora_show = st.text_input("Ingrese la hora del show: ")
+                hora_show = st.time_input("Ingrese la hora del show: ", key="hora_show_filantropico")
                 ciudad = st.text_input("Ingrese la ciudad del evento: ")
-                estado = st.selectbox("Ingrese el estado del evento: ", ["Estado 1", "Estado 2", "Estado 3",
-                                                                         "Estado 4"])  # Seleccionar entre cuatro estados predefinidos
+                estado = st.selectbox("Estado del evento:",options=["Por realizar","Realizado" , "Cancelado", "Aplazado", "Cerrado"])
                 aforo = st.text_input("Ingrese el aforo del evento: ")
 
             submit_button = st.form_submit_button(label='Finalizar')

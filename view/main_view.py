@@ -44,6 +44,15 @@ class View():
             self.modificar_evento()
         if st.session_state['gui_view'].get_vendiendo_boletas():
             self.vender_boletas()
+        if st.session_state['gui_view'].get_creando_artista():
+            self.crear_artista()
+        if st.session_state['gui_view'].get_asignando_artista():
+            self.asignar_artista()
+        if st.session_state['gui_view'].get_eliminando_evento():
+            self.eliminar_evento()
+        if st.session_state['gui_view'].get_imprimiendo_eventos():
+            self.imprimir_eventos()
+
 
         footer_html = """
               <style>
@@ -132,12 +141,12 @@ class View():
                 ciudad = st.text_input("Ingrese la ciudad del evento: ")
                 estado = st.selectbox("Estado del evento:",options=["Por realizar","Realizado" , "Cancelado", "Aplazado", "Cerrado"])
                 aforo = st.text_input("Ingrese el aforo del evento: ")
-
+                costo = st.slider("Valor del alquiler:", min_value=0, max_value=10000, value=5000)
             submit_button = st.form_submit_button(label='Finalizar')
             if submit_button:
                 aforo = int(aforo)  # Convertir el aforo a un entero
                 st.session_state['controler'].crear_teatro(nombre, fecha, hora_inicio, hora_show, lugar, direccion,
-                                                           ciudad, estado, aforo)
+                                                           ciudad, estado, aforo, costo)
                 st.success("Evento Teatro creado exitosamente.")
 
     def crear_evento_filantropico(self):
@@ -157,12 +166,12 @@ class View():
                 ciudad = st.text_input("Ingrese la ciudad del evento: ")
                 estado = st.selectbox("Estado del evento:",options=["Por realizar","Realizado" , "Cancelado", "Aplazado", "Cerrado"])
                 aforo = st.text_input("Ingrese el aforo del evento: ")
-
+                patrocinadores = st.text_input("Ingrese los patrocinadores del evento: ")  # Nuevo campo para patrocinadores
             submit_button = st.form_submit_button(label='Finalizar')
             if submit_button:
                 aforo = int(aforo)  # Convertir el aforo a un entero
                 st.session_state['controler'].crear_filantropico(nombre, fecha, hora_inicio, hora_show, lugar,
-                                                                 direccion, ciudad, estado, aforo)
+                                                                 direccion, ciudad, estado, aforo, patrocinadores)
                 st.success("Evento Filantropico creado exitosamente.")
     def menu_principal(self):
         st.write("<h1 style='text-align: center;'>ComediaGonzos te da la bienvenida! </h1>", unsafe_allow_html=True)
@@ -175,6 +184,10 @@ class View():
 
         if st.button("Modificar Evento"):
             st.session_state['gui_view'].activate_editando_evento()
+            st.session_state['gui_view'].desactivate_menu()
+
+        if st.button("Imprimir eventos"):
+            st.session_state['gui_view'].activate_imprimiendo_eventos()
             st.session_state['gui_view'].desactivate_menu()
 
         if st.button("Eliminar Evento"):
@@ -264,3 +277,24 @@ class View():
                 st.session_state['controler'].mostrar_detalles_evento(tipo_evento.lower(), nombre_evento)
 
 
+    def imprimir_eventos(self):
+        st.title("Imprimir Eventos")
+
+        if st.button("Imprimir Eventos de tipo Bar"):
+            st.write("Eventos de tipo Bar:")
+            for bar in st.session_state['controler'].bares:
+                st.write(bar.get_nombre())
+
+        if st.button("Imprimir Eventos de tipo Teatro"):
+            st.write("Eventos de tipo Teatro:")
+            for teatro in st.session_state['controler'].teatros:
+                st.write(teatro.get_nombre())
+
+        if st.button("Imprimir Eventos de tipo Filantropico"):
+            st.write("Eventos de tipo Filantropico:")
+            for filantropico in st.session_state['controler'].filantropicos:
+                st.write(filantropico.get_nombre())
+
+        if st.button("Atrás"):
+            st.session_state['gui_view'].desactivate_imprimiendo_eventos()
+            st.session_state['gui_view'].activate_menu()

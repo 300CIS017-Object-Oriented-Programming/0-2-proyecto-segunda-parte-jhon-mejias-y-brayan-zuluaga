@@ -205,12 +205,23 @@ class AdministrarEventos:
         bar = Bar(nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo, pago_artistas)
         self.bares.append(bar)
 
-    def crear_teatro(self, nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo):
+    def crear_teatro(self, nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo, costo):
         teatro = Teatro(nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo)
-        teatro.costo_alquiler()
+        teatro.costo = costo
         self.teatros.append(teatro)
-    def crear_filantropico(self, nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo):
+
+    def crear_filantropico(self, nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo,
+                           patrocinadores):
         filantropico = Filantropico(nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo)
+
+        # Dividir el string de patrocinadores en una lista de patrocinadores individuales
+        lista_patrocinadores = patrocinadores.split(',')
+
+        # Iterar sobre la lista de patrocinadores y agregar cada uno al diccionario de patrocinadores
+        for patrocinador in lista_patrocinadores:
+            patrocinador = patrocinador.strip()  # Eliminar espacios en blanco al principio y al final
+            filantropico.agregar_patrocinador(patrocinador)
+
         self.filantropicos.append(filantropico)
 
 

@@ -7,6 +7,7 @@ class GuiController:
         #self.artistas: Dict[str, Artista] = {}
         self.menu = True
         self.creando_evento = False
+        self.mostrando_eventos = False
         self.editando_evento = False
         self.eliminando_evento = False
         self.generando_reportes = False
@@ -24,6 +25,7 @@ class GuiController:
         self.editando_evento = True
     def activate_eliminando_evento(self):
         self.eliminando_evento = True
+
     def activate_generando_reportes(self):
         self.generando_reportes = True
     def activate_vendiendo_boletas(self):
@@ -57,6 +59,7 @@ class GuiController:
         self.mostrando_detalles_evento = False
     def desactivate_imprimiendo_eventos(self):
         self.imprimiendo_eventos = False
+
 
     def get_menu(self):
         return self.menu

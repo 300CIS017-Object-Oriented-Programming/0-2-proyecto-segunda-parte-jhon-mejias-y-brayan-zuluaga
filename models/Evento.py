@@ -21,57 +21,57 @@ class Evento(ABC):
         self.boleteria = []  # Una lista vacía para almacenar la boletería
 
     @abstractmethod
-    def getNombre(self):
+    def get_nombre(self):
         pass
 
     @abstractmethod
-    def getFecha(self):
+    def get_fecha(self):
         pass
 
     @abstractmethod
-    def getLugar(self):
+    def get_lugar(self):
         pass
 
     @abstractmethod
-    def getPersonas(self):
+    def get_personas(self):
         pass
 
     @abstractmethod
-    def getCantidadAsistentes(self):
+    def get_cantidad_asistentes(self):
         pass
 
     @abstractmethod
-    def getPrecioPreventa(self):
+    def get_precio_preventa(self):
         pass
 
     @abstractmethod
-    def getPrecioRegular(self):
+    def get_precio_regular(self):
         pass
 
     @abstractmethod
-    def sumarPersonas(self):
+    def sumar_personas(self):
         pass
 
     @abstractmethod
-    def getBoleterias(self):
+    def get_boleterias(self):
         pass
 
     @abstractmethod
-    def getAsistentes(self):
+    def get_asistentes(self):
         pass
 
     @abstractmethod
-    def getArtistas(self):
+    def get_artistas(self):
         pass
 
     @abstractmethod
-    def getAforo(self):
+    def get_aforo(self):
         pass
 
     @abstractmethod
-    def agregarAsistente(self, asistente):
+    def agregar_asistente(self, asistente):
         pass
 
     @abstractmethod
-    def agregarBoleteria(self, nuevaBoleteria):
+    def agregar_boleteria(self, nuevaBoleteria):
         pass

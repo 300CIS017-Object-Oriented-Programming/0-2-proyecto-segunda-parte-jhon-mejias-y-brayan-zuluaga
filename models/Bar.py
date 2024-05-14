@@ -5,90 +5,92 @@ class Bar(Evento):
     def __init__(self, nombre, fecha, horaInicio, horaShow, lugar, direccion, ciudad, estado, aforo,pago_artistas):
         super().__init__(nombre, fecha, horaInicio, horaShow, lugar, direccion, ciudad, estado, aforo)
         self.pago_artistas = pago_artistas
-    def pagarComediante(self):
+    def pagar_comediante(self):
         # Implementa la lógica para pagar al comediante si es necesario
         pass
 
-    def asignarArtista(self, nombreArtista, artista):
+    def asignar_artista(self, nombreArtista, artista):
         self.artistas[nombreArtista] = artista
 
-    def getNombre(self):
+    def get_nombre(self):
         return self.nombre
 
-    def getFecha(self):
+    def get_fecha(self):
         return self.fecha
 
-    def getLugar(self):
+    def get_lugar(self):
         return self.lugar
 
-    def getPersonas(self):
+    def get_personas(self):
         return self.personas
 
-    def getPrecioPreventa(self):
+    def get_precio_preventa(self):
         return self.precioPreventa
 
-    def getPrecioRegular(self):
+    def get_precio_regular(self):
         return self.precioNormal
 
-    def setPrecios(self, precioPreventa, precioRegular):
+    def set_precios(self, precioPreventa, precioRegular):
         self.precioPreventa = precioPreventa
         self.precioNormal = precioRegular
 
-    def setFaseVentas(self, nuevaFase):
+    def set_fase_ventas(self, nuevaFase):
         self.fase = nuevaFase
 
-    def setAforo(self, aforo):
+    def set_aforo(self, aforo):
         self.aforo = aforo
 
-    def setNombre(self, nombre):
+    def set_nombre(self, nombre):
         self.nombre = nombre
 
-    def setFecha(self, fecha):
+    def set_fecha(self, fecha):
         self.fecha = fecha
 
-    def setHoraInicio(self, horaInicio):
-        self.horaInicio = horaInicio
+    def set_hora_inicio(self, hora_inicio):
+        self.hora_inicio = hora_inicio
 
-    def setHoraShow(self, horaShow):
-        self.horaShow = horaShow
+    def set_hora_show(self, hora_show):
+        self.hora_show = hora_show
 
-    def setLugar(self, lugar):
+    def set_lugar(self, lugar):
         self.lugar = lugar
 
-    def setDireccion(self, direccion):
+    def set_direccion(self, direccion):
         self.direccion = direccion
 
-    def setCiudad(self, ciudad):
+    def set_ciudad(self, ciudad):
         self.ciudad = ciudad
 
-    def setEstado(self, estado):
+    def set_estado(self, estado):
         self.estado = estado
 
-    def getCantidadAsistentes(self):
+    def get_cantidad_asistentes(self):
         return len(self.asistentes)
 
-    def sumarPersonas(self):
+    def sumar_personas(self):
         self.personas += 1
 
-    def getBoleterias(self):
+    def get_boleterias(self):
         return self.boleteria
 
-    def getAforo(self):
+    def get_aforo(self):
         return self.aforo
 
-    def agregarAsistente(self, asistente):
+    def agregar_asistente(self, asistente):
         self.asistentes.append(asistente)
 
-    def getAsistente(self):
+    def get_asistente(self):
         return self.asistentes
 
-    def getArtistas(self):
+    def get_artistas(self):
         return self.artistas
 
-    def mostrarDetalles(self):
+    def mostrar_detalles(self):
         # Implementa la lógica para mostrar los detalles del evento (nombre, fecha, lugar, etc.)
         pass
-    def getAsistentes(self):
-        pass
-    def agregarBoleteria(self, nuevaBoleteria):
-        self.boleteria.append(nuevaBoleteria)
+
+    def get_asistentes(self):
+        return self.asistentes
+
+    def agregar_boleteria(self, nueva_boleteria):
+        self.boleteria.append(nueva_boleteria)

@@ -118,36 +118,15 @@ class View():
                 pago_artistas = st.slider("Valor a pagar al Artista:", min_value=0, max_value=10000,value=5000)
             submit_button = st.form_submit_button(label='Finalizar')
             if submit_button:
-                aforo = int(aforo)  # Convertir el aforo a un entero
-                st.session_state['controler'].crear_bar(nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad,
-                                                        estado, aforo, pago_artistas)
-                st.success("Evento Bar creado exitosamente.")
-
-
-    def crear_evento_teatro(self):
-        st.title("Crear Evento Teatro")
-        col1, col2 = st.columns(2)  # Crear dos columnas
-
-        with st.form(key='teatro_form'):
-            with col1:
-                nombre = st.text_input("Ingrese el nombre del evento: ")
-                fecha = st.date_input("Ingrese la fecha del evento: ")
-                hora_inicio = st.time_input("Ingrese la hora de inicio del evento: ", key="hora_inicio_teatro")
-                lugar = st.text_input("Ingrese el lugar del evento: ")
-                direccion = st.text_input("Ingrese la dirección del evento: ")
-
-            with col2:
-                hora_show = st.time_input("Ingrese la hora del show: ", key="hora_show_teatro")
-                ciudad = st.text_input("Ingrese la ciudad del evento: ")
-                estado = st.selectbox("Estado del evento:",options=["Por realizar","Realizado" , "Cancelado", "Aplazado", "Cerrado"])
-                aforo = st.text_input("Ingrese el aforo del evento: ")
-                costo = st.slider("Valor del alquiler:", min_value=0, max_value=10000, value=5000)
-            submit_button = st.form_submit_button(label='Finalizar')
-            if submit_button:
-                aforo = int(aforo)  # Convertir el aforo a un entero
-                st.session_state['controler'].crear_teatro(nombre, fecha, hora_inicio, hora_show, lugar, direccion,
-                                                           ciudad, estado, aforo, costo)
-                st.success("Evento Teatro creado exitosamente.")
+                # Verificar que todas las casillas estén llenas
+                if nombre and fecha and hora_inicio and lugar and direccion and hora_show and ciudad and estado and aforo:
+                    aforo = int(aforo)  # Convertir el aforo a un entero
+                    st.session_state['controler'].crear_bar(nombre, fecha, hora_inicio, hora_show, lugar, direccion,
+                                                            ciudad,
+                                                            estado, aforo, pago_artistas)
+                    st.success("Evento Bar creado exitosamente.")
+                else:
+                    st.error("Por favor, llena todas las casillas antes de enviar.")
 
     def crear_evento_filantropico(self):
         st.title("Crear Evento Filantropico")
@@ -164,15 +143,49 @@ class View():
             with col2:
                 hora_show = st.time_input("Ingrese la hora del show: ", key="hora_show_filantropico")
                 ciudad = st.text_input("Ingrese la ciudad del evento: ")
-                estado = st.selectbox("Estado del evento:",options=["Por realizar","Realizado" , "Cancelado", "Aplazado", "Cerrado"])
+                estado = st.selectbox("Estado del evento:",
+                                      options=["Por realizar", "Realizado", "Cancelado", "Aplazado", "Cerrado"])
                 aforo = st.text_input("Ingrese el aforo del evento: ")
-                patrocinadores = st.text_input("Ingrese los patrocinadores del evento: ")  # Nuevo campo para patrocinadores
+                patrocinadores = st.text_input(
+                    "Ingrese los patrocinadores del evento: ")  # Nuevo campo para patrocinadores
             submit_button = st.form_submit_button(label='Finalizar')
             if submit_button:
-                aforo = int(aforo)  # Convertir el aforo a un entero
-                st.session_state['controler'].crear_filantropico(nombre, fecha, hora_inicio, hora_show, lugar,
-                                                                 direccion, ciudad, estado, aforo, patrocinadores)
-                st.success("Evento Filantropico creado exitosamente.")
+                if nombre and fecha and hora_inicio and lugar and direccion and hora_show and ciudad and estado and aforo and patrocinadores:
+                    aforo = int(aforo)  # Convertir el aforo a un entero
+                    st.session_state['controler'].crear_filantropico(nombre, fecha, hora_inicio, hora_show, lugar,
+                                                                     direccion, ciudad, estado, aforo, patrocinadores)
+                    st.success("Evento Filantropico creado exitosamente.")
+                else:
+                    st.error("Por favor, llena todas las casillas antes de enviar.")
+
+    def crear_evento_teatro(self):
+        st.title("Crear Evento Teatro")
+        col1, col2 = st.columns(2)  # Crear dos columnas
+
+        with st.form(key='teatro_form'):
+            with col1:
+                nombre = st.text_input("Ingrese el nombre del evento: ")
+                fecha = st.date_input("Ingrese la fecha del evento: ")
+                hora_inicio = st.time_input("Ingrese la hora de inicio del evento: ", key="hora_inicio_teatro")
+                lugar = st.text_input("Ingrese el lugar del evento: ")
+                direccion = st.text_input("Ingrese la dirección del evento: ")
+
+            with col2:
+                hora_show = st.time_input("Ingrese la hora del show: ", key="hora_show_teatro")
+                ciudad = st.text_input("Ingrese la ciudad del evento: ")
+                estado = st.selectbox("Estado del evento:",
+                                      options=["Por realizar", "Realizado", "Cancelado", "Aplazado", "Cerrado"])
+                aforo = st.text_input("Ingrese el aforo del evento: ")
+                costo = st.slider("Valor del alquiler:", min_value=0, max_value=10000, value=5000)
+            submit_button = st.form_submit_button(label='Finalizar')
+            if submit_button:
+                if nombre and fecha and hora_inicio and lugar and direccion and hora_show and ciudad and estado and aforo:
+                    aforo = int(aforo)  # Convertir el aforo a un entero
+                    st.session_state['controler'].crear_teatro(nombre, fecha, hora_inicio, hora_show, lugar, direccion,
+                                                               ciudad, estado, aforo, costo)
+                    st.success("Evento Teatro creado exitosamente.")
+                else:
+                    st.error("Por favor, llena todas las casillas antes de enviar.")
     def menu_principal(self):
         st.write("<h1 style='text-align: center;'>ComediaGonzos te da la bienvenida! </h1>", unsafe_allow_html=True)
 

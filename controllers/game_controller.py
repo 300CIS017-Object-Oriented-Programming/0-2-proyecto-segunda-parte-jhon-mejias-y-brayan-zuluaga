@@ -315,47 +315,23 @@ class AdministrarEventos:
         if not evento_encontrado:
             print("Error: El evento a editar no existe.")
 
-    def eliminar_evento(self):
-        tipo_evento = input("Ingress el tipo de evento (bar, teatro, filantropico): ")
-        nombre_evento = input("Ingrese el nombre del evento: ")
+    def eliminar_evento(self, tipo_evento, nombre_evento):
 
-        evento_encontrado = False
-        if tipo_evento == "bar" and not evento_encontrado:
-            for evento in self.bares:
-                if evento.get_nombre() == nombre_evento:
-                    if evento.get_cantidad_asistentes() == evento.get_aforo():
-                        print("No se puede eliminar el evento, el número de asistentes es igual al aforo.")
-                    else:
-                        self.bares.remove(evento)
-                        del evento
-                        print("Evento Bar eliminado correctamente.")
-                    evento_encontrado = True
-                    break
-        elif tipo_evento == "teatro" and not evento_encontrado:
-            for evento in self.teatros:
-                if evento.get_nombre() == nombre_evento:
-                    if evento.get_cantidad_asistentes() == evento.get_aforo():
-                        print("No se puede eliminar el evento, el número de asistentes es igual al aforo.")
-                    else:
-                        self.teatros.remove(evento)
-                        del evento
-                        print("Evento Teatro eliminado correctamente.")
-                    evento_encontrado = True
-                    break
-        elif tipo_evento == "filantropico" and not evento_encontrado:
-            for evento in self.filantropicos:
-                if evento.get_nombre() == nombre_evento:
-                    if evento.get_cantidad_asistentes() == evento.get_aforo():
-                        print("No se puede eliminar el evento Filantropico porque ya ha alcanzado su aforo máximo.")
-                    else:
-                        self.filantropicos.remove(evento)
-                        del evento
-                        print("Evento Filantropico eliminado correctamente.")
-                    evento_encontrado = True
-                    break
-
-        if not evento_encontrado:
-            print("Error: El evento no existe.")
+        if tipo_evento.lower() == "bar":
+            for i, bar in enumerate(self.bares):
+                if bar.get_nombre() == nombre_evento:
+                    del self.bares[i]
+                    return True
+        elif tipo_evento.lower() == "teatro":
+            for i, teatro in enumerate(self.teatros):
+                if teatro.get_nombre() == nombre_evento:
+                    del self.teatros[i]
+                    return True
+        elif tipo_evento.lower() == "filantropico":
+            for i, filantropico in enumerate(self.filantropicos):
+                if filantropico.get_nombre() == nombre_evento:
+                    del self.filantropicos[i]
+                    return True
 
     def vender_boletas(self):
         evento_encontrado = False

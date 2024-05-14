@@ -221,17 +221,15 @@ class View():
 
     def eliminar_evento(self):
         st.title("Eliminar Evento")
-        container = st.container()
-        col1, col2 = container.columns(2)
+        tipo_evento = st.selectbox("Seleccione el tipo de evento", ["bar", "teatro", "filantropico"])
+        nombre_evento = st.text_input("Ingrese el nombre del evento a eliminar")
 
-        with col1:
-            tipo_evento = st.selectbox("Tipo de evento", ["Bar", "Teatro", "Filantropico"])
-            nombre_evento = st.text_input("Nombre del evento")
-
-        with col2:
-            if st.button("Eliminar"):
-                st.session_state['controler'].eliminar_evento(tipo_evento.lower(), nombre_evento)
-
+        if st.button("Eliminar Evento"):
+            resultado = st.session_state['controler'].eliminar_evento(tipo_evento, nombre_evento)
+            if resultado:
+                st.success(f"El evento {nombre_evento} ha sido eliminado exitosamente.")
+            else:
+                st.error(f"No se encontró ningún evento con el nombre {nombre_evento}.")
 
     def vender_boletas(self):
         st.title("Vender Boletas")

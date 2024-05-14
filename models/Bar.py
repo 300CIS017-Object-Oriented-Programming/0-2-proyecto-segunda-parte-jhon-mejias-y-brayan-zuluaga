@@ -88,6 +88,7 @@ class Bar(Evento):
     def mostrarDetalles(self):
         # Implementa la lógica para mostrar los detalles del evento (nombre, fecha, lugar, etc.)
         pass
-
+    def getAsistentes(self):
+        pass
     def agregarBoleteria(self, nuevaBoleteria):
         self.boleteria.append(nuevaBoleteria)

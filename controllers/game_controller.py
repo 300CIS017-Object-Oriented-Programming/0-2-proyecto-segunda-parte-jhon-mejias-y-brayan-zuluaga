@@ -1,5 +1,13 @@
 from typing import List, Dict
-from models import Filantropico, Bar, Teatro, Evento, Asistente, Artista, Boleteria
+from models.Filantropico import Filantropico
+from models.Bar import Bar
+from models.Teatro import Teatro
+from models.Artista import Artista
+from models.Asistente import Asistente
+from models.Boleteria import Boleteria
+
+
+
 
 class AdministrarEventos:
     def __init__(self):
@@ -193,8 +201,8 @@ class AdministrarEventos:
             print("No se encontró ningún evento con el artista ingresado.")
 
 
-    def crear_bar(self, nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo):
-        bar = Bar(nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo)
+    def crear_bar(self, nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo, pago_artistas):
+        bar = Bar(nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo, pago_artistas)
         self.bares.append(bar)
 
     def crear_teatro(self, nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo):

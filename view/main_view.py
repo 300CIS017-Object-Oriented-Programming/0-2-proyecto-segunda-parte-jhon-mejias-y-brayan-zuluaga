@@ -111,7 +111,7 @@ class View():
             if submit_button:
                 aforo = int(aforo)  # Convertir el aforo a un entero
                 st.session_state['controler'].crear_bar(nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad,
-                                                        estado, aforo)
+                                                        estado, aforo, pago_artistas)
                 st.success("Evento Bar creado exitosamente.")
 
 

@@ -291,7 +291,8 @@ class View():
         if st.button("Mostrar Detalles"):
             detalles = st.session_state['controler'].mostrar_detalles_evento(tipo_evento, nombre_evento)
             if detalles:
-                st.write(detalles)
+                for linea in detalles.split('\n'):
+                    st.markdown(linea)
             else:
                 st.error(f"No se encontró ningún evento con el nombre {nombre_evento}.")
         if st.button("Atrás"):

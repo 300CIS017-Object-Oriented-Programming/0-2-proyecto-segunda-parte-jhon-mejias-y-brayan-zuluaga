@@ -41,7 +41,7 @@ class View():
         if st.session_state['gui_view'].get_creando_evento():
             self.crear_evento()
         if st.session_state['gui_view'].get_editando_evento():
-            self.modificar_evento()
+            self.modificar_evento() #aun no implementado
         if st.session_state['gui_view'].get_vendiendo_boletas():
             self.vender_boletas()
         if st.session_state['gui_view'].get_creando_artista():

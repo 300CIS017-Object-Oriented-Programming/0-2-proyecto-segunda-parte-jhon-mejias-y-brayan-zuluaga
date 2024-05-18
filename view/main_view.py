@@ -36,7 +36,7 @@ class View():
                        }
                    </style>
                """, unsafe_allow_html=True)
-        if st.session_state['gui_view'].get_menu():
+        if st.session_state['gui_view'].get_menu() and not st.session_state['gui_view'].get_creando_evento():
             self.menu_principal()
         if st.session_state['gui_view'].get_creando_evento():
             self.crear_evento()
@@ -54,8 +54,6 @@ class View():
             self.imprimir_eventos()
         if st.session_state['gui_view'].get_mostrando_detalles_evento():
             self.mostrar_detalles_evento()
-
-
 
         footer_html = """
               <style>
@@ -83,17 +81,16 @@ class View():
         st.title("Crear Evento")
         col1, col2, col3 = st.columns(3)
 
-        with col1:
-            if st.checkbox("Crear Evento Bar", key='crear_evento_bar'):
-                self.crear_evento_bar()
+        opcion = st.radio(
+            "¿Qué tipo de evento quieres crear?",
+            ('Crear Evento Bar', 'Crear Evento Teatro', 'Crear Evento Filantropico'))
 
-        with col2:
-            if st.checkbox("Crear Evento Teatro", key='crear_evento_teatro'):
-                self.crear_evento_teatro()
-
-        with col3:
-            if st.checkbox("Crear Evento Filantropico", key='crear_evento_filantropico'):
-                self.crear_evento_filantropico()
+        if opcion == 'Crear Evento Bar':
+            self.crear_evento_bar()
+        elif opcion == 'Crear Evento Teatro':
+            self.crear_evento_teatro()
+        elif opcion == 'Crear Evento Filantropico':
+            self.crear_evento_filantropico()
 
         if st.button("Atrás"):
             st.session_state['gui_view'].desactivate_creando_evento()
@@ -197,6 +194,7 @@ class View():
         if st.button("Crear Evento"):
             st.session_state['gui_view'].activate_creando_evento()
             st.session_state['gui_view'].desactivate_menu()
+            self.crear_evento()
 
         if st.button("Modificar Evento"):
             st.session_state['gui_view'].activate_editando_evento()

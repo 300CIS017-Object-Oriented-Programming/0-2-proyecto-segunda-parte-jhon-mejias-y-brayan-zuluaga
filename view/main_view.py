@@ -247,12 +247,29 @@ class View():
         with col1:
             tipo_evento = st.selectbox("Tipo de evento", ["Filantropico", "Bar", "Teatro"])
             nombre_evento = st.text_input("Nombre del evento")
-
+            cantidad_boletas = st.number_input("Cantidad de boletas a vender", min_value=1, step=1)
         with col2:
-            if st.button("Vender"):
-                st.session_state['controler'].vender_boletas(tipo_evento.lower(), nombre_evento)
+            nombre_asistente = st.text_input("Nombre del asistente")
+            apellido_asistente = st.text_input("Apellido del asistente")
+            edad = st.number_input("Edad del asistente", min_value=1, step=1)
+            direccion = st.text_input("Dirección del asistente")
+            medio_enterado = st.text_input("¿Cómo se enteró del evento?")
+            tipo_boleteria = st.selectbox("Tipo de boleteria", ["preventa", "regular","cortesia"])
+            metodo_pago = st.selectbox("Método de pago", ["efectivo", "tarjeta"])
 
-
+        if st.button("Vender"):
+            resultado = st.session_state['controler'].vender_boletas(tipo_evento.lower(), nombre_evento,
+                                                                     nombre_asistente, apellido_asistente, edad,
+                                                                     direccion, medio_enterado, tipo_boleteria,
+                                                     metodo_pago, cantidad_boletas)
+            if resultado:
+                st.success(f"Se vendió una boleta para el evento {nombre_evento}.")
+            else:
+                st.error("No se pudo vender la boleta. Verifique el nombre del evento y la cantidad de boletas.")
+        # Agregar botón de "Atrás"
+        if st.button("Atrás"):
+            st.session_state['gui_view'].desactivate_vendiendo_boletas()
+            st.session_state['gui_view'].activate_menu()
     def crear_artista(self):
         st.title("Crear Nuevo Artista")
         container = st.container()

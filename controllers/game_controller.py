@@ -333,59 +333,41 @@ class AdministrarEventos:
                     del self.filantropicos[i]
                     return True
 
-    def vender_boletas(self):
-        evento_encontrado = False
-        tipo_evento = input("Ingrese el tipo de evento (Filantropico, Bar o Teatro): ")
-        nombre_evento = input("Ingrese el nombre del evento para comprar boleta: ")
-
+    def vender_boletas(self, tipo_evento, nombre_evento, nombre_asistente, apellido_asistente, edad, direccion, medio_enterado, tipo_boleteria, metodo_pago, cantidad_boletas):
         evento_seleccionado = None
 
-        if tipo_evento == "Filantropico" and not evento_encontrado:
+        if tipo_evento == "Filantropico":
             for evento in self.filantropicos:
                 if evento.get_nombre() == nombre_evento:
                     evento_seleccionado = evento
-                    evento_encontrado = True
                     break
-        elif tipo_evento == "Bar" and not evento_encontrado:
+        elif tipo_evento == "Bar":
             for evento in self.bares:
                 if evento.get_nombre() == nombre_evento:
                     evento_seleccionado = evento
-                    evento_encontrado = True
                     break
-        elif tipo_evento == "Teatro" and not evento_encontrado:
+        elif tipo_evento == "Teatro":
             for evento in self.teatros:
                 if evento.get_nombre() == nombre_evento:
                     evento_seleccionado = evento
-                    evento_encontrado = True
                     break
-        else:
-            print("Tipo de evento no válido.")
-            return
 
         if evento_seleccionado is None:
-            print("No se encontró ningún evento con el nombre ingresado.")
-            return
+            return False
 
         if evento_seleccionado.get_cantidad_asistentes() < evento_seleccionado.get_aforo():
-            nombre_asistente = input("Ingrese el nombre del asistente: ")
-            apellido_asistente = input("Ingrese el apellido del asistente: ")
-            edad = int(input("Ingrese la edad del asistente: "))
-            direccion = input("Ingrese la dirección del asistente: ")
-            medio_enterado = input("Cómo se enteró del evento? ")
-            tipo_boleteria = input("Ingrese el tipo de boleteria si es preventa o regular: ")
-            metodo_pago = input("Ingrese el método de pago: ")
+            for _ in range(cantidad_boletas):  # Vender la cantidad especificada de boletas
+                nuevo_asistente = Asistente(nombre_asistente, apellido_asistente, edad, direccion, medio_enterado)
+                evento_seleccionado.agregar_asistente(nuevo_asistente)
+                evento_seleccionado.sumar_personas()
 
-            nuevo_asistente = Asistente(nombre_asistente, apellido_asistente, edad, direccion, medio_enterado)
-            evento_seleccionado.agregar_asistente(nuevo_asistente)
-            evento_seleccionado.sumar_personas()
+                nueva_boleteria = Boleteria(tipo_boleteria, evento_seleccionado.get_precio_preventa(), evento_seleccionado.get_precio_regular(), metodo_pago)
+                evento_seleccionado.agregar_boleteria(nueva_boleteria)
 
-            nueva_boleteria = Boleteria(tipo_boleteria, evento_seleccionado.get_precio_preventa(), evento_seleccionado.get_precio_regular(), metodo_pago)
-            evento_seleccionado.agregar_boleteria(nueva_boleteria)
-
-            print("Boleta vendida correctamente para el evento '{}'.".format(nombre_evento))
+            return True
         else:
-            print("El evento '{}' ha alcanzado su aforo máximo.".format(nombre_evento))
-
+            return False
+    # ...
     def crear_artista(self):
         nombre = input("Ingrese el nombre del artista: ")
         tipo_artista = input("Ingrese el tipo de artista: ")

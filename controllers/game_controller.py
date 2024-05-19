@@ -591,3 +591,16 @@ class AdministrarEventos:
                 if evento.get_nombre() == nombre_evento:
                     return evento
         return None
+
+    def registrar_ingreso(self, nombre_asistente):
+        # Buscamos la boleta en el diccionario
+        boleta = self.boletas_vendidas.get(nombre_asistente)
+        if boleta is not None:
+            # Si encontramos la boleta, incrementamos el contador de boletas utilizadas
+            boleta['boletas_utilizadas'] += 1
+            if boleta['boletas_utilizadas'] <= boleta['cantidad_boletas']:
+                return f"Se ha registrado el ingreso de {nombre_asistente} al evento {boleta['nombre_evento']}."
+            else:
+                return f"El asistente {nombre_asistente} ha utilizado todas sus boletas."
+        else:
+            return f"No se encontró ninguna boleta para el asistente {nombre_asistente}.se encontró ninguna boleta para el asistente {nombre_asistente}."

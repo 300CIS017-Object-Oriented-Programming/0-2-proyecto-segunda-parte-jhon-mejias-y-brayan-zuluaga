@@ -54,6 +54,8 @@ class View():
             self.imprimir_eventos()
         if st.session_state['gui_view'].get_mostrando_detalles_evento():
             self.mostrar_detalles_evento()
+        if st.session_state['gui_view'].get_registrar_ingreso():
+            self.registrar_ingreso()
 
         footer_html = """
               <style>
@@ -224,6 +226,10 @@ class View():
             st.session_state['gui_view'].activate_vendiendo_boletas()
             st.session_state['gui_view'].desactivate_menu()
 
+        if st.button("Registrar Ingreso"):
+            st.session_state['gui_view'].activate_registrar_ingreso()
+            st.session_state['gui_view'].desactivate_menu()
+            self.registrar_ingreso()
     def eliminar_evento(self):
         st.title("Eliminar Evento")
         tipo_evento = st.selectbox("Seleccione el tipo de evento", ["bar", "teatro", "filantropico"])
@@ -354,4 +360,18 @@ class View():
 
         if st.button("Atrás"):
             st.session_state['gui_view'].desactivate_imprimiendo_eventos()
+            st.session_state['gui_view'].activate_menu()
+
+    def registrar_ingreso(self):
+        st.title("Registrar Ingreso")
+        tipo_evento = st.selectbox("Tipo de evento", ["Filantropico", "Bar", "Teatro"], key='tipo_evento_key')
+        nombre_evento = st.text_input("Nombre del evento")
+        cantidad_personas = st.number_input("Cantidad de personas a ingresar", min_value=1, step=1)
+
+        if st.button("Registrar"):
+            for _ in range(cantidad_personas):
+                mensaje = st.session_state['controler'].registrar_ingreso(nombre_evento)
+                st.write(mensaje)
+        if st.button("Atrás"):
+            st.session_state['gui_view'].desactivate_registrar_ingreso()
             st.session_state['gui_view'].activate_menu()

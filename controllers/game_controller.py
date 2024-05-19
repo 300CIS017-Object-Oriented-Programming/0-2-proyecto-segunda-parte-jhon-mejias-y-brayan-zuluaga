@@ -335,7 +335,6 @@ class AdministrarEventos:
 
     def vender_boletas(self, tipo_evento, nombre_evento, nombre_asistente, apellido_asistente, edad, direccion, medio_enterado, tipo_boleteria, metodo_pago, cantidad_boletas):
         evento_seleccionado = None
-
         if tipo_evento == "Filantropico":
             for evento in self.filantropicos:
                 if evento.get_nombre() == nombre_evento:
@@ -367,7 +366,6 @@ class AdministrarEventos:
             return True
         else:
             return False
-    # ...
     def crear_artista(self):
         nombre = input("Ingrese el nombre del artista: ")
         tipo_artista = input("Ingrese el tipo de artista: ")
@@ -512,6 +510,7 @@ class AdministrarEventos:
 
         if not evento_encontrado:
             print("Error: El evento no existe.")
+
 
 
 

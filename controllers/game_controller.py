@@ -5,7 +5,8 @@ from models.Teatro import Teatro
 from models.Artista import Artista
 from models.Asistente import Asistente
 from models.Boleteria import Boleteria
-
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
 
 
 
@@ -536,3 +537,22 @@ class AdministrarEventos:
             return 0
         else:
             return None
+
+    def generar_boleta(self,nombre_asistente, nombre_evento, tipo_evento, tipo_boleteria, cantidad_boletas, total):
+        c = canvas.Canvas("boleta.pdf", pagesize=letter)
+        width, height = letter
+
+        # Agrega texto al PDF
+        c.setFont("Helvetica", 24)
+        c.drawString(30, height - 50, "Boleta de Evento")
+
+        c.setFont("Helvetica", 16)
+        c.drawString(30, height - 100, f"Nombre del asistente: {nombre_asistente}")
+        c.drawString(30, height - 130, f"Nombre del evento: {nombre_evento}")
+        c.drawString(30, height - 160, f"Tipo de evento: {tipo_evento}")
+        c.drawString(30, height - 190, f"Tipo de boleteria: {tipo_boleteria}")
+        c.drawString(30, height - 220, f"Cantidad de boletas: {cantidad_boletas}")
+        c.drawString(30, height - 250, f"Total a pagar: {total}")
+
+        # Finaliza y guarda el PDF
+        c.save()

@@ -248,6 +248,7 @@ class View():
             tipo_evento = st.selectbox("Tipo de evento", ["Filantropico", "Bar", "Teatro"])
             nombre_evento = st.text_input("Nombre del evento")
             cantidad_boletas = st.number_input("Cantidad de boletas a vender", min_value=1, step=1)
+            codigo_descuento = st.text_input("Código de descuento (opcional)")
         with col2:
             nombre_asistente = st.text_input("Nombre del asistente")
             apellido_asistente = st.text_input("Apellido del asistente")
@@ -255,8 +256,14 @@ class View():
             direccion = st.text_input("Dirección del asistente")
             medio_enterado = st.text_input("¿Cómo se enteró del evento?")
             tipo_boleteria = st.selectbox("Tipo de boleteria", ["preventa", "regular","cortesia"])
+            # Mostrar el precio de la boleta tan pronto como el usuario seleccione el tipo de boletería
+            precio = st.session_state['controler'].precio_boleta(tipo_boleteria)
+            st.write(f"Precio de la boleta: {precio}")
             metodo_pago = st.selectbox("Método de pago", ["efectivo", "tarjeta"])
-
+            total = precio * cantidad_boletas
+            if codigo_descuento == "Mayo2024":
+                total = total * 0.8  # Aplicar un descuento del 20%
+            st.write(f"El precio Total es: {total}")
         if st.button("Vender"):
             resultado = st.session_state['controler'].vender_boletas(tipo_evento, nombre_evento,
                                                                      nombre_asistente, apellido_asistente, edad,

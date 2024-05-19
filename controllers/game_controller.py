@@ -350,7 +350,8 @@ class AdministrarEventos:
                 if evento.get_nombre() == nombre_evento:
                     evento_seleccionado = evento
                     break
-
+        precio = self.precio_boleta(tipo_boleteria)
+        total_a_pagar = precio * cantidad_boletas
         if evento_seleccionado is None:
             return False
 
@@ -526,3 +527,12 @@ class AdministrarEventos:
         print("Eventos de tipo Filantropico:")
         for filantropico in self.filantropicos:
             print(filantropico.get_nombre())
+    def precio_boleta(self, tipo_boleteria):
+        if tipo_boleteria == "preventa":
+            return 5000
+        elif tipo_boleteria == "regular":
+            return 10000
+        elif tipo_boleteria == "cortesia":
+            return 0
+        else:
+            return None

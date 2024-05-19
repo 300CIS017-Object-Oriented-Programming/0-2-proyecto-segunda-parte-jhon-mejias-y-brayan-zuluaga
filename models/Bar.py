@@ -17,10 +17,20 @@ class Bar(Evento):
 
     def get_fecha(self):
         return self.fecha
-
+    def get_aforo(self):
+        return self.aforo
     def get_lugar(self):
         return self.lugar
-
+    def get_hora_inicio(self):
+        return self.hora_inicio
+    def get_hora_show(self):
+        return self.hora_show
+    def get_ciudad(self):
+        return self.ciudad
+    def get_estado(self):
+        return self.estado
+    def get_direccion(self):
+        return self.direccion
     def get_personas(self):
         return self.personas
 

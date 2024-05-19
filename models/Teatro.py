@@ -7,7 +7,18 @@ class Teatro(Evento):
 
     def get_asistentes(self):
         return self.asistentes
+    def get_hora_inicio(self):
+        return self.hora_inicio
 
+    def get_hora_show(self):
+        return self.hora_show
+    def get_aforo(self):
+        return self.aforo
+    def get_ciudad(self):
+        return self.ciudad
+
+    def get_estado(self):
+        return self.estado
     def costo_alquiler(self):
         # Implementa la lógica para calcular el costo del alquiler del teatro si es necesario
         pass

@@ -393,7 +393,7 @@ class View():
 
         if st.button("Registrar",key=self.generate_key('unique_keys')):
             for _ in range(cantidad_personas):
-                resultado = st.session_state['controler'].registrar_ingreso(nombre_evento.lower(),tipo_evento, nombre_asistente)
+                resultado = st.session_state['controler'].registrar_ingreso(nombre_evento, tipo_evento, nombre_asistente)
                 if resultado:
                     st.success("se registró la asistencia exitosamente.")
                 else:

@@ -601,21 +601,21 @@ class AdministrarEventos:
         return None
 
     def registrar_ingreso(self, nombre_evento, tipo_evento, nombre_asistente):
-        if tipo_evento == "filantropico":
+        if tipo_evento == "Filantropico":
             for filantropico in self.filantropicos:
                 if filantropico.get_nombre() == nombre_evento:
                     for a in filantropico.asistentes:
                         if a.getNombre() == nombre_asistente:
                             a.confirmacion = True
                             return True
-        elif tipo_evento == "bar":
+        elif tipo_evento == "Bar":
             for bar in self.bares:
                 if bar.get_nombre() == nombre_evento:
                     for a in bar.asistentes:
                         if a.getNombre() == nombre_asistente:
                             a.confirmacion = True
                             return True
-        elif tipo_evento == "teatro":
+        elif tipo_evento == "Teatro":
             for teatro in self.teatros:
                 if teatro.get_nombre() == nombre_evento:
                     for a in teatro.asistentes:

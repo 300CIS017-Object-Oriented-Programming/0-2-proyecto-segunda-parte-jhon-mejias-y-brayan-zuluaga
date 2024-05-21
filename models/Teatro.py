@@ -1,9 +1,11 @@
 from models.Evento import Evento  # Importa la clase Evento si ya ha sido convertida a Python
 
 class Teatro(Evento):
+
     def __init__(self, nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo):
         super().__init__(nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo)
         self.costo = 0
+
 
     def get_asistentes(self):
         return self.asistentes

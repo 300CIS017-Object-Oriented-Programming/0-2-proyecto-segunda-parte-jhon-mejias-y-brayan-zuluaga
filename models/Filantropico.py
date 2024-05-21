@@ -18,7 +18,8 @@ class Filantropico(Evento):
         self.artistas[nombreArtista] = artista
     def get_hora_inicio(self):
         return self.horaInicio
-
+    def get_direccion(self):
+        return self.direccion
     def get_hora_show(self):
         return self.hora_show
 

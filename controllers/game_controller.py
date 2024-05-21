@@ -11,12 +11,21 @@ from reportlab.lib.colors import HexColor
 
 class AdministrarEventos:
     def __init__(self):
+        """
+        Initializes the AdministrarEventos class with empty lists for different types of events and artists,
+        and an empty dictionary for sold tickets.
+        """
         self.filantropicos: List[Filantropico] = []
         self.bares: List[Bar] = []
         self.teatros: List[Teatro] = []
         self.artistas: Dict[str, Artista] = {}
         self.boletas_vendidas = {}
     def fase_ventas(self):
+        """
+        This method is used to update the sales phase of an event. It asks the user for the type and name of the event,
+        and the new sales phase. If the event is found, it updates the sales phase.
+        """
+
         tipo_evento = input("Ingrese el tipo de evento (bar, teatro, filantropico): ")
         nombre_evento = input("Ingrese el nombre del evento: ")
         nueva_fase = input("Ingrese la nueva fase de ventas: ")
@@ -48,6 +57,10 @@ class AdministrarEventos:
             print("Error: El evento no existe.")
 
     def generar_ventas(self):
+        """
+        This method generates a sales report for a specific event. It asks the user for the type and name of the event.
+        If the event is found, it calculates the income from pre-sale and regular tickets and prints the report.
+        """
         tipo_evento = input("Ingrese el tipo de evento (Filantropico, Bar o Teatro): ")
         nombre_evento = input("Ingrese el nombre del evento para generar el reporte de ventas de boletas: ")
 
@@ -79,6 +92,12 @@ class AdministrarEventos:
             print("No se encontró ningún evento con el nombre ingresado.")
 
     def generar_financiero(self):
+        """
+        This method generates a financial report for a specific event. It asks the user for the type and name of the event.
+        If the event is found, it calculates the income from pre-sale and regular tickets, separated by payment method,
+        and prints the report.
+        """
+
         tipo_evento = input("Ingrese el tipo de evento (Filantropico, Bar o Teatro): ")
         nombre_evento = input("Ingrese el nombre del evento para generar el reporte financiero: ")
 
@@ -121,6 +140,11 @@ class AdministrarEventos:
             print("No se encontró ningún evento con el nombre ingresado.")
 
     def generar_compradores(self):
+        """
+        This method generates a report of the buyers for a specific event. It asks the user for the type and name of the event.
+        If the event is found, it prints the details of each buyer.
+        """
+        tipo_evento = input("Ingrese el tipo de evento (Filantropico, Bar o Teatro): ")
         tipo_evento = input("Ingrese el tipo de evento (Filantropico, Bar o Teatro): ")
         nombre_evento = input("Ingrese el nombre del evento para generar el reporte financiero: ")
 

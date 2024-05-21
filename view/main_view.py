@@ -277,17 +277,27 @@ class View():
                 total = total * 0.8  # Aplicar un descuento del 20%
             st.write(f"El precio Total es: {total}")
 
-        # ...
         if st.button("Vender"):
             resultado = st.session_state['controler'].vender_boletas(tipo_evento, nombre_evento,
                                                                      nombre_asistente, apellido_asistente, edad,
                                                                      direccion, medio_enterado, tipo_boleteria,
-                                                     metodo_pago, cantidad_boletas)
-            st.success(f"Se vendió una boleta para el evento {nombre_evento}.")
-
-
-        else:
-            st.error("No se pudo vender la boleta.La cantidad de aforo llego a su limite, estas colocando mal el nombre o tipo del evento")
+                                                                     metodo_pago, cantidad_boletas)
+            if resultado:
+                st.success(f"Se vendió una boleta para el evento {nombre_evento}.")
+                evento = st.session_state['controler'].buscar_evento(tipo_evento, nombre_evento)
+                if evento is not None:
+                    st.session_state['controler'].generar_boleta(nombre_asistente, apellido_asistente, edad, direccion,
+                                                                 medio_enterado, tipo_boleteria, cantidad_boletas,
+                                                                 total, nombre_evento, evento.get_fecha(),
+                                                                 evento.get_hora_inicio(), evento.get_lugar(),
+                                                                 evento.get_direccion(), evento.get_hora_show(),
+                                                                 evento.get_ciudad(), evento.get_estado(),
+                                                                 evento.get_aforo(), tipo_evento)
+                else:
+                    st.error("No se pudo encontrar el evento.")
+            else:
+                st.error(
+                    "No se pudo vender la boleta.La cantidad de aforo llego a su limite, estas colocando mal el nombre o tipo del evento")
         # Agregar botón de "Atrás"
         if st.button("Atrás"):
             st.session_state['gui_view'].desactivate_vendiendo_boletas()

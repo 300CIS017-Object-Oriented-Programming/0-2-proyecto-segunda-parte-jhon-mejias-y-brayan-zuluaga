@@ -34,6 +34,8 @@ class Teatro(Evento):
     def get_nombre(self):
         return self.nombre
 
+    def get_direccion(self):
+        return self.direccion
     def get_fecha(self):
         return self.fecha
 

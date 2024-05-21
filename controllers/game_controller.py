@@ -476,48 +476,37 @@ class AdministrarEventos:
             self.artistas[nombre] = nuevo_artista
             return True
 
-    def asignar_artista(self):
-        tipo_evento = input("Ingrese el tipo de evento (bar, teatro, filantropico): ")
-        nombre_evento = input("Ingrese el nombre del evento: ")
-        nombre_artista = input("Ingrese el nombre del artista: ")
+    def asignar_artista(self, tipo_evento, nombre_evento, nombre_artista):
 
-        evento_encontrado = False
         if tipo_evento == "bar":
             for bar in self.bares:
                 if bar.get_nombre() == nombre_evento:
                     if nombre_artista in self.artistas:
                         bar.asignar_artista(nombre_artista, self.artistas[nombre_artista])
                         self.artistas[nombre_artista].agregar_nombre_evento(nombre_evento)
-                        print("Artista asignado correctamente al evento Bar.")
+                        return True
                     else:
-                        print("Error: El artista no existe.")
-                    evento_encontrado = True
-                    break
+                        return False
+
         elif tipo_evento == "teatro":
             for teatro in self.teatros:
                 if teatro.get_nombre() == nombre_evento:
                     if nombre_artista in self.artistas:
                         teatro.asignar_artista(nombre_artista, self.artistas[nombre_artista])
                         self.artistas[nombre_artista].agregar_nombre_evento(nombre_evento)
-                        print("Artista asignado correctamente al evento Teatro.")
+                        return True
                     else:
-                        print("Error: El artista no existe.")
-                    evento_encontrado = True
-                    break
+                        return False
         elif tipo_evento == "filantropico":
             for filantropico in self.filantropicos:
                 if filantropico.get_nombre() == nombre_evento:
                     if nombre_artista in self.artistas:
                         filantropico.asignar_artista(nombre_artista, self.artistas[nombre_artista])
                         self.artistas[nombre_artista].agregar_nombre_evento(nombre_evento)
-                        print("Artista asignado correctamente al evento Filantropico.")
+                        return True
                     else:
-                        print("Error: El artista no existe.")
-                    evento_encontrado = True
-                    break
+                        return False
 
-        if not evento_encontrado:
-            print("Error: El evento no existe.")
 
 
 

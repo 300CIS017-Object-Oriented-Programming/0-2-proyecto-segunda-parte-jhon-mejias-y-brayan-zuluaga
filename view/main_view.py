@@ -335,7 +335,16 @@ class View():
             nombre_artista = st.text_input("Nombre del artista")
 
         if st.button("Asignar"):
-            st.session_state['controler'].asignar_artista(tipo_evento.lower(), nombre_evento, nombre_artista)
+            resultado = st.session_state['controler'].asignar_artista(tipo_evento.lower(), nombre_evento,
+                                                                      nombre_artista)
+            if resultado:
+                st.success("Artista asignado exitosamente.")
+            else:
+                st.error("No se pudo asignar el artista.")
+
+        if st.button("Atrás"):
+            st.session_state['gui_view'].desactivate_asignando_artista()
+            st.session_state['gui_view'].activate_menu()
 
     def mostrar_detalles_evento(self):
         st.title("Mostrar Detalles de Evento")

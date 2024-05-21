@@ -15,7 +15,7 @@ class AdministrarEventos:
         self.bares: List[Bar] = []
         self.teatros: List[Teatro] = []
         self.artistas: Dict[str, Artista] = {}
-
+        self.boletas_vendidas = {}
     def fase_ventas(self):
         tipo_evento = input("Ingrese el tipo de evento (bar, teatro, filantropico): ")
         nombre_evento = input("Ingrese el nombre del evento: ")
@@ -354,9 +354,19 @@ class AdministrarEventos:
         total_a_pagar = precio * cantidad_boletas
         if evento_seleccionado is None:
             return False
+        if evento_seleccionado.get_cantidad_asistentes() < evento_seleccionado.get_aforo():
+            asistente = None
+            for a in evento_seleccionado.get_asistentes():
+                if a.getNombre() == nombre_asistente:
+                    asistente = a
+                    break
+            if asistente is None:
+                asistente = Asistente(nombre_asistente, apellido_asistente, edad, direccion, medio_enterado)
+                evento_seleccionado.agregar_asistente(asistente)
 
         if evento_seleccionado.get_cantidad_asistentes() < evento_seleccionado.get_aforo():
-            for _ in range(cantidad_boletas):  # Vender la cantidad especificada de boletas
+            for _ in range(cantidad_boletas):# Vender la cantidad especificada de boletas
+                asistente.comprarBoleta()
                 nuevo_asistente = Asistente(nombre_asistente, apellido_asistente, edad, direccion, medio_enterado)
                 evento_seleccionado.agregar_asistente(nuevo_asistente)
                 evento_seleccionado.sumar_personas()
@@ -592,15 +602,20 @@ class AdministrarEventos:
                     return evento
         return None
 
-    def registrar_ingreso(self, nombre_asistente):
-        # Buscamos la boleta en el diccionario
-        boleta = self.boletas_vendidas.get(nombre_asistente)
-        if boleta is not None:
-            # Si encontramos la boleta, incrementamos el contador de boletas utilizadas
-            boleta['boletas_utilizadas'] += 1
-            if boleta['boletas_utilizadas'] <= boleta['cantidad_boletas']:
-                return f"Se ha registrado el ingreso de {nombre_asistente} al evento {boleta['nombre_evento']}."
-            else:
-                return f"El asistente {nombre_asistente} ha utilizado todas sus boletas."
+    def registrar_ingreso(self, nombre_asistente, tipo_evento):
+        # Buscamos al asistente en la lista de asistentes del evento
+        asistente = None
+        for a in self.asistentes:
+            if a.getNombre() == nombre_asistente and a.getTipoEvento() == tipo_evento:
+                asistente = a
+                break
+
+        if asistente is not None and asistente.getBoletas() > 0:
+            # Si encontramos al asistente y tiene boletas, registramos su ingreso
+            asistente.usarBoleta()
+            return f"Se ha registrado el ingreso de {nombre_asistente} al evento {tipo_evento}."
         else:
-            return f"No se encontró ninguna boleta para el asistente {nombre_asistente}.se encontró ninguna boleta para el asistente {nombre_asistente}."
+            return f"No se encontró al asistente {nombre_asistente} con boletas para el evento {tipo_evento}."
+    def boletas_vendidas(self):
+        # Retorna el diccionario de boletas vendidas
+        return self.boletas_vendidas

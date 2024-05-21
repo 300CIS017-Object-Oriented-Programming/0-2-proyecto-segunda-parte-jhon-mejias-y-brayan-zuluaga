@@ -5,10 +5,20 @@ class Asistente:
         self.edad = edad
         self.direccion = direccion
         self.medioEnterado = medioEnterado
+        self.boletas = 0
 
     def getNombre(self):
         return self.nombre
 
+    def getBoletas(self):
+        return self.boletas
+
+    def comprarBoleta(self):
+        self.boletas += 1
+
+    def usarBoleta(self):
+        if self.boletas > 0:
+            self.boletas -= 1
     def getApellido(self):
         return self.apellido
 

@@ -6,12 +6,18 @@ from controllers.gui_controller import GuiController
 class View():
 
     def __init__(self):
+        self.widget_counter = 0
         if 'controler' not in st.session_state:
             st.session_state['controler'] = AdministrarEventos()
 
         if 'gui_view' not in st.session_state:
             st.session_state['gui_view'] = GuiController()
 
+    def generate_key(self, base_key):
+        # Generar una clave única para un widget
+        unique_key = f"{base_key}_{self.widget_counter}"
+        self.widget_counter += 1
+        return unique_key
     def inicio(self):
         # Nuevo estilo CSS para los botones
         st.markdown("""
@@ -85,7 +91,7 @@ class View():
 
         opcion = st.radio(
             "¿Qué tipo de evento quieres crear?",
-            ('Crear Evento Bar', 'Crear Evento Teatro', 'Crear Evento Filantropico'))
+            ('Crear Evento Bar', 'Crear Evento Teatro', 'Crear Evento Filantropico'),key=self.generate_key('unique_keys'))
 
         if opcion == 'Crear Evento Bar':
             self.crear_evento_bar()
@@ -94,7 +100,7 @@ class View():
         elif opcion == 'Crear Evento Filantropico':
             self.crear_evento_filantropico()
 
-        if st.button("Atrás"):
+        if st.button("Atrás",key=self.generate_key('unique_keys')):
             st.session_state['gui_view'].desactivate_creando_evento()
             st.session_state['gui_view'].activate_menu()
     def crear_evento_bar(self):
@@ -102,22 +108,22 @@ class View():
         st.title("Crear Evento Bar")
         col1, col2 = st.columns(2)  # Crear dos columnas
 
-        with st.form(key='bar_form'):
+        with st.form(key=self.generate_key('unique_keys')):
             with col1:
-                nombre = st.text_input("Ingrese el nombre del evento: ")
-                fecha = st.date_input("Ingrese la fecha del evento: ")
-                hora_inicio = st.time_input("Ingrese la hora de inicio del evento: ", key="hora_inicio_bar")
-                lugar = st.text_input("Ingrese el lugar del evento: ")
-                direccion = st.text_input("Ingrese la dirección del evento: ")
+                nombre = st.text_input("Ingrese el nombre del evento: ",key=self.generate_key('unique_keys'))
+                fecha = st.date_input("Ingrese la fecha del evento: ",key=self.generate_key('unique_keys'))
+                hora_inicio = st.time_input("Ingrese la hora de inicio del evento: ",key=self.generate_key('unique_keys'))
+                lugar = st.text_input("Ingrese el lugar del evento: ",key=self.generate_key('unique_keys'))
+                direccion = st.text_input("Ingrese la dirección del evento: ",key=self.generate_key('unique_keys'))
 
 
 
             with col2:
-                hora_show = st.time_input("Ingrese la hora del show: ", key="hora_show_bar")
-                ciudad = st.text_input("Ingrese la ciudad del evento: ")
-                estado = st.selectbox("Estado del evento:",options=["Por realizar","Realizado" , "Cancelado", "Aplazado", "Cerrado"])
-                aforo = st.text_input("Ingrese el aforo del evento: ")
-                pago_artistas = st.slider("Valor a pagar al Artista:", min_value=0, max_value=10000,value=5000)
+                hora_show = st.time_input("Ingrese la hora del show: ", key=self.generate_key('unique_keys'))
+                ciudad = st.text_input("Ingrese la ciudad del evento: ",key=self.generate_key('unique_keys'))
+                estado = st.selectbox("Estado del evento:",options=["Por realizar","Realizado" , "Cancelado", "Aplazado", "Cerrado"],key=self.generate_key('unique_keys'))
+                aforo = st.text_input("Ingrese el aforo del evento: ",key=self.generate_key('unique_keys'))
+                pago_artistas = st.slider("Valor a pagar al Artista:", min_value=0, max_value=10000,value=5000, key=self.generate_key('unique_keys'))
             submit_button = st.form_submit_button(label='Finalizar')
             if submit_button:
                 # Verificar que todas las casillas estén llenas
@@ -136,20 +142,20 @@ class View():
 
         with st.form(key='filantropico_form'):
             with col1:
-                nombre = st.text_input("Ingrese el nombre del evento: ")
-                fecha = st.date_input("Ingrese la fecha del evento: ")
-                hora_inicio = st.time_input("Ingrese la hora de inicio del evento: ", key="hora_inicio_filantropico")
-                lugar = st.text_input("Ingrese el lugar del evento: ")
-                direccion = st.text_input("Ingrese la dirección del evento: ")
+                nombre = st.text_input("Ingrese el nombre del evento: ",key=self.generate_key('unique_keys'))
+                fecha = st.date_input("Ingrese la fecha del evento: ",key=self.generate_key('unique_keys'))
+                hora_inicio = st.time_input("Ingrese la hora de inicio del evento: ", key=self.generate_key('unique_keys'))
+                lugar = st.text_input("Ingrese el lugar del evento: ",key=self.generate_key('unique_keys'))
+                direccion = st.text_input("Ingrese la dirección del evento: ",key=self.generate_key('unique_keys'))
 
             with col2:
-                hora_show = st.time_input("Ingrese la hora del show: ", key="hora_show_filantropico")
-                ciudad = st.text_input("Ingrese la ciudad del evento: ")
+                hora_show = st.time_input("Ingrese la hora del show: ", key=self.generate_key('unique_keys'))
+                ciudad = st.text_input("Ingrese la ciudad del evento: ",key=self.generate_key('unique_keys'))
                 estado = st.selectbox("Estado del evento:",
-                                      options=["Por realizar", "Realizado", "Cancelado", "Aplazado", "Cerrado"])
-                aforo = st.text_input("Ingrese el aforo del evento: ")
+                                      options=["Por realizar", "Realizado", "Cancelado", "Aplazado", "Cerrado"],key=self.generate_key('unique_keys'))
+                aforo = st.text_input("Ingrese el aforo del evento: ",key=self.generate_key('unique_keys'))
                 patrocinadores = st.text_input(
-                    "Ingrese los patrocinadores del evento: ")  # Nuevo campo para patrocinadores
+                    "Ingrese los patrocinadores del evento: ",key=self.generate_key('unique_keys'))  # Nuevo campo para patrocinadores
             submit_button = st.form_submit_button(label='Finalizar')
             if submit_button:
                 if nombre and fecha and hora_inicio and lugar and direccion and hora_show and ciudad and estado and aforo and patrocinadores:
@@ -166,11 +172,11 @@ class View():
 
         with st.form(key='teatro_form'):
             with col1:
-                nombre = st.text_input("Ingrese el nombre del evento: ")
-                fecha = st.date_input("Ingrese la fecha del evento: ")
-                hora_inicio = st.time_input("Ingrese la hora de inicio del evento: ", key="hora_inicio_teatro")
-                lugar = st.text_input("Ingrese el lugar del evento: ")
-                direccion = st.text_input("Ingrese la dirección del evento: ")
+                nombre = st.text_input("Ingrese el nombre del evento: ",key=self.generate_key('unique_keys'))
+                fecha = st.date_input("Ingrese la fecha del evento: ",key=self.generate_key('unique_keys'))
+                hora_inicio = st.time_input("Ingrese la hora de inicio del evento: ", key=self.generate_key('unique_keys'))
+                lugar = st.text_input("Ingrese el lugar del evento: ",key=self.generate_key('unique_keys'))
+                direccion = st.text_input("Ingrese la dirección del evento: ",key=self.generate_key('unique_keys'))
 
             with col2:
                 hora_show = st.time_input("Ingrese la hora del show: ", key="hora_show_teatro")
@@ -231,7 +237,7 @@ class View():
             st.session_state['gui_view'].desactivate_menu()
             self.registrar_ingreso()
     def eliminar_evento(self):
-        st.title("Eliminar Evento")
+        st.title("Eliminar vento")
         tipo_evento = st.selectbox("Seleccione el tipo de evento", ["bar", "teatro", "filantropico"])
         nombre_evento = st.text_input("Ingrese el nombre del evento a eliminar")
 
@@ -251,7 +257,7 @@ class View():
         col1, col2 = container.columns(2)
 
         with col1:
-            tipo_evento = st.selectbox("Tipo de evento", ["Filantropico", "Bar", "Teatro"])
+            tipo_evento = st.selectbox("Tipo de evento", ["Filantropico", "Bar", "Teatro"], key='unique_keys_0')
             nombre_evento = st.text_input("Nombre del evento")
             cantidad_boletas = st.number_input("Cantidad de boletas a vender", min_value=1, step=1)
             codigo_descuento = st.text_input("Código de descuento (opcional)")
@@ -277,21 +283,11 @@ class View():
                                                                      nombre_asistente, apellido_asistente, edad,
                                                                      direccion, medio_enterado, tipo_boleteria,
                                                      metodo_pago, cantidad_boletas)
-            if resultado:
-                st.success(f"Se vendió una boleta para el evento {nombre_evento}.")
-                evento = st.session_state['controler'].buscar_evento(tipo_evento, nombre_evento)
-                if evento is not None:
-                    st.session_state['controler'].generar_boleta(nombre_asistente, apellido_asistente, edad, direccion,
-                                                                 medio_enterado, tipo_boleteria, cantidad_boletas,
-                                                                 total, nombre_evento, evento.get_fecha(),
-                                                                 evento.get_hora_inicio(), evento.get_lugar(),
-                                                                 evento.get_direccion(), evento.get_hora_show(),
-                                                                 evento.get_ciudad(), evento.get_estado(),
-                                                                 evento.get_aforo(), tipo_evento)
-                else:
-                    st.error("No se pudo encontrar el evento.")
-            else:
-                st.error("No se pudo vender la boleta.La cantidad de aforo llego a su limite, estas colocando mal el nombre o tipo del evento")
+            st.success(f"Se vendió una boleta para el evento {nombre_evento}.")
+
+
+        else:
+            st.error("No se pudo vender la boleta.La cantidad de aforo llego a su limite, estas colocando mal el nombre o tipo del evento")
         # Agregar botón de "Atrás"
         if st.button("Atrás"):
             st.session_state['gui_view'].desactivate_vendiendo_boletas()
@@ -364,14 +360,14 @@ class View():
 
     def registrar_ingreso(self):
         st.title("Registrar Ingreso")
-        tipo_evento = st.selectbox("Tipo de evento", ["Filantropico", "Bar", "Teatro"], key='tipo_evento_key')
-        nombre_evento = st.text_input("Nombre del evento")
-        cantidad_personas = st.number_input("Cantidad de personas a ingresar", min_value=1, step=1)
+        tipo_evento2 = st.selectbox("Tipo de evento", ["Filantropico", "Bar", "Teatro"], key=self.generate_key('unique_keys'))
+        nombre_evento = st.text_input("Nombre del evento", key=self.generate_key('unique_keys'))
+        cantidad_personas = st.number_input("Cantidad de personas a ingresar", min_value=1, step=1, key=self.generate_key('unique_keys'))
 
-        if st.button("Registrar"):
+        if st.button("Registrar",key=self.generate_key('unique_keys')):
             for _ in range(cantidad_personas):
-                mensaje = st.session_state['controler'].registrar_ingreso(nombre_evento)
+                mensaje = st.session_state['controler'].registrar_ingreso(nombre_evento,tipo_evento2)
                 st.write(mensaje)
-        if st.button("Atrás"):
+        if st.button("Atrás",key=self.generate_key('unique_keys')):
             st.session_state['gui_view'].desactivate_registrar_ingreso()
             st.session_state['gui_view'].activate_menu()

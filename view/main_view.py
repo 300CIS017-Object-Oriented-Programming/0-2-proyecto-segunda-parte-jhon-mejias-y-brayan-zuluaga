@@ -302,6 +302,7 @@ class View():
         if st.button("Atrás"):
             st.session_state['gui_view'].desactivate_vendiendo_boletas()
             st.session_state['gui_view'].activate_menu()
+
     def crear_artista(self):
         st.title("Crear Nuevo Artista")
         container = st.container()
@@ -313,8 +314,14 @@ class View():
             tipo_artista = st.text_input("Tipo de artista")
 
         if st.button("Crear"):
-            st.session_state['controler'].crear_artista(nombre, tipo_artista)
-
+            resultado = st.session_state['controler'].crear_artista(nombre, tipo_artista)
+            if resultado:
+                st.success("Artista creado exitosamente.")
+            else:
+                st.error("No se pudo crear el artista.")
+        if st.button("Atrás"):
+            st.session_state['gui_view'].desactivate_creando_artista()
+            st.session_state['gui_view'].activate_menu()
 
     def asignar_artista(self):
         st.title("Asignar Artista a Evento")

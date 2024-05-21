@@ -468,16 +468,13 @@ class AdministrarEventos:
         for filantropico in self.filantropicos:
             print(filantropico.get_nombre())
 
-    def crear_artista(self):
-        nombre = input("Ingrese el nombre del artista: ")
-        tipo_artista = input("Ingrese el tipo de artista: ")
-
+    def crear_artista(self, nombre, tipo_artista):
         if nombre in self.artistas:
-            print("Error: El artista ya existe.")
+            return False
         else:
             nuevo_artista = Artista(nombre, tipo_artista)
             self.artistas[nombre] = nuevo_artista
-            print("Artista creado exitosamente.")
+            return True
 
     def asignar_artista(self):
         tipo_evento = input("Ingrese el tipo de evento (bar, teatro, filantropico): ")

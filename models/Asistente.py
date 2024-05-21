@@ -6,6 +6,7 @@ class Asistente:
         self.direccion = direccion
         self.medioEnterado = medioEnterado
         self.boletas = 0
+        self.confirmacion = False
 
     def getNombre(self):
         return self.nombre

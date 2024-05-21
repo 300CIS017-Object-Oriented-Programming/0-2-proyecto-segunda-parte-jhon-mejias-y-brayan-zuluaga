@@ -386,14 +386,19 @@ class View():
 
     def registrar_ingreso(self):
         st.title("Registrar Ingreso")
-        tipo_evento2 = st.selectbox("Tipo de evento", ["Filantropico", "Bar", "Teatro"], key=self.generate_key('unique_keys'))
+        tipo_evento = st.selectbox("Tipo de evento", ["Filantropico", "Bar", "Teatro"], key=self.generate_key('unique_keys'))
         nombre_evento = st.text_input("Nombre del evento", key=self.generate_key('unique_keys'))
+        nombre_asistente = st.text_input("Nombre del asistente", key=self.generate_key('unique_keys'))
         cantidad_personas = st.number_input("Cantidad de personas a ingresar", min_value=1, step=1, key=self.generate_key('unique_keys'))
 
         if st.button("Registrar",key=self.generate_key('unique_keys')):
             for _ in range(cantidad_personas):
-                mensaje = st.session_state['controler'].registrar_ingreso(nombre_evento,tipo_evento2)
-                st.write(mensaje)
+                resultado = st.session_state['controler'].registrar_ingreso(nombre_evento.lower(),tipo_evento, nombre_asistente)
+                if resultado:
+                    st.success("se registró la asistencia exitosamente.")
+                else:
+                    st.error("No se pudo registrar la asistencia. Verifica que el evento y el asistente existan.")
+
         if st.button("Atrás",key=self.generate_key('unique_keys')):
             st.session_state['gui_view'].desactivate_registrar_ingreso()
             st.session_state['gui_view'].activate_menu()

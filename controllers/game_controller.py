@@ -350,27 +350,18 @@ class AdministrarEventos:
                 if evento.get_nombre() == nombre_evento:
                     evento_seleccionado = evento
                     break
+
         precio = self.precio_boleta(tipo_boleteria)
         total_a_pagar = precio * cantidad_boletas
         if evento_seleccionado is None:
             return False
         if evento_seleccionado.get_cantidad_asistentes() < evento_seleccionado.get_aforo():
-            asistente = None
-            for a in evento_seleccionado.get_asistentes():
-                if a.getNombre() == nombre_asistente:
-                    asistente = a
-                    break
-            if asistente is None:
-                asistente = Asistente(nombre_asistente, apellido_asistente, edad, direccion, medio_enterado)
-                evento_seleccionado.agregar_asistente(asistente)
+            asistente = Asistente(nombre_asistente, apellido_asistente, edad, direccion, medio_enterado)
+            evento_seleccionado.agregar_asistente(asistente)
 
-        if evento_seleccionado.get_cantidad_asistentes() < evento_seleccionado.get_aforo():
-            for _ in range(cantidad_boletas):# Vender la cantidad especificada de boletas
+            for i in range(cantidad_boletas):# Vender la cantidad especificada de boletas
                 asistente.comprarBoleta()
-                nuevo_asistente = Asistente(nombre_asistente, apellido_asistente, edad, direccion, medio_enterado)
-                evento_seleccionado.agregar_asistente(nuevo_asistente)
                 evento_seleccionado.sumar_personas()
-
                 nueva_boleteria = Boleteria(tipo_boleteria, evento_seleccionado.get_precio_preventa(), evento_seleccionado.get_precio_regular(), metodo_pago)
                 evento_seleccionado.agregar_boleteria(nueva_boleteria)
 
@@ -508,9 +499,6 @@ class AdministrarEventos:
                         return False
 
 
-
-
-
     def imprimir_eventos(self):
         print("Eventos de tipo Bar:")
         for bar in self.bares:
@@ -588,20 +576,30 @@ class AdministrarEventos:
                     return evento
         return None
 
-    def registrar_ingreso(self, nombre_asistente, tipo_evento):
-        # Buscamos al asistente en la lista de asistentes del evento
-        asistente = None
-        for a in self.asistentes:
-            if a.getNombre() == nombre_asistente and a.getTipoEvento() == tipo_evento:
-                asistente = a
-                break
+    def registrar_ingreso(self, nombre_evento, tipo_evento, nombre_asistente):
+        if tipo_evento == "filantropico":
+            for filantropico in self.filantropicos:
+                if filantropico.get_nombre() == nombre_evento:
+                    for a in filantropico.asistentes:
+                        if a.getNombre() == nombre_asistente:
+                            a.confirmacion = True
+                            return True
+        elif tipo_evento == "bar":
+            for bar in self.bares:
+                if bar.get_nombre() == nombre_evento:
+                    for a in bar.asistentes:
+                        if a.getNombre() == nombre_asistente:
+                            a.confirmacion = True
+                            return True
+        elif tipo_evento == "teatro":
+            for teatro in self.teatros:
+                if teatro.get_nombre() == nombre_evento:
+                    for a in teatro.asistentes:
+                        if a.getNombre() == nombre_asistente:
+                            a.confirmacion = True
+                            return True
+        return False
 
-        if asistente is not None and asistente.getBoletas() > 0:
-            # Si encontramos al asistente y tiene boletas, registramos su ingreso
-            asistente.usarBoleta()
-            return f"Se ha registrado el ingreso de {nombre_asistente} al evento {tipo_evento}."
-        else:
-            return f"No se encontró al asistente {nombre_asistente} con boletas para el evento {tipo_evento}."
     def boletas_vendidas(self):
         # Retorna el diccionario de boletas vendidas
         return self.boletas_vendidas

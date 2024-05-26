@@ -319,7 +319,7 @@ class View():
             tipo_artista = st.text_input("Tipo de artista")
 
         if st.button("Crear"):
-            resultado = st.session_state['controler'].crear_artista(nombre, tipo_artista)
+            resultado = st.session_state['controler'].crear_artistas(nombre, tipo_artista)
             if resultado:
                 st.success("Artista creado exitosamente.")
             else:
@@ -340,8 +340,7 @@ class View():
             nombre_artista = st.text_input("Nombre del artista")
 
         if st.button("Asignar"):
-            resultado = st.session_state['controler'].asignar_artista(tipo_evento.lower(), nombre_evento,
-                                                                      nombre_artista)
+            resultado = st.session_state['controler'].asignar_artista(tipo_evento, nombre_evento,nombre_artista)
             if resultado:
                 st.success("Artista asignado exitosamente.")
             else:
@@ -397,7 +396,7 @@ class View():
         cantidad_personas = st.number_input("Cantidad de personas a ingresar", min_value=1, step=1, key=self.generate_key('unique_keys'))
 
         if st.button("Registrar",key=self.generate_key('unique_keys')):
-            for _ in range(cantidad_personas):
+            for personas in range(cantidad_personas):
                 resultado = st.session_state['controler'].registrar_ingreso(nombre_evento, tipo_evento, nombre_asistente)
                 if resultado:
                     st.success("se registró la asistencia exitosamente.")

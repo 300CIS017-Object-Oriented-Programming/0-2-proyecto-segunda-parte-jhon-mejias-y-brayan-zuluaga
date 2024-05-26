@@ -387,7 +387,7 @@ class AdministrarEventos:
             asistente = Asistente(nombre_asistente, apellido_asistente, edad, direccion, medio_enterado)
             evento_seleccionado.agregar_asistente(asistente)
 
-            for i in range(cantidad_boletas):# Vender la cantidad especificada de boletas
+            for boletass in range(cantidad_boletas):# Vender la cantidad especificada de boletas
                 asistente.comprarBoleta()
                 evento_seleccionado.sumar_personas()
                 nueva_boleteria = Boleteria(tipo_boleteria, self.precio_boleta("preventa"), self.precio_boleta("regular"), metodo_pago)
@@ -396,22 +396,15 @@ class AdministrarEventos:
             return True
         else:
             return False
-    def crear_artista(self):
-        nombre = input("Ingrese el nombre del artista: ")
-        tipo_artista = input("Ingrese el tipo de artista: ")
 
+    def crear_artista(self, nombre, tipo_artista):
         if nombre in self.artistas:
-            print("Error: El artista ya existe.")
+            return False
         else:
             nuevo_artista = Artista(nombre, tipo_artista)
             self.artistas[nombre] = nuevo_artista
-            print("Artista creado exitosamente.")
-
-    def asignar_artista(self):
-        tipo_evento = input("Ingrese el tipo de evento (bar, teatro, filantropico): ")
-        nombre_evento = input("Ingrese el nombre del evento: ")
-        nombre_artista = input("Ingrese el nombre del artista: ")
-
+            return True
+    def asignar_artista(self, tipo_evento, nombre_evento, nombre_artista):
         evento_encontrado = False
         if tipo_evento == "bar":
             for bar in self.bares:
@@ -419,9 +412,9 @@ class AdministrarEventos:
                     if nombre_artista in self.artistas:
                         bar.asignar_artista(nombre_artista, self.artistas[nombre_artista])
                         self.artistas[nombre_artista].agregar_nombre_evento(nombre_evento)
-                        print("Artista asignado correctamente al evento Bar.")
+                        return True
                     else:
-                        print("Error: El artista no existe.")
+                        return False
                     evento_encontrado = True
                     break
         elif tipo_evento == "teatro":
@@ -430,9 +423,9 @@ class AdministrarEventos:
                     if nombre_artista in self.artistas:
                         teatro.asignar_artista(nombre_artista, self.artistas[nombre_artista])
                         self.artistas[nombre_artista].agregar_nombre_evento(nombre_evento)
-                        print("Artista asignado correctamente al evento Teatro.")
+                        return True
                     else:
-                        print("Error: El artista no existe.")
+                        return False
                     evento_encontrado = True
                     break
         elif tipo_evento == "filantropico":
@@ -441,14 +434,14 @@ class AdministrarEventos:
                     if nombre_artista in self.artistas:
                         filantropico.asignar_artista(nombre_artista, self.artistas[nombre_artista])
                         self.artistas[nombre_artista].agregar_nombre_evento(nombre_evento)
-                        print("Artista asignado correctamente al evento Filantropico.")
+                        return True
                     else:
-                        print("Error: El artista no existe.")
+                        return False
                     evento_encontrado = True
                     break
 
         if not evento_encontrado:
-            print("Error: El evento no existe.")
+            return False
 
     def mostrar_detalles_evento(self, tipo_evento, nombre_evento):
         evento_encontrado = None
@@ -495,7 +488,7 @@ class AdministrarEventos:
             self.artistas[nombre] = nuevo_artista
             return True
 
-    def asignar_artista(self, tipo_evento, nombre_evento, nombre_artista):
+    def asignar_artistas(self, tipo_evento, nombre_evento, nombre_artista):
 
         if tipo_evento == "bar":
             for bar in self.bares:

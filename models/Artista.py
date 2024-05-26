@@ -7,9 +7,6 @@ class Artista:
     def getNombre(self):
         return self.nombre
 
-    def agregarNombreEvento(self, nombre_evento):
-        self.nombre_eventos.append(nombre_evento)
-
     def getNombreEventos(self):
         return self.nombre_eventos
     def agregar_nombre_evento(self, nombre_evento):

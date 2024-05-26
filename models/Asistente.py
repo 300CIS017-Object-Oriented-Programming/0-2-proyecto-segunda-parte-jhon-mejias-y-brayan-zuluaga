@@ -8,10 +8,10 @@ class Asistente:
         self.boletas = 0
         self.confirmacion = False
 
-    def getNombre(self):
+    def get_nombre(self):
         return self.nombre
 
-    def getBoletas(self):
+    def get_boletas(self):
         return self.boletas
 
     def comprarBoleta(self):
@@ -20,14 +20,14 @@ class Asistente:
     def usarBoleta(self):
         if self.boletas > 0:
             self.boletas -= 1
-    def getApellido(self):
+    def get_apellido(self):
         return self.apellido
 
-    def getEdad(self):
+    def get_edad(self):
         return self.edad
 
-    def getDireccion(self):
+    def get_direccion(self):
         return self.direccion
 
-    def getMedioEnterado(self):
+    def get_medio_enterado(self):
         return self.medioEnterado

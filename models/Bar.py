@@ -75,7 +75,7 @@ class Bar(Evento):
         self.estado = estado
 
     def get_cantidad_asistentes(self):
-        return len(self.asistentes)
+        return self.personas
 
     def sumar_personas(self):
         self.personas += 1

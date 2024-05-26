@@ -10,6 +10,7 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.colors import HexColor
 import pandas as pd
 
+
 class AdministrarEventos:
     def __init__(self):
         """
@@ -380,7 +381,7 @@ class AdministrarEventos:
         total_a_pagar = precio * cantidad_boletas
         if evento_seleccionado is None:
             return False
-        if evento_seleccionado.get_cantidad_asistentes() < evento_seleccionado.get_aforo():
+        if evento_seleccionado.get_cantidad_asistentes() + cantidad_boletas <= evento_seleccionado.get_aforo():
             asistente = Asistente(nombre_asistente, apellido_asistente, edad, direccion, medio_enterado)
             evento_seleccionado.agregar_asistente(asistente)
 
@@ -672,14 +673,89 @@ class AdministrarEventos:
 
         # Retornar el DataFrame
         return df_reporte
+    def generar_reporte_financiero(self, nombre_evento, tipo_evento):
+        # Crear un diccionario para almacenar los datos del reporte
+        reporte = {"preventa_efectivo": 0, "preventa_tarjeta": 0, "regular_efectivo": 0, "regular_tarjeta": 0, "ingresos_totales": 0}
 
-    def generar_reporte_financiero(self):
-        # Implementa la lógica para generar el reporte financiero aquí
-        pass
+        # Seleccionar la lista de eventos según el tipo de evento
+        eventos = []
+        if tipo_evento == "Bar":
+            eventos = self.bares
+        elif tipo_evento == "Teatro":
+            eventos = self.teatros
+        elif tipo_evento == "Filantropico":
+            eventos = self.filantropicos
 
-    def generar_reporte_compradores(self):
-        # Implementa la lógica para generar el reporte de compradores aquí
-        pass
+        # Buscar el evento con el nombre dado
+        evento_seleccionado = None
+        for evento in eventos:
+            if evento.get_nombre() == nombre_evento:
+                evento_seleccionado = evento
+                break
+
+        # Si se encontró el evento, generar el reporte
+        if evento_seleccionado is not None:
+            # Obtener las boletas del evento
+            boletas = evento_seleccionado.get_boleteria()
+            # Iterar sobre las boletas
+            for boleta in boletas:
+                # Clasificar las boletas por tipo de boleteria y metodo de pago
+                tipo_boleteria = boleta.get_tipo_boleteria()
+                metodo_pago = boleta.get_metodo_pago()
+                # Sumar los ingresos correspondientes
+                if tipo_boleteria == "preventa" and metodo_pago == "efectivo":
+                    reporte["preventa_efectivo"] += self.precio_boleta("preventa")
+                elif tipo_boleteria == "preventa" and metodo_pago == "tarjeta":
+                    reporte["preventa_tarjeta"] += self.precio_boleta("preventa")
+                elif tipo_boleteria == "regular" and metodo_pago == "efectivo":
+                    reporte["regular_efectivo"] += self.precio_boleta("regular")
+                elif tipo_boleteria == "regular" and metodo_pago == "tarjeta":
+                    reporte["regular_tarjeta"] += self.precio_boleta("regular")
+
+            reporte["ingresos_totales"] += sum(reporte.values())
+
+        # Convertir el reporte a un DataFrame de pandas
+        df_reporte = pd.DataFrame([reporte])
+
+        # Retornar el DataFrame
+        return df_reporte
+
+    def generar_reporte_compradores(self, nombre_evento, tipo_evento):
+        # Crear una lista para almacenar los datos de cada comprador
+        datos = []
+
+        # Seleccionar la lista de eventos basado en el tipo de evento
+        eventos = []
+        if tipo_evento == "Bar":
+            eventos = self.bares
+        elif tipo_evento == "Teatro":
+            eventos = self.teatros
+        elif tipo_evento == "Filantropico":
+            eventos = self.filantropicos
+
+        # Encontrar el evento con el nombre dado
+        evento_seleccionado = None
+        for evento in eventos:
+            if evento.get_nombre() == nombre_evento:
+                evento_seleccionado = evento
+                break
+
+        # Si se encontró el evento, generar el informe
+        if evento_seleccionado is not None:
+            # Obtener los asistentes del evento
+            asistentes = evento_seleccionado.get_asistentes()
+            # Iterar sobre los asistentes
+            for asistente in asistentes:
+                # Agregar los detalles del asistente a los datos
+                datos.append(
+                    [asistente.get_nombre(), asistente.get_apellido(), asistente.get_edad(), asistente.get_direccion(),
+                     asistente.get_medio_enterado()])
+
+        # Crear un DataFrame con los datos
+        df = pd.DataFrame(datos, columns=["Nombre", "Apellido", "Edad", "Direccion", "Medio Enterado"])
+
+        # Devolver el DataFrame
+        return df
 
     def generar_reporte_artistas(self, nombre_artista):
         # Implementa la lógica para generar el reporte de artistas aquí

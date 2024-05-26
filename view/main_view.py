@@ -1,7 +1,7 @@
 import streamlit as st
 from controllers.game_controller import AdministrarEventos
 from controllers.gui_controller import GuiController
-
+import plotly.express as px
 
 class View():
 
@@ -420,14 +420,31 @@ class View():
             st.write(reporte)
 
         if st.button("Generar Reporte Financiero"):
+            # Pide al usuario el nombre y tipo del evento
+            nombre_evento = st.text_input("Nombre del evento")
+            tipo_evento = st.selectbox("Tipo de evento", ["Bar", "Teatro", "Filantropico"])
             # Llama al método para generar el reporte financiero y muestra los resultados
-            reporte = st.session_state['controler'].generar_reporte_financiero()
-            st.write(reporte)
+            df_reporte = st.session_state['controler'].generar_reporte_financiero(nombre_evento, tipo_evento)
+            st.write(df_reporte)
 
         if st.button("Generar Reporte de Compradores"):
-            # Llama al método para generar el reporte de compradores y muestra los resultados
-            reporte = st.session_state['controler'].generar_reporte_compradores()
-            st.write(reporte)
+            # Pide al usuario el nombre y tipo del evento
+            nombre_evento = st.text_input("Nombre del evento")
+            tipo_evento = st.selectbox("Tipo de evento", ["Bar", "Teatro", "Filantropico"])
+            # Llama al método para generar el reporte de compradores
+            df = st.session_state['controler'].generar_reporte_compradores(nombre_evento, tipo_evento)
+
+            # Crear un histograma de las edades de los compradores
+            fig1 = px.histogram(df, x="Edad", nbins=10, title="Distribución de Edades de los Compradores")
+            st.plotly_chart(fig1)
+
+            # Crear un gráfico de barras de los medios por los cuales los compradores se enteraron del evento
+            fig2 = px.bar(df["Medio Enterado"].value_counts(),
+                          title="Medios por los que los Compradores se Enteraron del Evento")
+            st.plotly_chart(fig2)
+
+            # Exportar los datos a un archivo Excel
+            df.to_excel("reporte_compradores.xlsx", index=False)
 
         if st.button("Generar Reporte de Datos por Artista"):
             # Pide al usuario el nombre del artista

@@ -387,7 +387,7 @@ class AdministrarEventos:
             for i in range(cantidad_boletas):# Vender la cantidad especificada de boletas
                 asistente.comprarBoleta()
                 evento_seleccionado.sumar_personas()
-                nueva_boleteria = Boleteria(tipo_boleteria, evento_seleccionado.get_precio_preventa(), evento_seleccionado.get_precio_regular(), metodo_pago)
+                nueva_boleteria = Boleteria(tipo_boleteria, self.precio_boleta("preventa"), self.precio_boleta("regular"), metodo_pago)
                 evento_seleccionado.agregar_boleteria(nueva_boleteria)
 
             return True
@@ -653,8 +653,8 @@ class AdministrarEventos:
                     boletas_por_tipo[boleta.tipo_boleteria] += 1
 
                 # Calcular los ingresos por preventa y venta regular
-                ingresos_preventa = boletas_por_tipo["preventa"] * evento.get_precio_preventa()
-                ingresos_regular = boletas_por_tipo["regular"] * evento.get_precio_regular()
+                ingresos_preventa = boletas_por_tipo["preventa"] * self.precio_boleta("preventa")
+                ingresos_regular = boletas_por_tipo["regular"] * self.precio_boleta("regular")
 
                 # Agregar los datos del evento al reporte
                 reporte.append({

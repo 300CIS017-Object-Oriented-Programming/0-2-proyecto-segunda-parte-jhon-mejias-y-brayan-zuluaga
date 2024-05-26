@@ -62,6 +62,8 @@ class View():
             self.mostrar_detalles_evento()
         if st.session_state['gui_view'].get_registrar_ingreso():
             self.registrar_ingreso()
+        if st.session_state['gui_view'].get_mostrar_reportes():
+            self.mostrar_reportes()
 
         footer_html = """
               <style>
@@ -235,7 +237,10 @@ class View():
         if st.button("Registrar Ingreso"):
             st.session_state['gui_view'].activate_registrar_ingreso()
             st.session_state['gui_view'].desactivate_menu()
-            self.registrar_ingreso()
+
+        if st.button("Reportes"):
+            st.session_state['gui_view'].activate_mostrar_reportes()
+            st.session_state['gui_view'].desactivate_menu()
     def eliminar_evento(self):
         st.title("Eliminar vento")
         tipo_evento = st.selectbox("Seleccione el tipo de evento", ["bar", "teatro", "filantropico"])
@@ -401,4 +406,37 @@ class View():
 
         if st.button("Atrás",key=self.generate_key('unique_keys')):
             st.session_state['gui_view'].desactivate_registrar_ingreso()
+            st.session_state['gui_view'].activate_menu()
+
+    def mostrar_reportes(self):
+        st.title("Reportes")
+
+        if st.button("Generar Reporte de Ventas"):
+            # Pide al usuario el nombre y tipo del evento
+            nombre_evento = st.text_input("Nombre del evento")
+            tipo_evento = st.selectbox("Tipo de evento", ["Bar", "Teatro", "Filantropico"])
+            # Llama al método para generar el reporte de ventas y muestra los resultados
+            reporte = st.session_state['controler'].generar_reporte_ventas(nombre_evento, tipo_evento)
+            st.write(reporte)
+
+        if st.button("Generar Reporte Financiero"):
+            # Llama al método para generar el reporte financiero y muestra los resultados
+            reporte = st.session_state['controler'].generar_reporte_financiero()
+            st.write(reporte)
+
+        if st.button("Generar Reporte de Compradores"):
+            # Llama al método para generar el reporte de compradores y muestra los resultados
+            reporte = st.session_state['controler'].generar_reporte_compradores()
+            st.write(reporte)
+
+        if st.button("Generar Reporte de Datos por Artista"):
+            # Pide al usuario el nombre del artista
+            nombre_artista = st.text_input("Nombre del artista")
+            # Llama al método para generar el reporte de artistas y muestra los resultados
+            reporte = st.session_state['controler'].generar_reporte_artistas(nombre_artista)
+            st.write(reporte)
+
+        if st.button("Atrás"):
+            # Vuelve al menú principal
+            st.session_state['gui_view'].desactivate_mostrar_reportes()
             st.session_state['gui_view'].activate_menu()

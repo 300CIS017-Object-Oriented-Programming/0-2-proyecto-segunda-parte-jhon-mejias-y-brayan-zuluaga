@@ -8,6 +8,7 @@ from models.Boleteria import Boleteria
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 from reportlab.lib.colors import HexColor
+import pandas as pd
 
 class AdministrarEventos:
     def __init__(self):
@@ -627,3 +628,59 @@ class AdministrarEventos:
     def boletas_vendidas(self):
         # Retorna el diccionario de boletas vendidas
         return self.boletas_vendidas
+
+    def generar_reporte_ventas(self, nombre_evento, tipo_evento):
+        # Crear una lista vacía para almacenar los datos del reporte
+        reporte = []
+
+        # Seleccionar la lista de eventos según el tipo de evento
+        eventos = []
+        if tipo_evento == "Bar":
+            eventos = self.bares
+        elif tipo_evento == "Teatro":
+            eventos = self.teatros
+        elif tipo_evento == "Filantropico":
+            eventos = self.filantropicos
+        # Iterar sobre los eventos del tipo seleccionado
+        for evento in eventos:
+            # Si el nombre del evento coincide con el nombre del evento dado
+            if evento.get_nombre() == nombre_evento:
+                # Obtener las boletas del evento
+                boletas = evento.get_boleteria()
+                # Contar las boletas por tipo
+                boletas_por_tipo = {"preventa": 0, "regular": 0, "cortesia": 0}
+                for boleta in boletas:
+                    boletas_por_tipo[boleta.tipo_boleteria] += 1
+
+                # Calcular los ingresos por preventa y venta regular
+                ingresos_preventa = boletas_por_tipo["preventa"] * evento.get_precio_preventa()
+                ingresos_regular = boletas_por_tipo["regular"] * evento.get_precio_regular()
+
+                # Agregar los datos del evento al reporte
+                reporte.append({
+                    "nombre_evento": evento.get_nombre(),
+                    "boletas_preventa": boletas_por_tipo["preventa"],
+                    "boletas_regular": boletas_por_tipo["regular"],
+                    "boletas_cortesia": boletas_por_tipo["cortesia"],
+                    "ingresos_preventa": ingresos_preventa,
+                    "ingresos_regular": ingresos_regular,
+                    "ingresos_totales": ingresos_preventa + ingresos_regular
+                })
+
+        # Convertir la lista de datos del reporte en un DataFrame de pandas
+        df_reporte = pd.DataFrame(reporte)
+
+        # Retornar el DataFrame
+        return df_reporte
+
+    def generar_reporte_financiero(self):
+        # Implementa la lógica para generar el reporte financiero aquí
+        pass
+
+    def generar_reporte_compradores(self):
+        # Implementa la lógica para generar el reporte de compradores aquí
+        pass
+
+    def generar_reporte_artistas(self, nombre_artista):
+        # Implementa la lógica para generar el reporte de artistas aquí
+        pass

@@ -75,3 +75,7 @@ class Evento(ABC):
     @abstractmethod
     def agregar_boleteria(self, nuevaBoleteria):
         pass
+
+    @abstractmethod
+    def get_boleteria(self):
+        pass

@@ -17,6 +17,7 @@ class GuiController:
         self.mostrando_detalles_evento = False
         self.imprimiendo_eventos = False
         self.registrar_ingreso = False
+        self.mostrar_reportes = False
 
     def activate_menu(self):
         self.menu = True
@@ -41,8 +42,13 @@ class GuiController:
         self.imprimiendo_eventos = True
     def activate_registrar_ingreso(self):
         self.registrar_ingreso = True
+    def activate_mostrar_reportes(self):
+        self.mostrar_reportes = True
+
     def desactivate_registrar_ingreso(self):
         self.registrar_ingreso = False
+    def desactivate_mostrar_reportes(self):
+        self.mostrar_reportes = False
 
     def desactivate_menu(self):
         self.menu = False
@@ -88,3 +94,5 @@ class GuiController:
         return self.imprimiendo_eventos
     def get_registrar_ingreso(self):
         return self.registrar_ingreso
+    def get_mostrar_reportes(self):
+        return self.mostrar_reportes

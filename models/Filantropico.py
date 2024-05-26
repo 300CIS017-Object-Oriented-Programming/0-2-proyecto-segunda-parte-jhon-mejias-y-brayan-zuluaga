@@ -109,3 +109,5 @@ class Filantropico(Evento):
         return self.asistentes
     def agregar_boleteria(self, nuevaBoleteria):
         self.boleteria.append(nuevaBoleteria)
+    def get_boleteria(self):
+        return self.boleteria

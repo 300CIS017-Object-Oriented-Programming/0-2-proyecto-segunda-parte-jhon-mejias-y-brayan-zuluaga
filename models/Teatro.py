@@ -114,3 +114,5 @@ class Teatro(Evento):
 
     def agregar_boleteria(self, nueva_boleteria):
         self.boleteria.append(nueva_boleteria)
+    def get_boleteria(self):
+        return self.boleteria

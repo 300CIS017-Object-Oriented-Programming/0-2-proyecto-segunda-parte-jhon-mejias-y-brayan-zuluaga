@@ -2,7 +2,7 @@ import streamlit as st
 from controllers.game_controller import AdministrarEventos
 from controllers.gui_controller import GuiController
 import plotly.express as px
-
+import os
 class View():
 
     def __init__(self):
@@ -444,7 +444,9 @@ class View():
             st.plotly_chart(fig2)
 
             # Exportar los datos a un archivo Excel
-            df.to_excel("reporte_compradores.xlsx", index=False)
+            df.to_excel("outputs/reporte_compradores.xlsx", index=False)
+            # Después de crear el archivo Excel
+            os.startfile(os.path.realpath("outputs/reporte_compradores.xlsx"))
 
         if st.button("Generar Reporte de Datos por Artista"):
             # Pide al usuario el nombre del artista

@@ -9,6 +9,8 @@ from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 from reportlab.lib.colors import HexColor
 import pandas as pd
+import webbrowser
+import os
 
 
 class AdministrarEventos:
@@ -550,42 +552,48 @@ class AdministrarEventos:
     def generar_boleta(self, nombre_asistente, apellido_asistente, edad, direccion_asistente, medio_enterado,
                        tipo_boleteria, cantidad_boletas, total, nombre_evento, fecha, hora_inicio, lugar,
                        direccion_evento, hora_show, ciudad, estado, aforo, tipo_evento):
-            c = canvas.Canvas("boleta.pdf", pagesize=letter)
+            c = canvas.Canvas("outputs/boleta.pdf", pagesize=letter)
             width, height = letter
 
             # Define las posiciones x para las columnas
             x1 = 30
             x2 = width / 2
+            # Agrega el logo
+            logo_path = "img/logo.png"  # Reemplaza con la ruta a tu logo
+            c.drawImage(logo_path, x1, height - 120, width=100, height=100)  # Ajusta las coordenadas y el ta
 
             # Agrega texto al PDF
             c.setFont("Times-Bold", 24)
-            c.setFillColor(HexColor(0x0033cc))  # Set color to blue
-            c.drawString(x1, height - 50, "Boleta de Evento")
+            c.setFillColor(HexColor(0x000000))  # Set color to black  # Set color to blue
+            c.drawString(x1, height - 160, "Boleta de Evento")
 
 
 
             c.setFont("Helvetica", 16)
-            c.drawString(x1, height - 100, f"Nombre del asistente: {nombre_asistente} {apellido_asistente}")
-            c.drawString(x1, height - 130, f"Edad del asistente: {edad}")
-            c.drawString(x1, height - 160, f"Dirección del asistente: {direccion_asistente}")
-            c.drawString(x1, height - 190, f"¿Cómo se enteró del evento?: {medio_enterado}")
-            c.drawString(x1, height - 220, f"Tipo de boleteria: {tipo_boleteria}")
-            c.drawString(x1, height - 250, f"Cantidad de boletas: {cantidad_boletas}")
-            c.drawString(x1, height - 280, f"Total a pagar: {total}")
+            c.drawString(x1, height - 200, f"Nombre del asistente: {nombre_asistente} {apellido_asistente}")
+            c.drawString(x1, height - 230, f"Edad del asistente: {edad}")
+            c.drawString(x1, height - 260, f"Dirección del asistente: {direccion_asistente}")
+            c.drawString(x1, height - 290, f"¿Cómo se enteró del evento?: {medio_enterado}")
+            c.drawString(x1, height - 320, f"Tipo de boleteria: {tipo_boleteria}")
+            c.drawString(x1, height - 350, f"Cantidad de boletas: {cantidad_boletas}")
+            c.drawString(x1, height - 380, f"Total a pagar: {total}")
 
-            c.drawString(x2, height - 100, f"Nombre del evento: {nombre_evento}")
-            c.drawString(x2, height - 130, f"Fecha del evento: {fecha}")
-            c.drawString(x2, height - 160, f"Hora de inicio del evento: {hora_inicio}")
-            c.drawString(x2, height - 190, f"Lugar del evento: {lugar}")
-            c.drawString(x2, height - 220, f"Dirección del evento: {direccion_evento}")
-            c.drawString(x2, height - 250, f"Hora del show: {hora_show}")
-            c.drawString(x2, height - 280, f"Ciudad del evento: {ciudad}")
-            c.drawString(x2, height - 310, f"Estado del evento: {estado}")
-            c.drawString(x2, height - 340, f"Aforo del evento: {aforo}")
-            c.drawString(x2, height - 370, f"Tipo de evento: {tipo_evento}")
+            c.drawString(x2, height - 200, f"Nombre del evento: {nombre_evento}")
+            c.drawString(x2, height - 230, f"Fecha del evento: {fecha}")
+            c.drawString(x2, height - 260, f"Hora de inicio del evento: {hora_inicio}")
+            c.drawString(x2, height - 290, f"Lugar del evento: {lugar}")
+            c.drawString(x2, height - 320, f"Dirección del evento: {direccion_evento}")
+            c.drawString(x2, height - 350, f"Hora del show: {hora_show}")
+            c.drawString(x2, height - 380, f"Ciudad del evento: {ciudad}")
+            c.drawString(x2, height - 410, f"Estado del evento: {estado}")
+            c.drawString(x2, height - 440, f"Aforo del evento: {aforo}")
+            c.drawString(x2, height - 470, f"Tipo de evento: {tipo_evento}")
 
             # Finaliza y guarda el PDF
             c.save()
+            # Después de crear el archivo PDF
+            webbrowser.open_new(os.path.realpath("outputs/boleta.pdf"))
+
 
     def buscar_evento(self, tipo_evento, nombre_evento):
         if tipo_evento.lower() == "filantropico":

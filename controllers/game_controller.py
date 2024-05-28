@@ -81,8 +81,7 @@ class AdministrarEventos:
         teatro.costo = costo
         self.teatros.append(teatro)
 
-    def crear_filantropico(self, nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo,
-                           patrocinadores, pago_artistas):
+    def crear_filantropico(self, nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo, pago_artistas):
         """
         Creates a new philanthropic event and adds it to the list of philanthropic events.
 
@@ -106,13 +105,6 @@ class AdministrarEventos:
         """
         filantropico = Filantropico(nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo, pago_artistas)
 
-        # Dividir el string de patrocinadores en una lista de patrocinadores individuales
-        lista_patrocinadores = patrocinadores.split(',')
-
-        # Iterar sobre la lista de patrocinadores y agregar cada uno al diccionario de patrocinadores
-        for patrocinador in lista_patrocinadores:
-            patrocinador = patrocinador.strip()  # Eliminar espacios en blanco al principio y al final
-            filantropico.agregar_patrocinador(patrocinador)
 
         self.filantropicos.append(filantropico)
 
@@ -817,3 +809,38 @@ class AdministrarEventos:
         df_reporte = pd.DataFrame([reporte])
 
         return df_reporte
+    def asignar_patrocinadores(self, nombre_evento, nombre_patrocinador, donacion_patrocinador):
+        """
+        Assigns a sponsor to a philanthropic event.
+
+        This function iterates over the list of philanthropic events. If it finds an event with the given name, it assigns the sponsor with the given name and donation amount to the event. The function returns True if the sponsor was successfully assigned, and False otherwise.
+
+        Parameters:
+        nombre_evento (str): The name of the philanthropic event.
+        nombre_patrocinador (str): The name of the sponsor.
+        donacion_patrocinador (float): The donation amount from the sponsor.
+
+        Returns:
+        bool: True if the sponsor was successfully assigned, False otherwise.
+        """
+        for evento in self.filantropicos:
+            if evento.get_nombre() == nombre_evento:
+                evento.asignar_patrocinador(nombre_patrocinador, donacion_patrocinador)
+                return True
+        return False
+    def patrocinadores_evento(self, nombre_evento):
+        """
+        Returns the sponsors of a philanthropic event.
+
+        This function iterates over the list of philanthropic events. If it finds an event with the given name, it returns the sponsors of the event. If no matching event is found, it returns None.
+
+        Parameters:
+        nombre_evento (str): The name of the philanthropic event.
+
+        Returns:
+        list: The sponsors of the event if found, None otherwise.
+        """
+        for evento in self.filantropicos:
+            if evento.get_nombre() == nombre_evento:
+                return evento.get_patrocinadores()
+        return None

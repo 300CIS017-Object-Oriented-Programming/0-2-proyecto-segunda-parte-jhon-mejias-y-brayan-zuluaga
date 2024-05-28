@@ -6,14 +6,6 @@ class Filantropico(Evento):
         self.patrocinadores = {}  # Un diccionario vacío para almacenar los patrocinadores y sus valores
         self.pago_artistas = pago_artistas
 
-    def agregar_patrocinador(self, patrocinador):
-        # Agregar el patrocinador al diccionario de patrocinadores
-        # Puedes asignar cualquier valor que necesites, aquí simplemente asigno True
-        self.patrocinadores[patrocinador] = True
-
-    def imprimir_patrocinadores(self):
-        for patrocinador, valor in self.patrocinadores.items():
-            print(f"{patrocinador}: ${valor}")
 
     def asignar_artista(self, nombreArtista, artista):
         self.artistas[nombreArtista] = artista
@@ -119,3 +111,7 @@ class Filantropico(Evento):
 
     def get_pago_alquiler(self):
         return 0
+    def asignar_patrocinador(self, patrocinador, valor):
+        self.patrocinadores[patrocinador] = valor
+    def get_patrocinadores(self):
+        return self.patrocinadores

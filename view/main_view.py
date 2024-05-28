@@ -64,6 +64,8 @@ class View():
             self.registrar_ingreso()
         if st.session_state['gui_view'].get_mostrar_reportes():
             self.mostrar_reportes()
+        if st.session_state['gui_view'].get_asignar_patrocinador():
+            self.asignar_patrocinadores()
 
         footer_html = """
               <style>
@@ -182,14 +184,13 @@ class View():
                 aforo = st.number_input("Ingrese el aforo del evento", min_value=0, value=1, key=self.generate_key('unique_keys'))
                 pago_artistas = st.number_input("Valor a pagar al Artista:", min_value=0, value=5000,
                                                 key=self.generate_key('unique_keys'))
-                patrocinadores = st.text_input(
-                    "Ingrese los patrocinadores del evento: ",key=self.generate_key('unique_keys'))  # Nuevo campo para patrocinadores
+
             submit_button = st.form_submit_button(label='Finalizar')
             if submit_button:
-                if nombre and fecha and hora_inicio and lugar and direccion and hora_show and ciudad and estado and aforo and patrocinadores:
+                if nombre and fecha and hora_inicio and lugar and direccion and hora_show and ciudad and estado and aforo:
                     aforo = int(aforo)  # Convertir el aforo a un entero
                     st.session_state['controler'].crear_filantropico(nombre, fecha, hora_inicio, hora_show, lugar,
-                                                                     direccion, ciudad, estado, aforo, patrocinadores, pago_artistas)
+                                                                     direccion, ciudad, estado, aforo, pago_artistas)
                     st.success("Evento Filantropico creado exitosamente.")
                 else:
                     st.error("Por favor, llena todas las casillas antes de enviar.")
@@ -243,6 +244,10 @@ class View():
             st.session_state['gui_view'].activate_mostrando_detalles_evento()
             st.session_state['gui_view'].desactivate_menu()
 
+        if st.button("Asignar Patrocinadores "):
+            st.session_state['gui_view'].activate_asignar_patrocinador()
+            st.session_state['gui_view'].desactivate_menu()
+
         if st.button("Imprimir eventos"):
             st.session_state['gui_view'].activate_imprimiendo_eventos()
             st.session_state['gui_view'].desactivate_menu()
@@ -270,6 +275,7 @@ class View():
         if st.button("Reportes"):
             st.session_state['gui_view'].activate_mostrar_reportes()
             st.session_state['gui_view'].desactivate_menu()
+
     def eliminar_evento(self):
         st.title("Eliminar vento")
         tipo_evento = st.selectbox("Seleccione el tipo de evento", ["bar", "teatro", "filantropico"])
@@ -303,13 +309,18 @@ class View():
             medio_enterado = st.selectbox("¿Cómo se enteró del evento?", ["Internet", "Radio", "Televisión", "Amigos/Familia", "Otros"])
             tipo_boleteria = st.selectbox("Tipo de boleteria", ["preventa", "regular","cortesia"])
             # Mostrar el precio de la boleta tan pronto como el usuario seleccione el tipo de boletería
-            precio = st.session_state['controler'].precio_boleta(tipo_boleteria)
+            if tipo_evento == "Filantropico" and tipo_boleteria in ["preventa", "regular"]:
+                precio = 0
+            else:
+                precio = st.session_state['controler'].precio_boleta(tipo_boleteria)
             st.write(f"Precio de la boleta: {precio}")
             metodo_pago = st.selectbox("Método de pago", ["efectivo", "tarjeta"])
+
             total = precio * cantidad_boletas
             if codigo_descuento == "Mayo2024":
                 total = total * 0.8  # Aplicar un descuento del 20%
             st.write(f"El precio Total es: {total}")
+
 
         if st.button("Vender"):
             resultado = st.session_state['controler'].vender_boletas(tipo_evento, nombre_evento,
@@ -495,4 +506,33 @@ class View():
         if st.button("Atrás"):
             # Vuelve al menú principal
             st.session_state['gui_view'].desactivate_mostrar_reportes()
+            st.session_state['gui_view'].activate_menu()
+    def asignar_patrocinadores(self):
+        st.title("Asignar Patrocinadores")
+        container = st.container()
+        col1, col2 = container.columns(2)
+
+        with col1:
+            nombre_evento = st.text_input("Nombre del evento")
+        with col2:
+            nombre_patrocinador = st.text_input("Nombre del patrocinador")
+            donacion_pratrocinador = st.text_input("Donacion del patrocinador")
+
+        if st.button("Asignar"):
+            resultado = st.session_state['controler'].asignar_patrocinadores(nombre_evento, nombre_patrocinador,donacion_pratrocinador)
+            if resultado:
+                st.success("Patrocinador asignado exitosamente.")
+            else:
+                st.error("No se pudo asignar el patrocinador.")
+        if st.button("Mostrar Patrocinadores"):
+            st.write("Patrocinadores:")
+            patrocinadores = st.session_state['controler'].patrocinadores_evento(nombre_evento)
+            if patrocinadores is not None:
+                for patrocinador, valor in patrocinadores.items():
+                    st.write(f"Patrocinador: {patrocinador}, Valor: {valor}")
+            else:
+                st.write("No se encuentra el patrocinador.")
+
+        if st.button("Atrás"):
+            st.session_state['gui_view'].desactivate_asignar_patrocinador()
             st.session_state['gui_view'].activate_menu()

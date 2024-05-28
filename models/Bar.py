@@ -9,8 +9,8 @@ class Bar(Evento):
         # Implementa la lógica para pagar al comediante si es necesario
         pass
 
-    def asignar_artista(self, nombreArtista, artista):
-        self.artistas[nombreArtista] = artista
+    def asignar_artista(self, nombre_artista, artista):
+        self.artistas[nombre_artista] = artista
 
     def get_nombre(self):
         return self.nombre
@@ -106,3 +106,6 @@ class Bar(Evento):
         self.boleteria.append(nueva_boleteria)
     def get_boleteria(self):
         return self.boleteria
+    def get_pago_artistas(self):
+        # return the payment for the artists for a bar event
+        return self.pago_artistas

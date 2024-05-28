@@ -71,20 +71,43 @@ class TestAdministrarEventos(unittest.TestCase):
         self.administrar_eventos.imprimir_eventos()
         calls = [call("Eventos de tipo Bar:"), call("Test Bar"), call("Eventos de tipo Teatro:"), call("Test Theater"), call("Eventos de tipo Filantropico:"), call("Test Philanthropic")]
         mock_print.assert_has_calls(calls, any_order=False)
-    def test_successful_artist_assignment_to_bar(self):
-        self.administrar_eventos.crear_bar("Test Bar", "2023-12-31", "18:00", "20:00", "Test Venue", "Test Street",
-                                           "Test City", "Test State", 100, 5000)
-        self.administrar_eventos.crear_artista("Test Artist", "Test Genre")
-        result = self.administrar_eventos.asignar_artista("bar", "Test Bar", "Test Artist")
-        self.assertTrue(result)
 
-    def test_artist_creation_with_new_name(self):
+    def test_crear_artista_with_new_artist(self):
         result = self.administrar_eventos.crear_artista("New Artist", "Musician")
         self.assertTrue(result)
+        self.assertEqual(self.administrar_eventos.artistas["New Artist"].nombre, "New Artist")
 
-    def test_artist_creation_with_existing_name(self):
-        self.administrar_eventos.crear_artista("Existing Artist", "Musician")
-        result = self.administrar_eventos.crear_artista("Existing Artist", "Musician")
-        self.assertFalse(result)
+    def test_artist_assigned_to_bar_event(self):
+        self.administrar_eventos.crear_bar("Test Bar", "2023-12-31", "18:00", "20:00", "Test Venue", "Test Street",
+                                           "Test City", "Test State", 100, 1000)
+        self.administrar_eventos.crear_artista("Test Artist", "Musician")
+        result = self.administrar_eventos.asignar_artista("Bar", "Test Bar", "Test Artist")
+        self.assertTrue(result)
+
+    def test_multiple_artists_assigned_to_bar_event(self):
+        self.administrar_eventos.crear_bar("Test Bar", "2023-12-31", "18:00", "20:00", "Test Venue", "Test Street",
+                                           "Test City", "Test State", 100, 1000)
+        self.administrar_eventos.crear_artista("Test Artist 1", "Musician")
+        self.administrar_eventos.crear_artista("Test Artist 2", "Musician")
+        result1 = self.administrar_eventos.asignar_artista("Bar", "Test Bar", "Test Artist 1")
+        result2 = self.administrar_eventos.asignar_artista("Bar", "Test Bar", "Test Artist 2")
+        self.assertTrue(result1)
+        self.assertTrue(result2)
+    def test_artist_assigned_to_theatre_event(self):
+        self.administrar_eventos.crear_teatro("Test Theatre", "2023-12-31", "18:00", "20:00", "Test Venue",
+                                              "Test Street",
+                                              "Test City", "Test State", 100, 1000)
+        self.administrar_eventos.crear_artista("Test Artist", "Musician")
+        result = self.administrar_eventos.asignar_artista("Teatro", "Test Theatre", "Test Artist")
+        self.assertTrue(result)
+
+    def test_artist_assigned_to_filantropico_event(self):
+        self.administrar_eventos.crear_filantropico("Test Filantropico", "2023-12-31", "18:00", "20:00", "Test Venue",
+                                                    "Test Street",
+                                                    "Test City", "Test State", 100, ["Test Sponsor"])
+        self.administrar_eventos.crear_artista("Test Artist", "Musician")
+        result = self.administrar_eventos.asignar_artista("filantropico", "Test Filantropico", "Test Artist")
+        self.assertTrue(result)
+
 if __name__ == '__main__':
     unittest.main()

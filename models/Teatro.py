@@ -2,9 +2,10 @@ from models.Evento import Evento  # Importa la clase Evento si ya ha sido conver
 
 class Teatro(Evento):
 
-    def __init__(self, nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo):
+    def __init__(self, nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo, pago_artistas):
         super().__init__(nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo)
         self.costo = 0
+        self.pago_artistas = pago_artistas
 
 
     def get_asistentes(self):
@@ -116,3 +117,7 @@ class Teatro(Evento):
         self.boleteria.append(nueva_boleteria)
     def get_boleteria(self):
         return self.boleteria
+
+    def get_pago_artistas(self):
+        # return the payment for the artists for a bar event
+        return self.pago_artistas

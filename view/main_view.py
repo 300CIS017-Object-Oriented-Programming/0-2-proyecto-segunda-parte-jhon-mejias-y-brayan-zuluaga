@@ -163,7 +163,7 @@ class View():
                 if nombre and fecha and hora_inicio and lugar and direccion and hora_show and ciudad and estado and aforo and patrocinadores:
                     aforo = int(aforo)  # Convertir el aforo a un entero
                     st.session_state['controler'].crear_filantropico(nombre, fecha, hora_inicio, hora_show, lugar,
-                                                                     direccion, ciudad, estado, aforo, patrocinadores)
+                                                                     direccion, ciudad, estado, aforo, patrocinadores, 0)
                     st.success("Evento Filantropico creado exitosamente.")
                 else:
                     st.error("Por favor, llena todas las casillas antes de enviar.")
@@ -187,12 +187,14 @@ class View():
                                       options=["Por realizar", "Realizado", "Cancelado", "Aplazado", "Cerrado"])
                 aforo = st.text_input("Ingrese el aforo del evento: ")
                 costo = st.slider("Valor del alquiler:", min_value=0, max_value=10000, value=5000)
+                pago_artistas = st.slider("Valor a pagar al Artista:", min_value=0, max_value=10000, value=5000,
+                                          key=self.generate_key('unique_keys'))
             submit_button = st.form_submit_button(label='Finalizar')
             if submit_button:
                 if nombre and fecha and hora_inicio and lugar and direccion and hora_show and ciudad and estado and aforo:
                     aforo = int(aforo)  # Convertir el aforo a un entero
                     st.session_state['controler'].crear_teatro(nombre, fecha, hora_inicio, hora_show, lugar, direccion,
-                                                               ciudad, estado, aforo, costo)
+                                                               ciudad, estado, aforo, costo, pago_artistas)
                     st.success("Evento Teatro creado exitosamente.")
                 else:
                     st.error("Por favor, llena todas las casillas antes de enviar.")
@@ -319,7 +321,7 @@ class View():
             tipo_artista = st.text_input("Tipo de artista")
 
         if st.button("Crear"):
-            resultado = st.session_state['controler'].crear_artistas(nombre, tipo_artista)
+            resultado = st.session_state['controler'].crear_artista(nombre, tipo_artista)
             if resultado:
                 st.success("Artista creado exitosamente.")
             else:
@@ -415,22 +417,30 @@ class View():
                                        "Generar Reporte de Compradores", "Generar Reporte de Datos por Artista"])
 
         # Pide al usuario el nombre y tipo del evento
-        nombre_evento = st.text_input("Nombre del evento")
-        tipo_evento = st.selectbox("Tipo de evento", ["Bar", "Teatro", "Filantropico"])
 
-        if st.button("Generar"):
-            if reporte_option == "Generar Reporte de Ventas":
-                # Llama al método para generar el reporte de ventas y muestra los resultados
+
+
+        if reporte_option == "Generar Reporte de Ventas":
+            nombre_evento = st.text_input("Nombre del evento")
+            tipo_evento = st.selectbox("Tipo de evento", ["Bar", "Teatro", "Filantropico"])
+            # Llama al método para generar el reporte de ventas y muestra los resultados
+            if st.button("Generar"):
                 reporte = st.session_state['controler'].generar_reporte_ventas(nombre_evento, tipo_evento)
                 st.write(reporte)
 
-            elif reporte_option == "Generar Reporte Financiero":
-                # Llama al método para generar el reporte financiero y muestra los resultados
+        elif reporte_option == "Generar Reporte Financiero":
+            nombre_evento = st.text_input("Nombre del evento")
+            tipo_evento = st.selectbox("Tipo de evento", ["Bar", "Teatro", "Filantropico"])
+            # Llama al método para generar el reporte financiero y muestra los resultados
+            if st.button("Generar"):
                 df_reporte = st.session_state['controler'].generar_reporte_financiero(nombre_evento, tipo_evento)
                 st.write(df_reporte)
 
-            elif reporte_option == "Generar Reporte de Compradores":
-                # Llama al método para generar el reporte de compradores
+        elif reporte_option == "Generar Reporte de Compradores":
+            nombre_evento = st.text_input("Nombre del evento")
+            tipo_evento = st.selectbox("Tipo de evento", ["Bar", "Teatro", "Filantropico"])
+            # Llama al método para generar el reporte de compradores
+            if st.button("Generar"):
                 df = st.session_state['controler'].generar_reporte_compradores(nombre_evento, tipo_evento)
 
                 # Crear un histograma de las edades de los compradores
@@ -447,9 +457,10 @@ class View():
                 # Después de crear el archivo Excel
                 os.startfile(os.path.realpath("outputs/reporte_compradores.xlsx"))
 
-            elif reporte_option == "Generar Reporte de Datos por Artista":
-                # Pide al usuario el nombre del artista
-                nombre_artista = st.text_input("Nombre del artista")
+        elif reporte_option == "Generar Reporte de Datos por Artista":
+            # Pide al usuario el nombre del artista
+            nombre_artista = st.text_input("Nombre del artista")
+            if st.button("Generar"):
                 # Llama al método para generar el reporte de artistas y muestra los resultados
                 reporte = st.session_state['controler'].generar_reporte_artistas(nombre_artista)
                 st.write(reporte)

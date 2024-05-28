@@ -24,223 +24,21 @@ class AdministrarEventos:
         self.teatros: List[Teatro] = []
         self.artistas: Dict[str, Artista] = {}
         self.boletas_vendidas = {}
-    def fase_ventas(self):
-        """
-        This method is used to update the sales phase of an event. It asks the user for the type and name of the event,
-        and the new sales phase. If the event is found, it updates the sales phase.
-        """
 
-        tipo_evento = input("Ingrese el tipo de evento (bar, teatro, filantropico): ")
-        nombre_evento = input("Ingrese el nombre del evento: ")
-        nueva_fase = input("Ingrese la nueva fase de ventas: ")
-
-        evento_encontrado = False
-        if tipo_evento == "bar":
-            for bar in self.bares:
-                if bar.nombre == nombre_evento:
-                    bar.set_fase_ventas(nueva_fase)
-                    print("La fase de ventas del evento Bar se ha actualizado correctamente.")
-                    evento_encontrado = True
-                    break
-        elif tipo_evento == "teatro":
-            for teatro in self.teatros:
-                if teatro.nombre == nombre_evento:
-                    teatro.set_fase_ventas(nueva_fase)
-                    print("La fase de ventas del evento Teatro se ha actualizado correctamente.")
-                    evento_encontrado = True
-                    break
-        elif tipo_evento == "filantropico":
-            for filantropico in self.filantropicos:
-                if filantropico.nombre == nombre_evento:
-                    filantropico.set_fase_ventas(nueva_fase)
-                    print("La fase de ventas del evento Filantropico se ha actualizado correctamente.")
-                    evento_encontrado = True
-                    break
-
-        if not evento_encontrado:
-            print("Error: El evento no existe.")
-
-    def generar_ventas(self):
-        """
-        This method generates a sales report for a specific event. It asks the user for the type and name of the event.
-        If the event is found, it calculates the income from pre-sale and regular tickets and prints the report.
-        """
-        tipo_evento = input("Ingrese el tipo de evento (Filantropico, Bar o Teatro): ")
-        nombre_evento = input("Ingrese el nombre del evento para generar el reporte de ventas de boletas: ")
-
-        evento_seleccionado = None
-        if tipo_evento.lower() == "filantropico":
-            evento_seleccionado = next((f for f in self.filantropicos if f.nombre == nombre_evento), None)
-        elif tipo_evento.lower() == "bar":
-            evento_seleccionado = next((b for b in self.bares if b.nombre == nombre_evento), None)
-        elif tipo_evento.lower() == "teatro":
-            evento_seleccionado = next((t for t in self.teatros if t.nombre == nombre_evento), None)
-
-        if evento_seleccionado:
-            precio_preventa = evento_seleccionado.precio_preventa
-            precio_regular = evento_seleccionado.precio_regular
-            cantidad_asistentes = evento_seleccionado.cantidad_asistentes()
-
-            ingresos_preventa = cantidad_asistentes * precio_preventa
-            ingresos_regular = cantidad_asistentes * precio_regular
-            ingresos_totales = ingresos_preventa + ingresos_regular
-
-            print("Reporte de Ventas de Boletas para el evento '{}'\n"
-                  "------------------------------------------------------\n"
-                  "Total de boletas vendidas: {}\n"
-                  "Total de ingresos: ${}\n"
-                  "Ingresos por preventa: ${}\n"
-                  "Ingresos por venta regular: ${}".format(nombre_evento, cantidad_asistentes, ingresos_totales,
-                                                            ingresos_preventa, ingresos_regular))
-        else:
-            print("No se encontró ningún evento con el nombre ingresado.")
-
-    def generar_financiero(self):
-        """
-        This method generates a financial report for a specific event. It asks the user for the type and name of the event.
-        If the event is found, it calculates the income from pre-sale and regular tickets, separated by payment method,
-        and prints the report.
-        """
-
-        tipo_evento = input("Ingrese el tipo de evento (Filantropico, Bar o Teatro): ")
-        nombre_evento = input("Ingrese el nombre del evento para generar el reporte financiero: ")
-
-        evento_seleccionado = None
-        if tipo_evento.lower() == "filantropico":
-            evento_seleccionado = next((f for f in self.filantropicos if f.nombre == nombre_evento), None)
-        elif tipo_evento.lower() == "bar":
-            evento_seleccionado = next((b for b in self.bares if b.nombre == nombre_evento), None)
-        elif tipo_evento.lower() == "teatro":
-            evento_seleccionado = next((t for t in self.teatros if t.nombre == nombre_evento), None)
-
-        if evento_seleccionado:
-            ingresos_preventa_efectivo = 0
-            ingresos_preventa_tarjeta = 0
-            ingresos_regular_efectivo = 0
-            ingresos_regular_tarjeta = 0
-
-            for boleteria in evento_seleccionado.boleterias:
-                if boleteria.tipo_boleteria == "preventa":
-                    if boleteria.metodo_pago == "efectivo":
-                        ingresos_preventa_efectivo += boleteria.precio
-                    elif boleteria.metodo_pago == "tarjeta":
-                        ingresos_preventa_tarjeta += boleteria.precio
-                elif boleteria.tipo_boleteria == "regular":
-                    if boleteria.metodo_pago == "efectivo":
-                        ingresos_regular_efectivo += boleteria.precio
-                    elif boleteria.metodo_pago == "tarjeta":
-                        ingresos_regular_tarjeta += boleteria.precio
-
-            print("Reporte Financiero para el evento '{}'\n"
-                  "-----------------------------------------------------------\n"
-                  "Ingresos por tipo de boleteria:\n"
-                  "  - Preventa (Efectivo): ${}\n"
-                  "  - Preventa (Tarjeta): ${}\n"
-                  "  - Regular (Efectivo): ${}\n"
-                  "  - Regular (Tarjeta): ${}".format(nombre_evento, ingresos_preventa_efectivo,
-                                                      ingresos_preventa_tarjeta, ingresos_regular_efectivo,
-                                                      ingresos_regular_tarjeta))
-        else:
-            print("No se encontró ningún evento con el nombre ingresado.")
-
-    def generar_compradores(self):
-        """
-        This method generates a report of the buyers for a specific event. It asks the user for the type and name of the event.
-        If the event is found, it prints the details of each buyer.
-        """
-        tipo_evento = input("Ingrese el tipo de evento (Filantropico, Bar o Teatro): ")
-        tipo_evento = input("Ingrese el tipo de evento (Filantropico, Bar o Teatro): ")
-        nombre_evento = input("Ingrese el nombre del evento para generar el reporte financiero: ")
-
-        evento_seleccionado = None
-        if tipo_evento.lower() == "filantropico":
-            evento_seleccionado = next((f for f in self.filantropicos if f.nombre == nombre_evento), None)
-        elif tipo_evento.lower() == "bar":
-            evento_seleccionado = next((b for b in self.bares if b.nombre == nombre_evento), None)
-        elif tipo_evento.lower() == "teatro":
-            evento_seleccionado = next((t for t in self.teatros if t.nombre == nombre_evento), None)
-
-        if evento_seleccionado:
-            asistentes = evento_seleccionado.asistentes
-
-            print("Reporte de Datos de los Compradores para el evento '{}'\n"
-                  "--------------------------------------------------------------------\n".format(nombre_evento))
-            for asistente in asistentes:
-                print("Nombre: {}\n"
-                      "Apellido: {}\n"
-                      "Edad: {}\n"
-                      "Direccion: {}\n"
-                      "Medio por el que se entero: {}\n".format(asistente.nombre, asistente.apellido,
-                                                                 asistente.edad, asistente.direccion,
-                                                                 asistente.medio_enterado))
-        else:
-            print("No se encontró ningún evento con el nombre ingresado.")
-
-    def generar_artistas(self):
-        # Solicitar al usuario el nombre del artista
-        nombre_artista = input("Ingrese el nombre del artista para generar el reporte de datos por artista: ")
-        porcentaje_aforo = 0.0
-        artista_encontrado = False
-
-        # Iterar sobre los eventos filantrópicos
-        for evento in self.filantropicos:
-            artistas_evento = evento.get_artistas()
-            if nombre_artista in artistas_evento:
-                artista_encontrado = True
-                porcentaje_aforo = (evento.get_personas() / evento.get_aforo()) * 100.0
-                # Mostrar datos relevantes del evento
-                print("Evento:", evento.get_nombre())
-                print("Fecha:", evento.get_fecha())
-                print("Lugar:", evento.get_lugar())
-                print("Cantidad de boletas vendidas:", evento.get_personas())
-                print("Porcentaje de aforo cubierto:", porcentaje_aforo)
-                print()
-
-        # Iterar sobre los eventos de bares
-        for evento in self.bares:
-            artistas_evento = evento.get_artistas()
-            if nombre_artista in artistas_evento:
-                artista_encontrado = True
-                porcentaje_aforo = (evento.get_personas() / evento.get_aforo()) * 100.0
-                # Mostrar datos relevantes del evento
-                print("Evento:", evento.get_nombre())
-                print("Fecha:", evento.get_fecha())
-                print("Lugar:", evento.get_lugar())
-                print("Cantidad de boletas vendidas:", evento.get_personas())
-                print("Porcentaje de aforo cubierto:", porcentaje_aforo)
-                print()
-
-        # Iterar sobre los eventos de teatros
-        for evento in self.teatros:
-            artistas_evento = evento.get_artistas()
-            if nombre_artista in artistas_evento:
-                artista_encontrado = True
-                porcentaje_aforo = (evento.get_personas() / evento.get_aforo()) * 100.0
-                # Mostrar datos relevantes del evento
-                print("Evento:", evento.get_nombre())
-                print("Fecha:", evento.get_fecha())
-                print("Lugar:", evento.get_lugar())
-                print("Cantidad de boletas vendidas:", evento.get_personas())
-                print("Porcentaje de aforo cubierto:", porcentaje_aforo)
-                print()
-
-        # Verificar si se encontró el artista en algún evento
-        if not artista_encontrado:
-            print("No se encontró ningún evento con el artista ingresado.")
 
 
     def crear_bar(self, nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo, pago_artistas):
         bar = Bar(nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo, pago_artistas)
         self.bares.append(bar)
 
-    def crear_teatro(self, nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo, costo):
-        teatro = Teatro(nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo)
+    def crear_teatro(self, nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo, costo, pago_artistas):
+        teatro = Teatro(nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo,pago_artistas)
         teatro.costo = costo
         self.teatros.append(teatro)
 
     def crear_filantropico(self, nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo,
-                           patrocinadores):
-        filantropico = Filantropico(nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo)
+                           patrocinadores, pago_artistas):
+        filantropico = Filantropico(nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo, pago_artistas)
 
         # Dividir el string de patrocinadores en una lista de patrocinadores individuales
         lista_patrocinadores = patrocinadores.split(',')
@@ -397,51 +195,6 @@ class AdministrarEventos:
         else:
             return False
 
-    def crear_artista(self, nombre, tipo_artista):
-        if nombre in self.artistas:
-            return False
-        else:
-            nuevo_artista = Artista(nombre, tipo_artista)
-            self.artistas[nombre] = nuevo_artista
-            return True
-    def asignar_artista(self, tipo_evento, nombre_evento, nombre_artista):
-        evento_encontrado = False
-        if tipo_evento == "bar":
-            for bar in self.bares:
-                if bar.get_nombre() == nombre_evento:
-                    if nombre_artista in self.artistas:
-                        bar.asignar_artista(nombre_artista, self.artistas[nombre_artista])
-                        self.artistas[nombre_artista].agregar_nombre_evento(nombre_evento)
-                        return True
-                    else:
-                        return False
-                    evento_encontrado = True
-                    break
-        elif tipo_evento == "teatro":
-            for teatro in self.teatros:
-                if teatro.get_nombre() == nombre_evento:
-                    if nombre_artista in self.artistas:
-                        teatro.asignar_artista(nombre_artista, self.artistas[nombre_artista])
-                        self.artistas[nombre_artista].agregar_nombre_evento(nombre_evento)
-                        return True
-                    else:
-                        return False
-                    evento_encontrado = True
-                    break
-        elif tipo_evento == "filantropico":
-            for filantropico in self.filantropicos:
-                if filantropico.get_nombre() == nombre_evento:
-                    if nombre_artista in self.artistas:
-                        filantropico.asignar_artista(nombre_artista, self.artistas[nombre_artista])
-                        self.artistas[nombre_artista].agregar_nombre_evento(nombre_evento)
-                        return True
-                    else:
-                        return False
-                    evento_encontrado = True
-                    break
-
-        if not evento_encontrado:
-            return False
 
     def mostrar_detalles_evento(self, tipo_evento, nombre_evento):
         evento_encontrado = None
@@ -488,33 +241,33 @@ class AdministrarEventos:
             self.artistas[nombre] = nuevo_artista
             return True
 
-    def asignar_artistas(self, tipo_evento, nombre_evento, nombre_artista):
+    def asignar_artista(self, tipo_evento, nombre_evento, nombre_artista):
 
-        if tipo_evento == "bar":
+        if tipo_evento == "Bar":
             for bar in self.bares:
                 if bar.get_nombre() == nombre_evento:
                     if nombre_artista in self.artistas:
                         bar.asignar_artista(nombre_artista, self.artistas[nombre_artista])
-                        self.artistas[nombre_artista].agregar_nombre_evento(nombre_evento)
+                        self.artistas[nombre_artista].agregar_evento(tipo_evento, nombre_evento)
                         return True
                     else:
                         return False
 
-        elif tipo_evento == "teatro":
+        elif tipo_evento == "Teatro":
             for teatro in self.teatros:
                 if teatro.get_nombre() == nombre_evento:
                     if nombre_artista in self.artistas:
                         teatro.asignar_artista(nombre_artista, self.artistas[nombre_artista])
-                        self.artistas[nombre_artista].agregar_nombre_evento(nombre_evento)
+                        self.artistas[nombre_artista].agregar_evento(tipo_evento, nombre_evento)
                         return True
                     else:
                         return False
-        elif tipo_evento == "filantropico":
+        elif tipo_evento == "Filantropico":
             for filantropico in self.filantropicos:
                 if filantropico.get_nombre() == nombre_evento:
                     if nombre_artista in self.artistas:
                         filantropico.asignar_artista(nombre_artista, self.artistas[nombre_artista])
-                        self.artistas[nombre_artista].agregar_nombre_evento(nombre_evento)
+                        self.artistas[nombre_artista].agregar_evento(tipo_evento, nombre_evento)
                         return True
                     else:
                         return False
@@ -759,5 +512,54 @@ class AdministrarEventos:
         return df
 
     def generar_reporte_artistas(self, nombre_artista):
-        # Implementa la lógica para generar el reporte de artistas aquí
-        pass
+        # Initialize the report data
+        reporte = {
+            "nombre_artista": nombre_artista,
+            "total_ganado": 0,
+            "eventos_bar": 0,
+            "eventos_teatro": 0,
+            "eventos_filantropico": 0
+        }
+
+        # Check if the artist exists
+        if nombre_artista not in self.artistas:
+            return None
+
+        # Get the artist
+        artista = self.artistas[nombre_artista]
+
+        # Iterate over the artist's events
+        for tipo_evento, nombres_eventos in artista.eventos.items():
+            for nombre_evento in nombres_eventos:
+                # Find the event object corresponding to the event name
+                evento = None
+                if tipo_evento == "Bar":
+                    for bar in self.bares:
+                        if bar.get_nombre() == nombre_evento:
+                            evento = bar
+                            break
+                elif tipo_evento == "Teatro":
+                    for teatro in self.teatros:
+                        if teatro.get_nombre() == nombre_evento:
+                            evento = teatro
+                            break
+                elif tipo_evento == "Filantropico":
+                    for filantropico in self.filantropicos:
+                        if filantropico.get_nombre() == nombre_evento:
+                            evento = filantropico
+                            break
+
+                # If the event object is found, add its payment to the total
+                if evento is not None:
+                    reporte["total_ganado"] += evento.get_pago_artistas()
+                    if tipo_evento == "Bar":
+                        reporte["eventos_bar"] += 1
+                    elif tipo_evento == "Teatro":
+                        reporte["eventos_teatro"] += 1
+                    elif tipo_evento == "Filantropico":
+                        reporte["eventos_filantropico"] += 1
+
+        # Convert the report data to a DataFrame
+        df_reporte = pd.DataFrame([reporte])
+
+        return df_reporte

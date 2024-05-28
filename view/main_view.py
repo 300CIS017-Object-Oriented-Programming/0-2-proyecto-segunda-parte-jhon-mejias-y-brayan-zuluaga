@@ -156,6 +156,8 @@ class View():
                 estado = st.selectbox("Estado del evento:",
                                       options=["Por realizar", "Realizado", "Cancelado", "Aplazado", "Cerrado"],key=self.generate_key('unique_keys'))
                 aforo = st.text_input("Ingrese el aforo del evento: ",key=self.generate_key('unique_keys'))
+                pago_artistas = st.slider("Valor a pagar al Artista:", min_value=0, max_value=10000, value=5000,
+                                          key=self.generate_key('unique_keys'))
                 patrocinadores = st.text_input(
                     "Ingrese los patrocinadores del evento: ",key=self.generate_key('unique_keys'))  # Nuevo campo para patrocinadores
             submit_button = st.form_submit_button(label='Finalizar')
@@ -163,7 +165,7 @@ class View():
                 if nombre and fecha and hora_inicio and lugar and direccion and hora_show and ciudad and estado and aforo and patrocinadores:
                     aforo = int(aforo)  # Convertir el aforo a un entero
                     st.session_state['controler'].crear_filantropico(nombre, fecha, hora_inicio, hora_show, lugar,
-                                                                     direccion, ciudad, estado, aforo, patrocinadores, 0)
+                                                                     direccion, ciudad, estado, aforo, patrocinadores, pago_artistas)
                     st.success("Evento Filantropico creado exitosamente.")
                 else:
                     st.error("Por favor, llena todas las casillas antes de enviar.")

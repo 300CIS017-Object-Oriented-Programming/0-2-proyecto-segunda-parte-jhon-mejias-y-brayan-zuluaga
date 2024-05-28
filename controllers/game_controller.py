@@ -220,18 +220,7 @@ class AdministrarEventos:
         else:
             return None
 
-    def imprimir_eventos(self):
-        print("Eventos de tipo Bar:")
-        for bar in self.bares:
-            print(bar.get_nombre())
 
-        print("Eventos de tipo Teatro:")
-        for teatro in self.teatros:
-            print(teatro.get_nombre())
-
-        print("Eventos de tipo Filantropico:")
-        for filantropico in self.filantropicos:
-            print(filantropico.get_nombre())
 
     def crear_artista(self, nombre, tipo_artista):
         if nombre in self.artistas:

@@ -4,7 +4,7 @@ class Filantropico(Evento):
     def __init__(self, nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo, pago_artistas):
         super().__init__(nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo)
         self.patrocinadores = {}  # Un diccionario vacío para almacenar los patrocinadores y sus valores
-        self.pago_artistas = 0
+        self.pago_artistas = pago_artistas
 
     def agregar_patrocinador(self, patrocinador):
         # Agregar el patrocinador al diccionario de patrocinadores

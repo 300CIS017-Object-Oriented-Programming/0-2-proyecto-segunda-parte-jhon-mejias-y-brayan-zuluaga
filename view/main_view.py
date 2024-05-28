@@ -410,49 +410,49 @@ class View():
     def mostrar_reportes(self):
         st.title("Reportes")
 
-        if st.button("Generar Reporte de Ventas"):
-            # Pide al usuario el nombre y tipo del evento
-            nombre_evento = st.text_input("Nombre del evento")
-            tipo_evento = st.selectbox("Tipo de evento", ["Bar", "Teatro", "Filantropico"])
-            # Llama al método para generar el reporte de ventas y muestra los resultados
-            reporte = st.session_state['controler'].generar_reporte_ventas(nombre_evento, tipo_evento)
-            st.write(reporte)
+        reporte_option = st.selectbox("Seleccione el tipo de reporte",
+                                      ["Generar Reporte de Ventas", "Generar Reporte Financiero",
+                                       "Generar Reporte de Compradores", "Generar Reporte de Datos por Artista"])
 
-        if st.button("Generar Reporte Financiero"):
-            # Pide al usuario el nombre y tipo del evento
-            nombre_evento = st.text_input("Nombre del evento")
-            tipo_evento = st.selectbox("Tipo de evento", ["Bar", "Teatro", "Filantropico"])
-            # Llama al método para generar el reporte financiero y muestra los resultados
-            df_reporte = st.session_state['controler'].generar_reporte_financiero(nombre_evento, tipo_evento)
-            st.write(df_reporte)
+        # Pide al usuario el nombre y tipo del evento
+        nombre_evento = st.text_input("Nombre del evento")
+        tipo_evento = st.selectbox("Tipo de evento", ["Bar", "Teatro", "Filantropico"])
 
-        if st.button("Generar Reporte de Compradores"):
-            # Pide al usuario el nombre y tipo del evento
-            nombre_evento = st.text_input("Nombre del evento")
-            tipo_evento = st.selectbox("Tipo de evento", ["Bar", "Teatro", "Filantropico"])
-            # Llama al método para generar el reporte de compradores
-            df = st.session_state['controler'].generar_reporte_compradores(nombre_evento, tipo_evento)
+        if st.button("Generar"):
+            if reporte_option == "Generar Reporte de Ventas":
+                # Llama al método para generar el reporte de ventas y muestra los resultados
+                reporte = st.session_state['controler'].generar_reporte_ventas(nombre_evento, tipo_evento)
+                st.write(reporte)
 
-            # Crear un histograma de las edades de los compradores
-            fig1 = px.histogram(df, x="Edad", nbins=10, title="Distribución de Edades de los Compradores")
-            st.plotly_chart(fig1)
+            elif reporte_option == "Generar Reporte Financiero":
+                # Llama al método para generar el reporte financiero y muestra los resultados
+                df_reporte = st.session_state['controler'].generar_reporte_financiero(nombre_evento, tipo_evento)
+                st.write(df_reporte)
 
-            # Crear un gráfico de barras de los medios por los cuales los compradores se enteraron del evento
-            fig2 = px.bar(df["Medio Enterado"].value_counts(),
-                          title="Medios por los que los Compradores se Enteraron del Evento")
-            st.plotly_chart(fig2)
+            elif reporte_option == "Generar Reporte de Compradores":
+                # Llama al método para generar el reporte de compradores
+                df = st.session_state['controler'].generar_reporte_compradores(nombre_evento, tipo_evento)
 
-            # Exportar los datos a un archivo Excel
-            df.to_excel("outputs/reporte_compradores.xlsx", index=False)
-            # Después de crear el archivo Excel
-            os.startfile(os.path.realpath("outputs/reporte_compradores.xlsx"))
+                # Crear un histograma de las edades de los compradores
+                fig1 = px.histogram(df, x="Edad", nbins=10, title="Distribución de Edades de los Compradores")
+                st.plotly_chart(fig1)
 
-        if st.button("Generar Reporte de Datos por Artista"):
-            # Pide al usuario el nombre del artista
-            nombre_artista = st.text_input("Nombre del artista")
-            # Llama al método para generar el reporte de artistas y muestra los resultados
-            reporte = st.session_state['controler'].generar_reporte_artistas(nombre_artista)
-            st.write(reporte)
+                # Crear un gráfico de barras de los medios por los cuales los compradores se enteraron del evento
+                fig2 = px.bar(df["Medio Enterado"].value_counts(),
+                              title="Medios por los que los Compradores se Enteraron del Evento")
+                st.plotly_chart(fig2)
+
+                # Exportar los datos a un archivo Excel
+                df.to_excel("outputs/reporte_compradores.xlsx", index=False)
+                # Después de crear el archivo Excel
+                os.startfile(os.path.realpath("outputs/reporte_compradores.xlsx"))
+
+            elif reporte_option == "Generar Reporte de Datos por Artista":
+                # Pide al usuario el nombre del artista
+                nombre_artista = st.text_input("Nombre del artista")
+                # Llama al método para generar el reporte de artistas y muestra los resultados
+                reporte = st.session_state['controler'].generar_reporte_artistas(nombre_artista)
+                st.write(reporte)
 
         if st.button("Atrás"):
             # Vuelve al menú principal

@@ -124,8 +124,9 @@ class View():
                 hora_show = st.time_input("Ingrese la hora del show: ", key=self.generate_key('unique_keys'))
                 ciudad = st.text_input("Ingrese la ciudad del evento: ",key=self.generate_key('unique_keys'))
                 estado = st.selectbox("Estado del evento:",options=["Por realizar","Realizado" , "Cancelado", "Aplazado", "Cerrado"],key=self.generate_key('unique_keys'))
-                aforo = st.text_input("Ingrese el aforo del evento: ",key=self.generate_key('unique_keys'))
-                pago_artistas = st.slider("Valor a pagar al Artista:", min_value=0, max_value=10000,value=5000, key=self.generate_key('unique_keys'))
+                aforo = st.number_input("Ingrese el aforo del evento", min_value=0, value=1, key=self.generate_key('unique_keys'))
+                pago_artistas = st.number_input("Valor a pagar al Artista:", min_value=0, value=5000,
+                                                key=self.generate_key('unique_keys'))
             submit_button = st.form_submit_button(label='Finalizar')
             if submit_button:
                 # Verificar que todas las casillas estén llenas
@@ -155,9 +156,9 @@ class View():
                 ciudad = st.text_input("Ingrese la ciudad del evento: ",key=self.generate_key('unique_keys'))
                 estado = st.selectbox("Estado del evento:",
                                       options=["Por realizar", "Realizado", "Cancelado", "Aplazado", "Cerrado"],key=self.generate_key('unique_keys'))
-                aforo = st.text_input("Ingrese el aforo del evento: ",key=self.generate_key('unique_keys'))
-                pago_artistas = st.slider("Valor a pagar al Artista:", min_value=0, max_value=10000, value=5000,
-                                          key=self.generate_key('unique_keys'))
+                aforo = st.number_input("Ingrese el aforo del evento", min_value=0, value=1, key=self.generate_key('unique_keys'))
+                pago_artistas = st.number_input("Valor a pagar al Artista:", min_value=0, value=5000,
+                                                key=self.generate_key('unique_keys'))
                 patrocinadores = st.text_input(
                     "Ingrese los patrocinadores del evento: ",key=self.generate_key('unique_keys'))  # Nuevo campo para patrocinadores
             submit_button = st.form_submit_button(label='Finalizar')
@@ -187,10 +188,11 @@ class View():
                 ciudad = st.text_input("Ingrese la ciudad del evento: ")
                 estado = st.selectbox("Estado del evento:",
                                       options=["Por realizar", "Realizado", "Cancelado", "Aplazado", "Cerrado"])
-                aforo = st.text_input("Ingrese el aforo del evento: ")
-                costo = st.slider("Valor del alquiler:", min_value=0, max_value=10000, value=5000)
-                pago_artistas = st.slider("Valor a pagar al Artista:", min_value=0, max_value=10000, value=5000,
-                                          key=self.generate_key('unique_keys'))
+                aforo = st.number_input("Ingrese el aforo del evento", min_value=0, value=1, key=self.generate_key('unique_keys'))
+                costo = st.number_input("Valor a pagar de alquiler:", min_value=0, value=100000,
+                                                key=self.generate_key('unique_keys'))
+                pago_artistas = st.number_input("Valor a pagar al Artista:", min_value=0, value=500000,
+                                                key=self.generate_key('unique_keys'))
             submit_button = st.form_submit_button(label='Finalizar')
             if submit_button:
                 if nombre and fecha and hora_inicio and lugar and direccion and hora_show and ciudad and estado and aforo:
@@ -275,7 +277,7 @@ class View():
             apellido_asistente = st.text_input("Apellido del asistente")
             edad = st.number_input("Edad del asistente", min_value=1, step=1)
             direccion = st.text_input("Dirección del asistente")
-            medio_enterado = st.text_input("¿Cómo se enteró del evento?")
+            medio_enterado = st.selectbox("¿Cómo se enteró del evento?", ["Internet", "Radio", "Televisión", "Amigos/Familia", "Otros"])
             tipo_boleteria = st.selectbox("Tipo de boleteria", ["preventa", "regular","cortesia"])
             # Mostrar el precio de la boleta tan pronto como el usuario seleccione el tipo de boletería
             precio = st.session_state['controler'].precio_boleta(tipo_boleteria)

@@ -28,16 +28,82 @@ class AdministrarEventos:
 
 
     def crear_bar(self, nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo, pago_artistas):
+
+        """
+        Creates a new bar event and adds it to the list of bar events.
+
+        This function creates a new bar event with the given details, including the name, date, start time, show time, venue, address, city, state, capacity, and artist payment. The new event is then added to the list of bar events.
+
+        Parameters:
+        nombre (str): The name of the event.
+        fecha (str): The date of the event.
+        hora_inicio (str): The start time of the event.
+        hora_show (str): The show time of the event.
+        lugar (str): The venue of the event.
+        direccion (str): The address of the event venue.
+        ciudad (str): The city where the event is taking place.
+        estado (str): The state where the event is taking place.
+        aforo (int): The capacity of the event.
+        pago_artistas (float): The payment for the artists for the event.
+
+        Returns:
+        None
+        """
+
         bar = Bar(nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo, pago_artistas)
         self.bares.append(bar)
 
     def crear_teatro(self, nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo, costo, pago_artistas):
+
+        """
+        Creates a new theater event and adds it to the list of theater events.
+
+        This function creates a new theater event with the given details, including the name, date, start time, show time, venue, address, city, state, capacity, cost, and artist payment. The new event is then added to the list of theater events.
+
+        Parameters:
+        nombre (str): The name of the event.
+        fecha (str): The date of the event.
+        hora_inicio (str): The start time of the event.
+        hora_show (str): The show time of the event.
+        lugar (str): The venue of the event.
+        direccion (str): The address of the event venue.
+        ciudad (str): The city where the event is taking place.
+        estado (str): The state where the event is taking place.
+        aforo (int): The capacity of the event.
+        costo (float): The cost of the event.
+        pago_artistas (float): The payment for the artists for the event.
+
+        Returns:
+        None
+        """
+
         teatro = Teatro(nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo,pago_artistas)
         teatro.costo = costo
         self.teatros.append(teatro)
 
     def crear_filantropico(self, nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo,
                            patrocinadores, pago_artistas):
+        """
+        Creates a new philanthropic event and adds it to the list of philanthropic events.
+
+        This function creates a new philanthropic event with the given details, including the name, date, start time, show time, venue, address, city, state, capacity, sponsors, and artist payment. The sponsors are given as a string and are split into individual sponsors, which are added to the event's list of sponsors. The new event is then added to the list of philanthropic events.
+
+        Parameters:
+        nombre (str): The name of the event.
+        fecha (str): The date of the event.
+        hora_inicio (str): The start time of the event.
+        hora_show (str): The show time of the event.
+        lugar (str): The venue of the event.
+        direccion (str): The address of the event venue.
+        ciudad (str): The city where the event is taking place.
+        estado (str): The state where the event is taking place.
+        aforo (int): The capacity of the event.
+        patrocinadores (str): The sponsors of the event, given as a string with individual sponsors separated by commas.
+        pago_artistas (float): The payment for the artists for the event.
+
+        Returns:
+        None
+        """
         filantropico = Filantropico(nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo, pago_artistas)
 
         # Dividir el string de patrocinadores en una lista de patrocinadores individuales
@@ -52,6 +118,19 @@ class AdministrarEventos:
 
 
     def editar_evento(self):
+
+        """
+        Edits the details of an existing event.
+
+        This function first asks the user to input the type and name of the event to be edited. It then iterates over the list of events of the given type. If it finds an event with the given name, it asks the user to input the new details of the event, and updates the event with these new details. If no matching event is found, it prints an error message.
+
+        Parameters:
+        None
+
+        Returns:
+        None
+        """
+
         tipo_evento = input("Ingrese el tipo de evento a editar (bar, teatro, filantropico): ")
         nombre_evento = input("Ingrese el nombre del evento a editar: ")
 
@@ -143,6 +222,19 @@ class AdministrarEventos:
 
     def eliminar_evento(self, tipo_evento, nombre_evento):
 
+        """
+        Deletes an event from the list of events.
+
+        This function iterates over the list of events of the given type. If it finds an event with the given name, it removes the event from the list and returns True. If no matching event is found, it does nothing and returns False.
+
+        Parameters:
+        tipo_evento (str): The type of the event (Bar, Theater, Philanthropic).
+        nombre_evento (str): The name of the event.
+
+        Returns:
+        bool: True if the event was successfully deleted, False otherwise.
+        """
+
         if tipo_evento.lower() == "bar":
             for i, bar in enumerate(self.bares):
                 if bar.get_nombre() == nombre_evento:
@@ -160,6 +252,28 @@ class AdministrarEventos:
                     return True
 
     def vender_boletas(self, tipo_evento, nombre_evento, nombre_asistente, apellido_asistente, edad, direccion, medio_enterado, tipo_boleteria, metodo_pago, cantidad_boletas):
+
+        """
+        Sells tickets for a specific event to an attendee.
+
+        This function first identifies the event by its type and name. If the event is found and there is enough capacity for the number of tickets being bought, it creates an attendee with the given details, adds the attendee to the event, and sells the specified number of tickets to the attendee. The function returns True if the tickets were successfully sold, and False otherwise.
+
+        Parameters:
+        tipo_evento (str): The type of the event (Filantropico, Bar, Teatro).
+        nombre_evento (str): The name of the event.
+        nombre_asistente (str): The name of the attendee.
+        apellido_asistente (str): The surname of the attendee.
+        edad (int): The age of the attendee.
+        direccion (str): The address of the attendee.
+        medio_enterado (str): How the attendee heard about the event.
+        tipo_boleteria (str): The type of ticket being bought by the attendee.
+        metodo_pago (str): The payment method used by the attendee.
+        cantidad_boletas (int): The number of tickets being bought by the attendee.
+
+        Returns:
+        bool: True if the tickets were successfully sold, False otherwise.
+        """
+
         evento_seleccionado = None
         if tipo_evento == "Filantropico":
             for evento in self.filantropicos:
@@ -197,6 +311,20 @@ class AdministrarEventos:
 
 
     def mostrar_detalles_evento(self, tipo_evento, nombre_evento):
+
+        """
+        Searches for an event by its type and name and returns its details.
+
+        This function iterates over the list of events of the given type. If it finds an event with the given name, it returns the details of the event. If no matching event is found, it returns None.
+
+        Parameters:
+        tipo_evento (str): The type of the event (bar, teatro, filantropico).
+        nombre_evento (str): The name of the event.
+
+        Returns:
+        str: The details of the event if found, None otherwise.
+        """
+
         evento_encontrado = None
 
         if tipo_evento.lower() == "bar":
@@ -223,6 +351,20 @@ class AdministrarEventos:
 
 
     def crear_artista(self, nombre, tipo_artista):
+
+        """
+        Creates a new artist and adds them to the list of artists.
+
+        This function checks if an artist with the given name already exists. If the artist exists, it returns False. If the artist does not exist, it creates a new artist with the given name and type, adds the artist to the list of artists, and returns True.
+
+        Parameters:
+        nombre (str): The name of the artist.
+        tipo_artista (str): The type of the artist.
+
+        Returns:
+        bool: True if the artist was successfully created and added, False otherwise.
+        """
+
         if nombre in self.artistas:
             return False
         else:
@@ -231,6 +373,19 @@ class AdministrarEventos:
             return True
 
     def asignar_artista(self, tipo_evento, nombre_evento, nombre_artista):
+        """
+        Assigns an artist to an event.
+
+        This function iterates over the list of events of the given type. If it finds an event with the given name, it checks if the artist exists. If the artist exists, it assigns the artist to the event and adds the event to the artist's list of events. The function returns True if the artist was successfully assigned, and False otherwise.
+
+        Parameters:
+        tipo_evento (str): The type of the event (Bar, Theater, Philanthropic).
+        nombre_evento (str): The name of the event.
+        nombre_artista (str): The name of the artist.
+
+        Returns:
+        bool: True if the artist was successfully assigned, False otherwise.
+        """
 
         if tipo_evento == "Bar":
             for bar in self.bares:
@@ -263,6 +418,19 @@ class AdministrarEventos:
 
 
     def imprimir_eventos(self):
+
+        """
+        Prints the names of all events categorized by their type.
+
+        This function iterates over the lists of events of each type (Bar, Theater, Philanthropic) and prints the name of each event. The names are printed to the console.
+
+        Parameters:
+        None
+
+        Returns:
+        None
+        """
+
         print("Eventos de tipo Bar:")
         for bar in self.bares:
             print(bar.get_nombre())
@@ -275,6 +443,19 @@ class AdministrarEventos:
         for filantropico in self.filantropicos:
             print(filantropico.get_nombre())
     def precio_boleta(self, tipo_boleteria):
+
+        """
+        Determines the price of a ticket based on its type.
+
+        This function returns the price of a ticket based on its type. The types of tickets can be "preventa", "regular", or "cortesia". If the type of ticket is not recognized, the function returns None.
+
+        Parameters:
+        tipo_boleteria (str): The type of the ticket.
+
+        Returns:
+        int: The price of the ticket if the type is recognized, None otherwise.
+        """
+
         if tipo_boleteria == "preventa":
             return 5000
         elif tipo_boleteria == "regular":
@@ -287,7 +468,37 @@ class AdministrarEventos:
     def generar_boleta(self, nombre_asistente, apellido_asistente, edad, direccion_asistente, medio_enterado,
                        tipo_boleteria, cantidad_boletas, total, nombre_evento, fecha, hora_inicio, lugar,
                        direccion_evento, hora_show, ciudad, estado, aforo, tipo_evento):
+            """
+           Generates a ticket for an event.
+
+           This function creates a PDF ticket for an event with the details of the attendee, the event, and the purchase. The ticket includes the attendee's name, age, address, how they heard about the event, the type of ticket they bought, and the total amount paid. The event details include the name, date, start time, show time, venue, address, city, state, capacity, and type of the event. The ticket is saved as a PDF file and opened in a new browser tab.
+
+           Parameters:
+           nombre_asistente (str): The name of the attendee.
+           apellido_asistente (str): The surname of the attendee.
+           edad (int): The age of the attendee.
+           direccion_asistente (str): The address of the attendee.
+           medio_enterado (str): How the attendee heard about the event.
+           tipo_boleteria (str): The type of ticket bought by the attendee.
+           cantidad_boletas (int): The number of tickets bought by the attendee.
+           total (float): The total amount paid by the attendee.
+           nombre_evento (str): The name of the event.
+           fecha (str): The date of the event.
+           hora_inicio (str): The start time of the event.
+           lugar (str): The venue of the event.
+           direccion_evento (str): The address of the event venue.
+           hora_show (str): The show time of the event.
+           ciudad (str): The city where the event is taking place.
+           estado (str): The state where the event is taking place.
+           aforo (int): The capacity of the event.
+           tipo_evento (str): The type of the event (Bar, Theater, Philanthropic).
+
+           Returns:
+           None
+           """
+
             c = canvas.Canvas("outputs/boleta.pdf", pagesize=letter)
+
             width, height = letter
 
             # Define las posiciones x para las columnas
@@ -331,21 +542,49 @@ class AdministrarEventos:
 
 
     def buscar_evento(self, tipo_evento, nombre_evento):
-        if tipo_evento.lower() == "filantropico":
+
+        """
+        Searches for an event by its type and name.
+
+        This function iterates over the list of events of the given type. If it finds an event with the given name, it returns the event. If no matching event is found, it returns None.
+
+        Parameters:
+        tipo_evento (str): The type of the event (Bar, Theater, Philanthropic).
+        nombre_evento (str): The name of the event.
+
+        Returns:
+        Evento: The event object if found, None otherwise.
+        """
+
+        if tipo_evento == "Filantropico":
             for evento in self.filantropicos:
                 if evento.get_nombre() == nombre_evento:
                     return evento
-        elif tipo_evento.lower() == "bar":
+        elif tipo_evento == "Bar":
             for evento in self.bares:
                 if evento.get_nombre() == nombre_evento:
                     return evento
-        elif tipo_evento.lower() == "teatro":
+        elif tipo_evento == "Teatro":
             for evento in self.teatros:
                 if evento.get_nombre() == nombre_evento:
                     return evento
         return None
 
     def registrar_ingreso(self, nombre_evento, tipo_evento, nombre_asistente):
+        """
+        Registers the attendance of an attendee to an event.
+
+        This function checks the type of the event and iterates over the list of events of that type. If it finds an event with the given name, it iterates over the attendees of the event. If it finds an attendee with the given name, it confirms their attendance and returns True. If no matching event or attendee is found, it returns False.
+
+        Parameters:
+        nombre_evento (str): The name of the event.
+        tipo_evento (str): The type of the event (Bar, Theater, Philanthropic).
+        nombre_asistente (str): The name of the attendee.
+
+        Returns:
+        bool: True if the attendance was successfully registered, False otherwise.
+        """
+
         if tipo_evento == "Filantropico":
             for filantropico in self.filantropicos:
                 if filantropico.get_nombre() == nombre_evento:
@@ -374,6 +613,20 @@ class AdministrarEventos:
         return self.boletas_vendidas
 
     def generar_reporte_ventas(self, nombre_evento, tipo_evento):
+
+        """
+        Generates a sales report for a specific event.
+
+        This function creates a report containing the number of tickets sold (categorized by ticket type) and the total income from ticket sales for a specific event. The report is returned as a pandas DataFrame.
+
+        Parameters:
+        nombre_evento (str): The name of the event for which the report is to be generated.
+        tipo_evento (str): The type of the event (Bar, Theater, Philanthropic).
+
+        Returns:
+        df_reporte (DataFrame): A pandas DataFrame containing the report data.
+        """
+
         # Crear una lista vacía para almacenar los datos del reporte
         reporte = []
 
@@ -418,6 +671,20 @@ class AdministrarEventos:
         return df_reporte
 
     def generar_reporte_financiero(self, nombre_evento, tipo_evento):
+
+        """
+        Generates a financial report for a specific event.
+
+        This function creates a report containing various financial details for a specific event. The report includes the total income from ticket sales (categorized by ticket type and payment method), total payments to artists, rental payments, gross profit, retained earnings, and net profit. The report is returned as a pandas DataFrame.
+
+        Parameters:
+        nombre_evento (str): The name of the event for which the report is to be generated.
+        tipo_evento (str): The type of the event (Bar, Theater, Philanthropic).
+
+        Returns:
+        df_reporte (DataFrame): A pandas DataFrame containing the report data.
+        """
+
         # Crear un diccionario para almacenar los datos del reporte
         reporte = {
             "preventa_efectivo": 0,
@@ -495,6 +762,20 @@ class AdministrarEventos:
         return df_reporte
 
     def generar_reporte_compradores(self, nombre_evento, tipo_evento):
+
+        """
+        Generates a report of buyers for a specific event.
+
+        This function creates a report containing the details of each buyer for a specific event. The report includes the buyer's name, age, address, how they heard about the event, the type of ticket they bought, and whether their attendance has been confirmed. The report is returned as a pandas DataFrame.
+
+        Parameters:
+        nombre_evento (str): The name of the event for which the report is to be generated.
+        tipo_evento (str): The type of the event (Bar, Theater, Philanthropic).
+
+        Returns:
+        df (DataFrame): A pandas DataFrame containing the report data.
+        """
+
         # Crear una lista para almacenar los datos de cada comprador
         datos = []
 
@@ -526,13 +807,27 @@ class AdministrarEventos:
                      asistente.get_medio_enterado(), asistente.get_boletas_compradas(), asistente.get_confirmacion()])
 
         # Crear un DataFrame con los datos
-        df = pd.DataFrame(datos, columns=["Nombre", "Apellido", "Edad", "Direccion", "Medio Enterado", "Boletas compradas", "Confirmacion"])
+        df = pd.DataFrame(datos, columns=["Nombre", "Apellido", "Edad", "Direccion", "Medio Enterado", "Boletas compradas", "Asistencia confirmada"])
 
         # Devolver el DataFrame
         return df
 
     def generar_reporte_artistas(self, nombre_artista):
         # Initialize the report data
+        """
+        Generates a report for a given artist.
+
+        This function creates a report containing the total payment received by the artist and the number of events
+        the artist has participated in, categorized by event type (Bar, Theater, Philanthropic). The report is returned
+        as a pandas DataFrame.
+
+        Parameters:
+        nombre_artista (str): The name of the artist for whom the report is to be generated.
+
+        Returns:
+        df_reporte (DataFrame): A pandas DataFrame containing the report data.
+        """
+
         reporte = {
             "nombre_artista": nombre_artista,
             "total_por_pago": 0,

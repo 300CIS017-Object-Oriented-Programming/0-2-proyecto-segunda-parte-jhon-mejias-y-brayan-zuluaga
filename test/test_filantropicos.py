@@ -4,7 +4,7 @@ from models.Filantropico import Filantropico
 
 class TestFilantropico(unittest.TestCase):
     def setUp(self):
-        self.filantropico = Filantropico("Test Filantropico", "2023-12-31", "18:00", "20:00", "Test Venue", "Test Street", "Test City", "Test State", 100)
+        self.filantropico = Filantropico("Test Filantropico", "2023-12-31", "18:00", "20:00", "Test Venue", "Test Street", "Test City", "Test State", 100, 5000)
 
     def test_filantropico_name_change(self):
         self.filantropico.set_nombre("New Name")

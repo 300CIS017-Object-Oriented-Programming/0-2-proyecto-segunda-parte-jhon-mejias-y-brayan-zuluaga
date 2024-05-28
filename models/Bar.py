@@ -112,3 +112,5 @@ class Bar(Evento):
 
     def get_pago_alquiler(self):
         return 0
+    
+

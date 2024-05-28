@@ -116,3 +116,6 @@ class Filantropico(Evento):
     def get_pago_artistas(self):
         # return the payment for the artists for a bar event
         return self.pago_artistas
+
+    def get_pago_alquiler(self):
+        return 0

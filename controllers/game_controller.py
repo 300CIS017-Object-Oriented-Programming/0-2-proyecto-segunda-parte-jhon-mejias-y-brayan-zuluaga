@@ -416,12 +416,25 @@ class AdministrarEventos:
 
         # Retornar el DataFrame
         return df_reporte
+
     def generar_reporte_financiero(self, nombre_evento, tipo_evento):
         # Crear un diccionario para almacenar los datos del reporte
-        reporte = {"preventa_efectivo": 0, "preventa_tarjeta": 0, "regular_efectivo": 0, "regular_tarjeta": 0, "ingresos_totales": 0}
+        reporte = {
+            "preventa_efectivo": 0,
+            "preventa_tarjeta": 0,
+            "regular_efectivo": 0,
+            "regular_tarjeta": 0,
+            "ingresos_totales": 0,
+            "pago_artistas": 0,
+            "pago_alquiler": 0,
+            "utilidad_bruta": 0,
+            "utilidad_retenida": 0,
+            "utilidad_neta": 0
+        }
 
         # Seleccionar la lista de eventos según el tipo de evento
         eventos = []
+
         if tipo_evento == "Bar":
             eventos = self.bares
         elif tipo_evento == "Teatro":
@@ -455,7 +468,24 @@ class AdministrarEventos:
                 elif tipo_boleteria == "regular" and metodo_pago == "tarjeta":
                     reporte["regular_tarjeta"] += self.precio_boleta("regular")
 
-            reporte["ingresos_totales"] += sum(reporte.values())
+            # Sumar los pagos a los artistas y el alquiler del lugar
+
+
+            # Calcular los ingresos totales
+            reporte["ingresos_totales"] = sum(reporte.values())
+
+            reporte["pago_artistas"] = evento_seleccionado.get_pago_artistas()
+            reporte["pago_alquiler"] = evento_seleccionado.get_pago_alquiler()
+            # Calcular la utilidad bruta
+            reporte["utilidad_bruta"] = reporte["ingresos_totales"] - reporte["pago_artistas"] - reporte[
+                "pago_alquiler"]
+
+            # Calcular la utilidad retenida y la utilidad neta
+            if tipo_evento == "Bar":
+                reporte["utilidad_retenida"] = reporte["utilidad_bruta"] * 0.20
+            elif tipo_evento == "Teatro":
+                reporte["utilidad_retenida"] = reporte["utilidad_bruta"] * 0.07
+            reporte["utilidad_neta"] = reporte["utilidad_bruta"] - reporte["utilidad_retenida"]
 
         # Convertir el reporte a un DataFrame de pandas
         df_reporte = pd.DataFrame([reporte])
@@ -504,7 +534,7 @@ class AdministrarEventos:
         # Initialize the report data
         reporte = {
             "nombre_artista": nombre_artista,
-            "total_ganado": 0,
+            "total_por_pago": 0,
             "eventos_bar": 0,
             "eventos_teatro": 0,
             "eventos_filantropico": 0
@@ -540,7 +570,7 @@ class AdministrarEventos:
 
                 # If the event object is found, add its payment to the total
                 if evento is not None:
-                    reporte["total_ganado"] += evento.get_pago_artistas()
+                    reporte["total_por_pago"] += evento.get_pago_artistas()
                     if tipo_evento == "Bar":
                         reporte["eventos_bar"] += 1
                     elif tipo_evento == "Teatro":

@@ -146,13 +146,23 @@ class View():
         tipo_evento = st.selectbox("Seleccione el tipo de evento", ["Bar", "Teatro", "Filantropico"])
         nombre_evento = st.text_input("Ingrese el nombre del evento a modificar")
 
+        # Retrieve the event from the controller
+        evento = st.session_state['controler'].buscar_evento(tipo_evento, nombre_evento)
+        if evento is not None:
+            # Get the current capacity of the event
+            aforo_actual = evento.get_aforo()
+        else:
+            st.error(f"No se encontró ningún evento con el nombre {nombre_evento}.")
+            return
+
         with st.form(key='modificar_evento_form'):
             nueva_fecha = st.date_input("Nueva fecha del evento")
             nueva_hora_inicio = st.time_input("Nueva hora de inicio del evento")
             nuevo_estado = st.selectbox("Nuevo estado del evento",
                                         options=["Por realizar", "Realizado", "Cancelado", "Aplazado",
                                                  "Cerrado"])
-            nuevo_aforo = st.number_input("Nuevo aforo del evento", min_value=0, value=1)
+            # Use the current capacity as the initial value for the number input
+            nuevo_aforo = st.number_input("Nuevo aforo del evento", min_value=0, value=aforo_actual)
             if st.form_submit_button(label='Modificar Evento'):
                 result = st.session_state['controler'].modificar_evento(tipo_evento, nombre_evento, nueva_fecha,
                                                                         nueva_hora_inicio, nuevo_estado, nuevo_aforo)
@@ -160,6 +170,7 @@ class View():
                     st.success("Evento modificado exitosamente.")
                 else:
                     st.error(f"No se encontró ningún evento con el nombre {nombre_evento} o no se pudo modificar.")
+
         if st.button("Atrás"):
             st.session_state['gui_view'].desactivate_editando_evento()
             st.session_state['gui_view'].activate_menu()
@@ -516,7 +527,7 @@ class View():
             nombre_evento = st.text_input("Nombre del evento")
         with col2:
             nombre_patrocinador = st.text_input("Nombre del patrocinador")
-            donacion_pratrocinador = st.text_input("Donacion del patrocinador")
+            donacion_pratrocinador = st.number_input("Donacion del patrocinador")
 
         if st.button("Asignar"):
             resultado = st.session_state['controler'].asignar_patrocinadores(nombre_evento, nombre_patrocinador,donacion_pratrocinador)

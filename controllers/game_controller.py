@@ -192,8 +192,12 @@ class AdministrarEventos:
             for boletass in range(cantidad_boletas):# Vender la cantidad especificada de boletas
                 asistente.comprarBoleta()
                 evento_seleccionado.sumar_personas()
-                nueva_boleteria = Boleteria(tipo_boleteria, self.precio_boleta("preventa"), self.precio_boleta("regular"), metodo_pago)
-                evento_seleccionado.agregar_boleteria(nueva_boleteria)
+                if evento_seleccionado == "Filantropico":
+                    nueva_boleteria = Boleteria(tipo_boleteria, 0, 0, metodo_pago)
+                    evento_seleccionado.agregar_boleteria(nueva_boleteria)
+                else:
+                    nueva_boleteria = Boleteria(tipo_boleteria, self.precio_boleta("preventa"), self.precio_boleta("regular"), metodo_pago)
+                    evento_seleccionado.agregar_boleteria(nueva_boleteria)
 
             return True
         else:
@@ -558,33 +562,30 @@ class AdministrarEventos:
         df_reporte (DataFrame): A pandas DataFrame containing the report data.
         """
 
-        # Crear una lista vacía para almacenar los datos del reporte
         reporte = []
 
-        # Seleccionar la lista de eventos según el tipo de evento
         eventos = []
+
         if tipo_evento == "Bar":
             eventos = self.bares
         elif tipo_evento == "Teatro":
             eventos = self.teatros
         elif tipo_evento == "Filantropico":
             eventos = self.filantropicos
-        # Iterar sobre los eventos del tipo seleccionado
+
         for evento in eventos:
-            # Si el nombre del evento coincide con el nombre del evento dado
             if evento.get_nombre() == nombre_evento:
-                # Obtener las boletas del evento
                 boletas = evento.get_boleteria()
-                # Contar las boletas por tipo
                 boletas_por_tipo = {"preventa": 0, "regular": 0, "cortesia": 0}
                 for boleta in boletas:
                     boletas_por_tipo[boleta.tipo_boleteria] += 1
 
-                # Calcular los ingresos por preventa y venta regular
-                ingresos_preventa = boletas_por_tipo["preventa"] * self.precio_boleta("preventa")
-                ingresos_regular = boletas_por_tipo["regular"] * self.precio_boleta("regular")
+                ingresos_preventa = 0
+                ingresos_regular = 0
+                if tipo_evento != "Filantropico":
+                    ingresos_preventa = boletas_por_tipo["preventa"] * self.precio_boleta("preventa")
+                    ingresos_regular = boletas_por_tipo["regular"] * self.precio_boleta("regular")
 
-                # Agregar los datos del evento al reporte
                 reporte.append({
                     "nombre_evento": evento.get_nombre(),
                     "boletas_preventa": boletas_por_tipo["preventa"],
@@ -595,12 +596,8 @@ class AdministrarEventos:
                     "ingresos_totales": ingresos_preventa + ingresos_regular
                 })
 
-        # Convertir la lista de datos del reporte en un DataFrame de pandas
         df_reporte = pd.DataFrame(reporte)
-
-        # Retornar el DataFrame
         return df_reporte
-
     def generar_reporte_financiero(self, nombre_evento, tipo_evento):
 
         """
@@ -622,6 +619,7 @@ class AdministrarEventos:
             "preventa_tarjeta": 0,
             "regular_efectivo": 0,
             "regular_tarjeta": 0,
+            "ingresos_patrocinadores": 0,
             "ingresos_totales": 0,
             "pago_artistas": 0,
             "pago_alquiler": 0,
@@ -630,47 +628,42 @@ class AdministrarEventos:
             "utilidad_neta": 0
         }
 
-        # Seleccionar la lista de eventos según el tipo de evento
-        eventos = []
-
-        if tipo_evento == "Bar":
-            eventos = self.bares
-        elif tipo_evento == "Teatro":
-            eventos = self.teatros
-        elif tipo_evento == "Filantropico":
-            eventos = self.filantropicos
-
-        # Buscar el evento con el nombre dado
-        evento_seleccionado = None
-        for evento in eventos:
-            if evento.get_nombre() == nombre_evento:
-                evento_seleccionado = evento
-                break
+        # Buscar el evento
+        evento_seleccionado = self.buscar_evento(tipo_evento, nombre_evento)
 
         # Si se encontró el evento, generar el reporte
         if evento_seleccionado is not None:
             # Obtener las boletas del evento
             boletas = evento_seleccionado.get_boleteria()
-            # Iterar sobre las boletas
-            for boleta in boletas:
-                # Clasificar las boletas por tipo de boleteria y metodo de pago
-                tipo_boleteria = boleta.get_tipo_boleteria()
-                metodo_pago = boleta.get_metodo_pago()
-                # Sumar los ingresos correspondientes
-                if tipo_boleteria == "preventa" and metodo_pago == "efectivo":
-                    reporte["preventa_efectivo"] += self.precio_boleta("preventa")
-                elif tipo_boleteria == "preventa" and metodo_pago == "tarjeta":
-                    reporte["preventa_tarjeta"] += self.precio_boleta("preventa")
-                elif tipo_boleteria == "regular" and metodo_pago == "efectivo":
-                    reporte["regular_efectivo"] += self.precio_boleta("regular")
-                elif tipo_boleteria == "regular" and metodo_pago == "tarjeta":
-                    reporte["regular_tarjeta"] += self.precio_boleta("regular")
+
+            # Solo calcular ingresos por venta de boletas si el evento no es filantrópico
+            if tipo_evento != "Filantropico":
+                # Iterar sobre las boletas
+                for boleta in boletas:
+                    # Clasificar las boletas por tipo de boleteria y metodo de pago
+                    tipo_boleteria = boleta.get_tipo_boleteria()
+                    metodo_pago = boleta.get_metodo_pago()
+                    # Sumar los ingresos correspondientes
+                    if tipo_boleteria == "preventa" and metodo_pago == "efectivo":
+                        reporte["preventa_efectivo"] += self.precio_boleta("preventa")
+                    elif tipo_boleteria == "preventa" and metodo_pago == "tarjeta":
+                        reporte["preventa_tarjeta"] += self.precio_boleta("preventa")
+                    elif tipo_boleteria == "regular" and metodo_pago == "efectivo":
+                        reporte["regular_efectivo"] += self.precio_boleta("regular")
+                    elif tipo_boleteria == "regular" and metodo_pago == "tarjeta":
+                        reporte["regular_tarjeta"] += self.precio_boleta("regular")
 
             # Sumar los pagos a los artistas y el alquiler del lugar
 
 
-            # Calcular los ingresos totales
+            # Si el evento es filantropico, sumar los ingresos por patrocinadores
+            if tipo_evento == "Filantropico":
+                patrocinadores = evento_seleccionado.get_patrocinadores()
+                ingresos_patrocinadores = sum(patrocinadores.values())
+                reporte["ingresos_patrocinadores"] = ingresos_patrocinadores
 
+
+            # Calcular los ingresos totales
             reporte["ingresos_totales"] = sum(reporte.values())
 
             reporte["pago_artistas"] = evento_seleccionado.get_pago_artistas()
@@ -758,57 +751,49 @@ class AdministrarEventos:
         Returns:
         df_reporte (DataFrame): A pandas DataFrame containing the report data.
         """
+        # Buscar al artista
+        artista = self.artistas.get(nombre_artista)
 
-        reporte = {
-            "nombre_artista": nombre_artista,
-            "total_por_pago": 0,
-            "eventos_bar": 0,
-            "eventos_teatro": 0,
-            "eventos_filantropico": 0
-        }
+        # Si se encontró al artista, generar el reporte
+        if artista is not None:
+            # Obtener los nombres de los eventos del artista
+            nombres_eventos = artista.get_eventos()
 
-        # Check if the artist exists
-        if nombre_artista not in self.artistas:
-            return None
+            # Crear una lista para almacenar los datos de los eventos
+            datos = []
 
-        # Get the artist
-        artista = self.artistas[nombre_artista]
-
-        # Iterate over the artist's events
-        for tipo_evento, nombres_eventos in artista.eventos.items():
-            for nombre_evento in nombres_eventos:
-                # Find the event object corresponding to the event name
-                evento = None
+            # Iterar sobre los tipos de eventos y los nombres de los eventos
+            for tipo_evento, nombres in nombres_eventos.items():
+                # Obtener la lista de eventos de este tipo
+                eventos = []
                 if tipo_evento == "Bar":
-                    for bar in self.bares:
-                        if bar.get_nombre() == nombre_evento:
-                            evento = bar
-                            break
+                    eventos = self.bares
                 elif tipo_evento == "Teatro":
-                    for teatro in self.teatros:
-                        if teatro.get_nombre() == nombre_evento:
-                            evento = teatro
-                            break
+                    eventos = self.teatros
                 elif tipo_evento == "Filantropico":
-                    for filantropico in self.filantropicos:
-                        if filantropico.get_nombre() == nombre_evento:
-                            evento = filantropico
-                            break
+                    eventos = self.filantropicos
 
-                # If the event object is found, add its payment to the total
-                if evento is not None:
-                    reporte["total_por_pago"] += evento.get_pago_artistas()
-                    if tipo_evento == "Bar":
-                        reporte["eventos_bar"] += 1
-                    elif tipo_evento == "Teatro":
-                        reporte["eventos_teatro"] += 1
-                    elif tipo_evento == "Filantropico":
-                        reporte["eventos_filantropico"] += 1
+                # Iterar sobre los nombres de los eventos
+                for nombre in nombres:
+                    # Buscar el evento con este nombre
+                    for evento in eventos:
+                        if evento.get_nombre() == nombre:
+                            # Agregar los datos del evento a la lista
+                            datos.append({
+                                "nombre_evento": nombre,
+                                "fecha": evento.get_fecha(),
+                                "lugar": evento.get_lugar(),
+                                "boletas_vendidas": len(evento.get_boleteria()),
+                                "porcentaje_aforo": len(evento.get_boleteria()) / evento.get_aforo() * 100
+                            })
 
-        # Convert the report data to a DataFrame
-        df_reporte = pd.DataFrame([reporte])
+            # Crear un DataFrame con los datos de los eventos
+            df = pd.DataFrame(datos)
 
-        return df_reporte
+            return df
+
+        # Si no se encontró al artista, retornar None
+        return None
     def asignar_patrocinadores(self, nombre_evento, nombre_patrocinador, donacion_patrocinador):
         """
         Assigns a sponsor to a philanthropic event.

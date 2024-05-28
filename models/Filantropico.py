@@ -10,7 +10,7 @@ class Filantropico(Evento):
     def asignar_artista(self, nombreArtista, artista):
         self.artistas[nombreArtista] = artista
     def get_hora_inicio(self):
-        return self.horaInicio
+        return self.hora_inicio
     def get_direccion(self):
         return self.direccion
     def get_hora_show(self):
@@ -56,11 +56,11 @@ class Filantropico(Evento):
     def set_fecha(self, fecha):
         self.fecha = fecha
 
-    def set_hora_inicio(self, horaInicio):
-        self.horaInicio = horaInicio
+    def set_hora_inicio(self, hora_inicio):
+        self.hora_inicio = hora_inicio
 
-    def set_hora_show(self, horaShow):
-        self.horaShow = horaShow
+    def set_hora_show(self, hora_show):
+        self.hora_show = hora_show
 
     def set_lugar(self, lugar):
         self.lugar = lugar

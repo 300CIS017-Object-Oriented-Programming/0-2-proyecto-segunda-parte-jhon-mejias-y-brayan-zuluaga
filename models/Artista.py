@@ -13,3 +13,6 @@ class Artista:
         if tipo_evento not in self.eventos:
             self.eventos[tipo_evento] = []
         self.eventos[tipo_evento].append(nombre_evento)
+
+    def get_eventos(self):
+        return self.eventos

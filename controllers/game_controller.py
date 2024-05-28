@@ -117,108 +117,6 @@ class AdministrarEventos:
         self.filantropicos.append(filantropico)
 
 
-    def editar_evento(self):
-
-        """
-        Edits the details of an existing event.
-
-        This function first asks the user to input the type and name of the event to be edited. It then iterates over the list of events of the given type. If it finds an event with the given name, it asks the user to input the new details of the event, and updates the event with these new details. If no matching event is found, it prints an error message.
-
-        Parameters:
-        None
-
-        Returns:
-        None
-        """
-
-        tipo_evento = input("Ingrese el tipo de evento a editar (bar, teatro, filantropico): ")
-        nombre_evento = input("Ingrese el nombre del evento a editar: ")
-
-        evento_encontrado = False
-        if tipo_evento == "bar" and not evento_encontrado:
-            for bar in self.bares:
-                if bar.get_nombre() == nombre_evento:
-                    # Solicitar los nuevos datos al usuario
-                    nuevo_nombre = input("Ingrese el nuevo nombre del evento: ")
-                    nueva_fecha = input("Ingrese la nueva fecha del evento: ")
-                    nueva_hora_inicio = input("Ingrese la nueva hora de inicio del evento: ")
-                    nueva_hora_show = input("Ingrese la nueva hora del show del evento: ")
-                    nuevo_lugar = input("Ingrese el nuevo lugar del evento: ")
-                    nueva_direccion = input("Ingrese la nueva dirección del evento: ")
-                    nueva_ciudad = input("Ingrese la nueva ciudad del evento: ")
-                    nuevo_estado = input("Ingrese el nuevo estado del evento: ")
-                    nuevo_aforo = int(input("Ingrese el nuevo aforo del evento: "))
-
-                    # Actualizar los datos del evento
-                    bar.set_nombre(nuevo_nombre)
-                    bar.set_fecha(nueva_fecha)
-                    bar.set_hora_inicio(nueva_hora_inicio)
-                    bar.set_hora_show(nueva_hora_show)
-                    bar.set_lugar(nuevo_lugar)
-                    bar.set_direccion(nueva_direccion)
-                    bar.set_ciudad(nueva_ciudad)
-                    bar.set_estado(nuevo_estado)
-                    bar.set_aforo(nuevo_aforo)
-
-                    evento_encontrado = True
-                    break
-        elif tipo_evento == "teatro" and not evento_encontrado:
-            for teatro in self.teatros:
-                if teatro.get_nombre() == nombre_evento:
-                    # Solicitar los nuevos datos al usuario
-                    nuevo_nombre = input("Ingrese el nuevo nombre del evento: ")
-                    nueva_fecha = input("Ingrese la nueva fecha del evento: ")
-                    nueva_hora_inicio = input("Ingrese la nueva hora de inicio del evento: ")
-                    nueva_hora_show = input("Ingrese la nueva hora del show del evento: ")
-                    nuevo_lugar = input("Ingrese el nuevo lugar del evento: ")
-                    nueva_direccion = input("Ingrese la nueva dirección del evento: ")
-                    nueva_ciudad = input("Ingrese la nueva ciudad del evento: ")
-                    nuevo_estado = input("Ingrese el nuevo estado del evento: ")
-                    nuevo_aforo = int(input("Ingrese el nuevo aforo del evento: "))
-
-                    # Actualizar los datos del evento
-                    teatro.set_nombre(nuevo_nombre)
-                    teatro.set_fecha(nueva_fecha)
-                    teatro.set_hora_inicio(nueva_hora_inicio)
-                    teatro.set_hora_show(nueva_hora_show)
-                    teatro.set_lugar(nuevo_lugar)
-                    teatro.set_direccion(nueva_direccion)
-                    teatro.set_ciudad(nueva_ciudad)
-                    teatro.set_estado(nuevo_estado)
-                    teatro.set_aforo(nuevo_aforo)
-
-                    evento_encontrado = True
-                    break
-        elif tipo_evento == "filantropico" and not evento_encontrado:
-            for filantropico in self.filantropicos:
-                if filantropico.get_nombre() == nombre_evento:
-                    # Solicitar los nuevos datos al usuario
-                    nuevo_nombre = input("Ingrese el nuevo nombre del evento: ")
-                    nueva_fecha = input("Ingrese la nueva fecha del evento: ")
-                    nueva_hora_inicio = input("Ingrese la nueva hora de inicio del evento: ")
-                    nueva_hora_show = input("Ingrese la nueva hora del show del evento: ")
-                    nuevo_lugar = input("Ingrese el nuevo lugar del evento: ")
-                    nueva_direccion = input("Ingrese la nueva dirección del evento: ")
-                    nueva_ciudad = input("Ingrese la nueva ciudad del evento: ")
-                    nuevo_estado = input("Ingrese el nuevo estado del evento: ")
-                    nuevo_aforo = int(input("Ingrese el nuevo aforo del evento: "))
-
-                    # Actualizar los datos del evento
-                    filantropico.set_nombre(nuevo_nombre)
-                    filantropico.set_fecha(nueva_fecha)
-                    filantropico.set_hora_inicio(nueva_hora_inicio)
-                    filantropico.set_hora_show(nueva_hora_show)
-                    filantropico.set_lugar(nuevo_lugar)
-                    filantropico.set_direccion(nueva_direccion)
-                    filantropico.set_ciudad(nueva_ciudad)
-                    filantropico.set_estado(nuevo_estado)
-                    filantropico.set_aforo(nuevo_aforo)
-
-                    evento_encontrado = True
-                    break
-
-        if not evento_encontrado:
-            print("Error: El evento a editar no existe.")
 
     def eliminar_evento(self, tipo_evento, nombre_evento):
 
@@ -540,7 +438,48 @@ class AdministrarEventos:
             # Después de crear el archivo PDF
             webbrowser.open_new(os.path.realpath("outputs/boleta.pdf"))
 
+    def modificar_evento(self, tipo_evento, nombre_evento, nueva_fecha, nueva_hora_inicio, nuevo_estado, nuevo_aforo):
+        """
+        Modifies an existing event with the new details provided.
 
+        This function searches for the event of the given type and name. If found, it updates the event's date, start time, state, and capacity with the new details provided.
+
+        Parameters:
+        tipo_evento (str): The type of the event (Bar, Theater, Philanthropic).
+        nombre_evento (str): The name of the event.
+        nueva_fecha (str): The new date of the event.
+        nueva_hora_inicio (str): The new start time of the event.
+        nuevo_estado (str): The new state of the event.
+        nuevo_aforo (int): The new capacity of the event.
+
+        Returns:
+        bool: True if the event was successfully modified, False otherwise.
+        """
+        if tipo_evento == "Bar":
+            for bar in self.bares:
+                if bar.get_nombre() == nombre_evento:
+                    bar.set_fecha(nueva_fecha)
+                    bar.set_hora_inicio(nueva_hora_inicio)
+                    bar.set_estado(nuevo_estado)
+                    bar.set_aforo(nuevo_aforo)
+                    return True
+        elif tipo_evento == "Teatro":
+            for teatro in self.teatros:
+                if teatro.get_nombre() == nombre_evento:
+                    teatro.set_fecha(nueva_fecha)
+                    teatro.set_hora_inicio(nueva_hora_inicio)
+                    teatro.set_estado(nuevo_estado)
+                    teatro.set_aforo(nuevo_aforo)
+                    return True
+        elif tipo_evento == "Filantropico":
+            for filantropico in self.filantropicos:
+                if filantropico.get_nombre() == nombre_evento:
+                    filantropico.set_fecha(nueva_fecha)
+                    filantropico.set_hora_inicio(nueva_hora_inicio)
+                    filantropico.set_estado(nuevo_estado)
+                    filantropico.set_aforo(nuevo_aforo)
+                    return True
+        return False
     def buscar_evento(self, tipo_evento, nombre_evento):
 
         """

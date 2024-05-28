@@ -31,3 +31,7 @@ class Asistente:
 
     def get_medio_enterado(self):
         return self.medioEnterado
+    def get_confirmacion(self):
+        return self.confirmacion
+    def get_boletas_compradas(self):
+        return self.boletas

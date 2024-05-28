@@ -350,21 +350,21 @@ class AdministrarEventos:
             for filantropico in self.filantropicos:
                 if filantropico.get_nombre() == nombre_evento:
                     for a in filantropico.asistentes:
-                        if a.getNombre() == nombre_asistente:
+                        if a.get_nombre() == nombre_asistente:
                             a.confirmacion = True
                             return True
         elif tipo_evento == "Bar":
             for bar in self.bares:
                 if bar.get_nombre() == nombre_evento:
                     for a in bar.asistentes:
-                        if a.getNombre() == nombre_asistente:
+                        if a.get_nombre() == nombre_asistente:
                             a.confirmacion = True
                             return True
         elif tipo_evento == "Teatro":
             for teatro in self.teatros:
                 if teatro.get_nombre() == nombre_evento:
                     for a in teatro.asistentes:
-                        if a.getNombre() == nombre_asistente:
+                        if a.get_nombre() == nombre_asistente:
                             a.confirmacion = True
                             return True
         return False
@@ -472,6 +472,7 @@ class AdministrarEventos:
 
 
             # Calcular los ingresos totales
+
             reporte["ingresos_totales"] = sum(reporte.values())
 
             reporte["pago_artistas"] = evento_seleccionado.get_pago_artistas()
@@ -522,10 +523,10 @@ class AdministrarEventos:
                 # Agregar los detalles del asistente a los datos
                 datos.append(
                     [asistente.get_nombre(), asistente.get_apellido(), asistente.get_edad(), asistente.get_direccion(),
-                     asistente.get_medio_enterado()])
+                     asistente.get_medio_enterado(), asistente.get_boletas_compradas(), asistente.get_confirmacion()])
 
         # Crear un DataFrame con los datos
-        df = pd.DataFrame(datos, columns=["Nombre", "Apellido", "Edad", "Direccion", "Medio Enterado"])
+        df = pd.DataFrame(datos, columns=["Nombre", "Apellido", "Edad", "Direccion", "Medio Enterado", "Boletas compradas", "Confirmacion"])
 
         # Devolver el DataFrame
         return df

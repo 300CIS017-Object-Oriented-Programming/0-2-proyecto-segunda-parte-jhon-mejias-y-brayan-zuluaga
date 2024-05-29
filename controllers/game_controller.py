@@ -185,6 +185,10 @@ class AdministrarEventos:
         total_a_pagar = precio * cantidad_boletas
         if evento_seleccionado is None:
             return False
+        # Check if the event is closed or cancelled
+        if evento_seleccionado.get_estado() in ["Cerrado", "Cancelado", "Realizado"]:
+            return False
+
         if evento_seleccionado.get_cantidad_asistentes() + cantidad_boletas <= evento_seleccionado.get_aforo():
             asistente = Asistente(nombre_asistente, apellido_asistente, edad, direccion, medio_enterado)
             evento_seleccionado.agregar_asistente(asistente)

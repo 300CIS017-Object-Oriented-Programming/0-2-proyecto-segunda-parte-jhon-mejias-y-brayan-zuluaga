@@ -429,9 +429,19 @@ class AdministrarEventos:
             c.drawString(x2, height - 440, f"Aforo del evento: {aforo}")
             c.drawString(x2, height - 470, f"Tipo de evento: {tipo_evento}")
 
-            # Finaliza y guarda el PDF
+            # Find the event
+            evento_seleccionado = self.buscar_evento(tipo_evento, nombre_evento)
+
+            # If the event is found, get the artists and sponsors
+            if evento_seleccionado is not None:
+                artistas = evento_seleccionado.get_artistas()
+                patrocinadores = evento_seleccionado.get_patrocinadores()
+
+                # Add artists and sponsors to the ticket
+                c.drawString(x1, height - 410, f"Artistas: {', '.join(artistas)}")
+                c.drawString(x1, height - 440, f"Patrocinadores: {', '.join(patrocinadores)}")
+
             c.save()
-            # Después de crear el archivo PDF
             webbrowser.open_new(os.path.realpath("outputs/boleta.pdf"))
 
     def modificar_evento(self, tipo_evento, nombre_evento, nueva_fecha, nueva_hora_inicio, nuevo_estado, nuevo_aforo):

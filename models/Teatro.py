@@ -124,3 +124,6 @@ class Teatro(Evento):
 
     def get_pago_alquiler(self):
         return self.costo
+
+    def get_patrocinadores(self):
+        return []

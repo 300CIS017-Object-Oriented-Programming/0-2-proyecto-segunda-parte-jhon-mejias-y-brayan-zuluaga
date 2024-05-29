@@ -113,4 +113,5 @@ class Bar(Evento):
     def get_pago_alquiler(self):
         return 0
     
-
+    def get_patrocinadores(self):
+        return []

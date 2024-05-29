@@ -184,10 +184,10 @@ class AdministrarEventos:
         precio = self.precio_boleta(tipo_boleteria)
         total_a_pagar = precio * cantidad_boletas
         if evento_seleccionado is None:
-            return False
+            return "Error: El evento no existe."
         # Check if the event is closed or cancelled
         if evento_seleccionado.get_estado() in ["Cerrado", "Cancelado", "Realizado"]:
-            return False
+            return f"Error: El evento {nombre_evento} está {evento_seleccionado.get_estado()}."
 
         if evento_seleccionado.get_cantidad_asistentes() + cantidad_boletas <= evento_seleccionado.get_aforo():
             asistente = Asistente(nombre_asistente, apellido_asistente, edad, direccion, medio_enterado)
@@ -205,8 +205,7 @@ class AdministrarEventos:
 
             return True
         else:
-            return False
-
+            return "Error: No hay suficiente aforo para la cantidad de boletas solicitadas."
 
     def mostrar_detalles_evento(self, tipo_evento, nombre_evento):
 

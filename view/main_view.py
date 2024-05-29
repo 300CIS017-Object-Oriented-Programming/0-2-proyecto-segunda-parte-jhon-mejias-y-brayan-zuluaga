@@ -310,15 +310,16 @@ class View():
         with col1:
             tipo_evento = st.selectbox("Tipo de evento", ["Filantropico", "Bar", "Teatro"], key='unique_keys_0')
             nombre_evento = st.text_input("Nombre del evento")
-            cantidad_boletas = st.number_input("Cantidad de boletas a vender", min_value=1, step=1)
+            cantidad_boletas = st.number_input("Cantidad de boletas a vender", min_value=1, step=1, key='unique_keys_1')
             codigo_descuento = st.text_input("Código de descuento (opcional)")
         with col2:
             nombre_asistente = st.text_input("Nombre del asistente")
             apellido_asistente = st.text_input("Apellido del asistente")
-            edad = st.number_input("Edad del asistente", min_value=1, step=1)
+            edad = st.number_input("Edad del asistente", min_value=1, step=1, key='unique_keys_2')
             direccion = st.text_input("Dirección del asistente")
-            medio_enterado = st.selectbox("¿Cómo se enteró del evento?", ["Internet", "Radio", "Televisión", "Amigos/Familia", "Otros"])
-            tipo_boleteria = st.selectbox("Tipo de boleteria", ["preventa", "regular","cortesia"])
+            medio_enterado = st.selectbox("¿Cómo se enteró del evento?",
+                                          ["Internet", "Radio", "Televisión", "Amigos/Familia", "Otros"])
+            tipo_boleteria = st.selectbox("Tipo de boleteria", ["preventa", "regular", "cortesia"])
             # Mostrar el precio de la boleta tan pronto como el usuario seleccione el tipo de boletería
             if tipo_evento == "Filantropico" and tipo_boleteria in ["preventa", "regular"]:
                 precio = 0
@@ -332,13 +333,12 @@ class View():
                 total = total * 0.8  # Aplicar un descuento del 20%
             st.write(f"El precio Total es: {total}")
 
-
         if st.button("Vender"):
             resultado = st.session_state['controler'].vender_boletas(tipo_evento, nombre_evento,
                                                                      nombre_asistente, apellido_asistente, edad,
                                                                      direccion, medio_enterado, tipo_boleteria,
                                                                      metodo_pago, cantidad_boletas)
-            if resultado:
+            if resultado == True:
                 st.success(f"Se vendió una boleta para el evento {nombre_evento}.")
                 evento = st.session_state['controler'].buscar_evento(tipo_evento, nombre_evento)
                 if evento is not None:
@@ -352,8 +352,8 @@ class View():
                 else:
                     st.error("No se pudo encontrar el evento.")
             else:
-                st.error(
-                    "No se pudo vender la boleta.La cantidad de aforo llego a su limite, estas colocando mal el nombre o tipo del evento")
+                st.error(resultado)
+
         # Agregar botón de "Atrás"
         if st.button("Atrás"):
             st.session_state['gui_view'].desactivate_vendiendo_boletas()

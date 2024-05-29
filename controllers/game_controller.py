@@ -850,3 +850,28 @@ class AdministrarEventos:
             if evento.get_nombre() == nombre_evento:
                 return evento.get_patrocinadores()
         return None
+
+
+
+    def obtener_eventos(self):
+        # Combine all types of events into one list
+        return self.bares + self.teatros + self.filantropicos
+
+    def obtener_datos(self, rango_fechas):
+        # Obtener todos los eventos
+        eventos = self.obtener_eventos()
+
+        # Filtrar los eventos por el rango de fechas
+        eventos = [evento for evento in eventos if rango_fechas[0] <= evento.get_fecha() <= rango_fechas[1]]
+
+        # Crear un DataFrame con los datos de los eventos
+        datos = pd.DataFrame([{
+            "nombre": evento.get_nombre(),
+            "tipo": type(evento).__name__,
+            "fecha": evento.get_fecha(),
+            "ingresos":
+                self.generar_reporte_financiero(evento.get_nombre(), type(evento).__name__)["ingresos_totales"].values[
+                    0]
+        } for evento in eventos])
+
+        return datos

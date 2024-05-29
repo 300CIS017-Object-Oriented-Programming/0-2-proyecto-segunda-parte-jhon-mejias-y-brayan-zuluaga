@@ -3,6 +3,8 @@ from controllers.game_controller import AdministrarEventos
 from controllers.gui_controller import GuiController
 import plotly.express as px
 import os
+import datetime
+
 class View():
 
     def __init__(self):
@@ -66,6 +68,8 @@ class View():
             self.mostrar_reportes()
         if st.session_state['gui_view'].get_asignar_patrocinador():
             self.asignar_patrocinadores()
+        if st.session_state['gui_view'].get_dashboard():
+            self.dashboard()
 
         footer_html = """
               <style>
@@ -288,6 +292,9 @@ class View():
 
         if st.button("Reportes"):
             st.session_state['gui_view'].activate_mostrar_reportes()
+            st.session_state['gui_view'].desactivate_menu()
+        if st.button("Dashboard"):
+            st.session_state['gui_view'].activate_dashboard()
             st.session_state['gui_view'].desactivate_menu()
 
     def eliminar_evento(self):
@@ -553,3 +560,25 @@ class View():
         if st.button("Atrás"):
             st.session_state['gui_view'].desactivate_asignar_patrocinador()
             st.session_state['gui_view'].activate_menu()
+
+    def dashboard(self):
+        st.title("Tablero de Control")
+
+        # Selector de rango de fechas
+        rango_fechas = st.date_input("Seleccione el rango de fechas",
+                                     [datetime.date.today() - datetime.timedelta(days=7), datetime.date.today()])
+        if st.button("generar dashboard"):
+            # Obtener los datos
+            datos = st.session_state['controler'].obtener_datos(rango_fechas)
+
+            # Gráfico de cantidad de eventos por tipo
+            fig1 = px.histogram(datos, x="tipo", title="Cantidad de Eventos por Tipo")
+            st.plotly_chart(fig1)
+
+            # Gráfico de ingresos totales por eventos
+            fig2 = px.line(datos, x="fecha", y="ingresos", title="Ingresos Totales por Eventos")
+            st.plotly_chart(fig2)
+        if st.button("Atrás"):
+            st.session_state['gui_view'].desactivate_dashboard()
+            st.session_state['gui_view'].activate_menu()
+    

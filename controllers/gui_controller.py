@@ -19,6 +19,9 @@ class GuiController:
         self.registrar_ingreso = False
         self.mostrar_reportes = False
         self.asignar_patrocinador = False
+        self.dashboard = False
+    def activate_dashboard(self):
+        self.dashboard = True
     def activate_menu(self):
         self.menu = True
     def activate_creando_evento(self):
@@ -46,7 +49,8 @@ class GuiController:
         self.registrar_ingreso = True
     def activate_mostrar_reportes(self):
         self.mostrar_reportes = True
-
+    def desactivate_dashboard(self):
+        self.dashboard = False
     def desactivate_asignar_patrocinador(self):
         self.asignar_patrocinador = False
     def desactivate_registrar_ingreso(self):
@@ -75,7 +79,8 @@ class GuiController:
     def desactivate_imprimiendo_eventos(self):
         self.imprimiendo_eventos = False
 
-
+    def get_dashboard(self):
+        return self.dashboard
     def get_menu(self):
         return self.menu
     def get_creando_evento(self):

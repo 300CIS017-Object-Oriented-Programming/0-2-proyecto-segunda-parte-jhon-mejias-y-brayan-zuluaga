@@ -24,6 +24,8 @@ class AdministrarEventos:
         self.teatros: List[Teatro] = []
         self.artistas: Dict[str, Artista] = {}
         self.boletas_vendidas = {}
+        self.precio_preventa = 5000
+        self.precio_regular = 10000
 
 
 
@@ -345,8 +347,8 @@ class AdministrarEventos:
         print("Eventos de tipo Filantropico:")
         for filantropico in self.filantropicos:
             print(filantropico.get_nombre())
-    def precio_boleta(self, tipo_boleteria):
 
+    def precio_boleta(self, tipo_boleteria):
         """
         Determines the price of a ticket based on its type.
 
@@ -358,11 +360,10 @@ class AdministrarEventos:
         Returns:
         int: The price of the ticket if the type is recognized, None otherwise.
         """
-
         if tipo_boleteria == "preventa":
-            return 5000
+            return self.precio_preventa
         elif tipo_boleteria == "regular":
-            return 10000
+            return self.precio_regular
         elif tipo_boleteria == "cortesia":
             return 0
         else:
@@ -875,3 +876,20 @@ class AdministrarEventos:
         } for evento in eventos])
 
         return datos
+
+    def asignar_precio_boletas(self, precio_preventa, precio_regular):
+        """
+        Assigns new prices to the tickets.
+
+        This function takes the new prices for pre-sale and regular tickets as arguments. It updates the prices of the tickets to the new prices.
+
+        Parameters:
+        precio_preventa (int): The new price for pre-sale tickets.
+        precio_regular (int): The new price for regular tickets.
+
+        Returns:
+        None
+        """
+        self.precio_preventa = precio_preventa
+        self.precio_regular = precio_regular
+        return True

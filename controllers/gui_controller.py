@@ -20,6 +20,10 @@ class GuiController:
         self.mostrar_reportes = False
         self.asignar_patrocinador = False
         self.dashboard = False
+        self.asignar_precios_boletas = False
+
+    def activate_asignar_precios_boletas(self):
+        self.asignar_precios_boletas = True
     def activate_dashboard(self):
         self.dashboard = True
     def activate_menu(self):
@@ -57,7 +61,8 @@ class GuiController:
         self.registrar_ingreso = False
     def desactivate_mostrar_reportes(self):
         self.mostrar_reportes = False
-
+    def desactivate_asignar_precios_boletas(self):
+        self.asignar_precios_boletas = False
     def desactivate_menu(self):
         self.menu = False
     def desactivate_creando_evento(self):
@@ -78,7 +83,8 @@ class GuiController:
         self.mostrando_detalles_evento = False
     def desactivate_imprimiendo_eventos(self):
         self.imprimiendo_eventos = False
-
+    def get_asignar_precios_boletas(self):
+        return self.asignar_precios_boletas
     def get_dashboard(self):
         return self.dashboard
     def get_menu(self):

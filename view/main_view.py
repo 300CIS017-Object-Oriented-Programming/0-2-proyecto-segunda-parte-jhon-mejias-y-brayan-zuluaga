@@ -70,6 +70,8 @@ class View():
             self.asignar_patrocinadores()
         if st.session_state['gui_view'].get_dashboard():
             self.dashboard()
+        if st.session_state['gui_view'].get_asignar_precios_boletas():
+            self.asignar_precios_boletas()
 
         footer_html = """
               <style>
@@ -295,6 +297,9 @@ class View():
             st.session_state['gui_view'].desactivate_menu()
         if st.button("Dashboard"):
             st.session_state['gui_view'].activate_dashboard()
+            st.session_state['gui_view'].desactivate_menu()
+        if st.button("Asignar Precios Boletas"):
+            st.session_state['gui_view'].activate_asignar_precios_boletas()
             st.session_state['gui_view'].desactivate_menu()
 
     def eliminar_evento(self):
@@ -581,4 +586,24 @@ class View():
         if st.button("Atrás"):
             st.session_state['gui_view'].desactivate_dashboard()
             st.session_state['gui_view'].activate_menu()
+
+    def asignar_precios_boletas(self):
+        st.title("Asignar Precio a Boletas")
+        precio_preventa = st.number_input("Precio de preventa", min_value=0, step=1,
+                                          key=self.generate_key('unique_keys'))
+        precio_regular = st.number_input("Precio regular", min_value=0, step=1, key=self.generate_key('unique_keys'))
+
+        if st.button("Asignar", key=self.generate_key('unique_keys')):
+            resultado = st.session_state['controler'].asignar_precio_boletas(precio_preventa, precio_regular)
+            if resultado:
+                st.success("Precios asignados exitosamente.")
+            else:
+                st.error("No se pudo asignar los precios.")
+
+        if st.button("Atrás", key=self.generate_key('unique_keys')):
+            st.session_state['gui_view'].activate_menu()
+            st.session_state['gui_view'].desactivate_asignar_precios_boletas()
+
+
+
     

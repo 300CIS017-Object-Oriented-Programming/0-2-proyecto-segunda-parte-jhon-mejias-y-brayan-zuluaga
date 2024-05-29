@@ -150,6 +150,9 @@ class View():
         evento = st.session_state['controler'].buscar_evento(tipo_evento, nombre_evento)
         if evento is not None:
             # Get the current capacity of the event
+            if evento.get_estado() == "Realizado":
+                st.error("No se pueden modificar eventos que ya se han realizado.")
+                return
             aforo_actual = evento.get_aforo()
         else:
             st.error(f"No se encontró ningún evento con el nombre {nombre_evento}.")
@@ -292,7 +295,7 @@ class View():
         tipo_evento = st.selectbox("Seleccione el tipo de evento", ["bar", "teatro", "filantropico"])
         nombre_evento = st.text_input("Ingrese el nombre del evento a eliminar")
 
-        if st.button("Eliminar Evento"):
+        if st.button("Eliminar"):
             resultado = st.session_state['controler'].eliminar_evento(tipo_evento, nombre_evento)
             if resultado:
                 st.success(f"El evento {nombre_evento} ha sido eliminado exitosamente.")

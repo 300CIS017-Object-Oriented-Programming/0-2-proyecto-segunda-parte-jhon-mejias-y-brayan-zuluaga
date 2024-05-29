@@ -464,6 +464,7 @@ class AdministrarEventos:
         Returns:
         bool: True if the event was successfully modified, False otherwise.
         """
+
         if tipo_evento == "Bar":
             for bar in self.bares:
                 if bar.get_nombre() == nombre_evento:
@@ -489,6 +490,7 @@ class AdministrarEventos:
                     filantropico.set_aforo(nuevo_aforo)
                     return True
         return False
+
     def buscar_evento(self, tipo_evento, nombre_evento):
 
         """

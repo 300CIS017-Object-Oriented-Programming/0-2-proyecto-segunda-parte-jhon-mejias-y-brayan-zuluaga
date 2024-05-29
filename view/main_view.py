@@ -26,9 +26,9 @@ class View():
                    <style>
                        .stButton>button {
                            width: 90%;
-                           font-weight: 600;
-                           font-size: 18px;
-                           padding: 15px;
+                           font-weight: 300;
+                           font-size: 13px;
+                           padding: 12px;
                            margin: 5px;
                            border-radius: 5px;
                            background-color: #008080;
@@ -87,6 +87,7 @@ class View():
                       font-size: 16px;
                       border-top: 4px solid #FFF;
                   }
+              
               </style>
               <div class="footer">
                   <p>Desarrollado por: BZJM.</p>
@@ -94,6 +95,7 @@ class View():
               """
         # Mostrar el nuevo footer
         st.markdown(footer_html, unsafe_allow_html=True)
+
 
     def crear_evento(self):
         st.title("Crear Evento")
@@ -247,9 +249,15 @@ class View():
                 else:
                     st.error("Por favor, llena todas las casillas antes de enviar.")
     def menu_principal(self):
+
         st.write("<h1 style='text-align: center;'>ComediaGonzos te da la bienvenida! </h1>", unsafe_allow_html=True)
 
-        st.title("MENU PRINCIPAL")
+        # Crear dos columnas
+        col1, col2 = st.columns(2)
+
+        # Colocar una imagen en cada columna
+        col1.image("img/comedia.webp", use_column_width=True)
+        col2.image("img/menu.webp", use_column_width=True)
 
         if st.button("Crear Evento"):
             st.session_state['gui_view'].activate_creando_evento()
@@ -514,7 +522,7 @@ class View():
                 fig1 = px.histogram(df, x="Edad", nbins=10, title="Distribución de Edades de los Compradores")
                 st.plotly_chart(fig1)
 
-                # Crear un gráfico de barras de los medios por los cuales los compradores se enteraron del evento
+                # Crear un gráfico de barras de los medios por los cuales  los compradores se enteraron del evento
                 fig2 = px.bar(df["Medio Enterado"].value_counts(),
                               title="Medios por los que los Compradores se Enteraron del Evento")
                 st.plotly_chart(fig2)

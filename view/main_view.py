@@ -291,16 +291,19 @@ class View():
             st.session_state['gui_view'].desactivate_menu()
 
     def eliminar_evento(self):
-        st.title("Eliminar vento")
-        tipo_evento = st.selectbox("Seleccione el tipo de evento", ["bar", "teatro", "filantropico"])
+        st.title("Eliminar evento")
+        tipo_evento = st.selectbox("Seleccione el tipo de evento", ["Bar", "Teatro", "Filantropico"])
         nombre_evento = st.text_input("Ingrese el nombre del evento a eliminar")
 
         if st.button("Eliminar"):
             resultado = st.session_state['controler'].eliminar_evento(tipo_evento, nombre_evento)
-            if resultado:
+            if resultado == True:
                 st.success(f"El evento {nombre_evento} ha sido eliminado exitosamente.")
-            else:
+            elif resultado == False:
                 st.error(f"No se encontró ningún evento con el nombre {nombre_evento}.")
+            else:
+                st.error(resultado)  # Mostrar el mensaje de error
+
         if st.button("Atrás"):
             st.session_state['gui_view'].desactivate_eliminando_evento()
             st.session_state['gui_view'].activate_menu()

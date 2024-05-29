@@ -125,19 +125,25 @@ class AdministrarEventos:
         bool: True if the event was successfully deleted, False otherwise.
         """
 
-        if tipo_evento.lower() == "bar":
+        if tipo_evento == "Bar":
             for i, bar in enumerate(self.bares):
                 if bar.get_nombre() == nombre_evento:
+                    if bar.get_cantidad_asistentes() == bar.get_aforo():
+                        return "Error: No se puede eliminar un evento que tiene todo el aforo cubierto."
                     del self.bares[i]
                     return True
-        elif tipo_evento.lower() == "teatro":
+        elif tipo_evento == "Teatro":
             for i, teatro in enumerate(self.teatros):
                 if teatro.get_nombre() == nombre_evento:
+                    if teatro.get_cantidad_asistentes() == teatro.get_aforo():
+                        return "Error: No se puede eliminar un evento que tiene todo el aforo cubierto."
                     del self.teatros[i]
                     return True
-        elif tipo_evento.lower() == "filantropico":
+        elif tipo_evento == "Filantropico":
             for i, filantropico in enumerate(self.filantropicos):
                 if filantropico.get_nombre() == nombre_evento:
+                    if filantropico.get_cantidad_asistentes() == filantropico.get_aforo():
+                        return "Error: No se puede eliminar un evento que tiene todo el aforo cubierto."
                     del self.filantropicos[i]
                     return True
 

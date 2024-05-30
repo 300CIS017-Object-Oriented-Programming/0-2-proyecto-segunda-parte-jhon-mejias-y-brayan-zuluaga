@@ -35,17 +35,17 @@ class Bar(Evento):
         return self.personas
 
     def get_precio_preventa(self):
-        return self.precioPreventa
+        return self.precio_preventa
 
     def get_precio_regular(self):
-        return self.precioNormal
+        return self.precio_normal
 
-    def set_precios(self, precioPreventa, precioRegular):
-        self.precioPreventa = precioPreventa
-        self.precioNormal = precioRegular
+    def set_precios(self, precio_preventa, precio_regular):
+        self.precio_preventa = precio_preventa
+        self.precio_normal = precio_regular
 
-    def set_fase_ventas(self, nuevaFase):
-        self.fase = nuevaFase
+    def set_fase_ventas(self, nueva_fase):
+        self.fase = nueva_fase
 
     def set_aforo(self, aforo):
         self.aforo = aforo

@@ -203,7 +203,7 @@ class AdministrarEventos:
             evento_seleccionado.agregar_asistente(asistente)
 
             for boletass in range(cantidad_boletas):# Vender la cantidad especificada de boletas
-                asistente.comprarBoleta()
+                asistente.comprar_boleta()
                 evento_seleccionado.sumar_personas()
                 if evento_seleccionado == "Filantropico":
                     nueva_boleteria = Boleteria(tipo_boleteria, 0, 0, metodo_pago)
@@ -546,23 +546,23 @@ class AdministrarEventos:
         if tipo_evento == "Filantropico":
             for filantropico in self.filantropicos:
                 if filantropico.get_nombre() == nombre_evento:
-                    for a in filantropico.asistentes:
-                        if a.get_nombre() == nombre_asistente:
-                            a.confirmacion = True
+                    for asistentes in filantropico.asistentes:
+                        if asistentes.get_nombre() == nombre_asistente:
+                            asistentes.confirmacion = True
                             return True
         elif tipo_evento == "Bar":
             for bar in self.bares:
                 if bar.get_nombre() == nombre_evento:
-                    for a in bar.asistentes:
-                        if a.get_nombre() == nombre_asistente:
-                            a.confirmacion = True
+                    for asistentes in bar.asistentes:
+                        if asistentes.get_nombre() == nombre_asistente:
+                            asistentes.confirmacion = True
                             return True
         elif tipo_evento == "Teatro":
             for teatro in self.teatros:
                 if teatro.get_nombre() == nombre_evento:
-                    for a in teatro.asistentes:
-                        if a.get_nombre() == nombre_asistente:
-                            a.confirmacion = True
+                    for asistentes in teatro.asistentes:
+                        if asistentes.get_nombre() == nombre_asistente:
+                            asistentes.confirmacion = True
                             return True
         return False
 

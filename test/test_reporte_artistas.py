@@ -6,7 +6,7 @@ class TestAdministrarEventos(unittest.TestCase):
     def setUp(self):
         self.administrar_eventos = AdministrarEventos()
 
-    def artist_report_returns_correct_data_when_artist_exists(self):
+    def test_artist_report_returns_correct_data_when_artist_exists(self):
         # Add an artist
         self.administrar_eventos.crear_artista("Test Artist", "Musician")
 
@@ -22,7 +22,7 @@ class TestAdministrarEventos(unittest.TestCase):
         self.assertEqual(report["boletas_vendidas"].values[0], 0)
         self.assertEqual(report["porcentaje_aforo"].values[0], 0)
 
-    def artist_report_returns_none_when_artist_does_not_exist(self):
+    def test_artist_report_returns_none_when_artist_does_not_exist(self):
         # Generate the artist report
         report = self.administrar_eventos.generar_reporte_artistas("Nonexistent Artist")
 

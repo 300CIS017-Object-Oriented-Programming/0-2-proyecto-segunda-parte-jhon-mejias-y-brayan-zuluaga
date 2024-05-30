@@ -1,10 +1,10 @@
 class Asistente:
-    def __init__(self, nombre, apellido, edad, direccion, medioEnterado):
+    def __init__(self, nombre, apellido, edad, direccion, medio_enterado):
         self.nombre = nombre
         self.apellido = apellido
         self.edad = edad
         self.direccion = direccion
-        self.medioEnterado = medioEnterado
+        self.medio_enterado = medio_enterado
         self.boletas = 0
         self.confirmacion = False
 
@@ -14,7 +14,7 @@ class Asistente:
     def get_boletas(self):
         return self.boletas
 
-    def comprarBoleta(self):
+    def comprar_boleta(self):
         self.boletas += 1
 
     def usarBoleta(self):
@@ -30,7 +30,7 @@ class Asistente:
         return self.direccion
 
     def get_medio_enterado(self):
-        return self.medioEnterado
+        return self.medio_enterado
     def get_confirmacion(self):
         return self.confirmacion
     def get_boletas_compradas(self):

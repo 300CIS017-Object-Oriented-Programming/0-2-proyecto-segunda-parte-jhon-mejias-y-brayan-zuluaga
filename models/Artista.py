@@ -1,13 +1,13 @@
 class Artista:
     def __init__(self, nombre, tipo_artista):
         self.nombre = nombre
-        self.tipoArtista = tipo_artista
+        self.tipo_artista = tipo_artista
         self.eventos = {}
 
-    def getNombre(self):
+    def get_nombre(self):
         return self.nombre
 
-    def getNombreEventos(self):
+    def get_nombre_eventos(self):
         return self.eventos
     def agregar_evento(self, tipo_evento, nombre_evento):
         if tipo_evento not in self.eventos:

@@ -51,7 +51,7 @@ class TestFilantropico(unittest.TestCase):
         self.assertIn("Test Artist", self.filantropico.get_artistas())
 
     def test_patrocinador_addition(self):
-        self.filantropico.agregar_patrocinador("Test Sponsor")
+        self.filantropico.asignar_patrocinador("Test Sponsor",2300)
         self.assertIn("Test Sponsor", self.filantropico.patrocinadores)
 
 if __name__ == '__main__':

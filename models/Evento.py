@@ -12,8 +12,8 @@ class Evento(ABC):
         self.estado = estado
         self.fase = ""  # En C++ no se utiliza este atributo, por lo que puedes eliminarlo o asignarle un valor por defecto
         self.personas = 0  # Por defecto no hay personas en el evento
-        self.precioPreventa = 0  # Por defecto no hay precio de preventa
-        self.precioNormal = 0  # Por defecto no hay precio normal
+        self.precio_preventa = 0  # Por defecto no hay precio de preventa
+        self.precio_normal = 0  # Por defecto no hay precio normal
         self.aforo = aforo
         self.utilidad = 0.0  # Por defecto la utilidad es 0.0
         self.artistas = {}  # Un diccionario vacío para almacenar los artistas

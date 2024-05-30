@@ -5,6 +5,7 @@ from models.Teatro import Teatro
 from models.Artista import Artista
 from models.Asistente import Asistente
 from models.Boleteria import Boleteria
+import reportlab
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 from reportlab.lib.colors import HexColor

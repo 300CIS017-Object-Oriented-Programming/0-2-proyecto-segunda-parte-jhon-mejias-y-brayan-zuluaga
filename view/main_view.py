@@ -6,8 +6,16 @@ import os
 import datetime
 
 class View():
+    """
+        This class is responsible for managing the GUI of the application.
+        It uses the Streamlit library to create and manage the user interface.
+        """
 
     def __init__(self):
+        """
+                Constructor of the GuiController class.
+                It initializes the widget counter and the session states for the controller and the GUI view.
+                """
         self.widget_counter = 0
         if 'controler' not in st.session_state:
             st.session_state['controler'] = AdministrarEventos()
@@ -16,11 +24,28 @@ class View():
             st.session_state['gui_view'] = GuiController()
 
     def generate_key(self, base_key):
+        """
+        Generates a unique key for a widget.
+        It appends the widget counter to the base key and increments the widget counter.
+
+        Parameters:
+        base_key (str): The base key for the widget.
+
+        Returns:
+        str: The unique key for the widget.
+                """
         # Generar una clave única para un widget
         unique_key = f"{base_key}_{self.widget_counter}"
         self.widget_counter += 1
         return unique_key
     def inicio(self):
+
+        """
+        This method is responsible for managing the main interface of the application.
+        It checks the current state of the GUI view and calls the appropriate method to display the corresponding interface.
+        It also applies a new CSS style for the buttons and displays a footer at the end of the page.
+        """
+
         # Nuevo estilo CSS para los botones
         st.markdown("""
                    <style>
@@ -44,6 +69,10 @@ class View():
                        }
                    </style>
                """, unsafe_allow_html=True)
+        # This block of code is responsible for managing the different views of the application.
+        # It checks the current state of the GUI view and calls the appropriate method to display the corresponding interface.
+
+        # If the main menu is active and the event creation view is not active, display the main menu
         if st.session_state['gui_view'].get_menu() and not st.session_state['gui_view'].get_creando_evento():
             self.menu_principal()
         if st.session_state['gui_view'].get_creando_evento():
@@ -98,6 +127,10 @@ class View():
 
 
     def crear_evento(self):
+        """
+              This method is responsible for managing the interface for creating a new event.
+              It displays a radio button for the user to select the type of event to create and calls the appropriate method based on the user's selection.
+              """
         st.title("Crear Evento")
         col1, col2, col3 = st.columns(3)
 
@@ -150,6 +183,10 @@ class View():
                     st.error("Por favor, llena todas las casillas antes de enviar.")
 
     def modificar_evento(self):
+        """
+                This method is responsible for managing the interface for modifying an existing event.
+                It displays a form for the user to enter the new details of the event and calls the appropriate method to modify the event.
+                """
         st.title("Modificar Evento")
         tipo_evento = st.selectbox("Seleccione el tipo de evento", ["Bar", "Teatro", "Filantropico"])
         nombre_evento = st.text_input("Ingrese el nombre del evento a modificar")
@@ -249,6 +286,15 @@ class View():
                 else:
                     st.error("Por favor, llena todas las casillas antes de enviar.")
     def menu_principal(self):
+        """
+           This method is responsible for managing the main menu of the application.
+           It displays a welcome message and two images in two columns.
+           It also provides buttons for various functionalities such as creating an event, modifying an event,
+           showing event details, assigning sponsors, printing events, deleting an event, creating an artist,
+           assigning an artist, selling tickets, registering entry, showing reports, showing the dashboard,
+           and assigning ticket prices.
+           Each button activates the corresponding view and deactivates the main menu.
+           """
 
         st.write("<h1 style='text-align: center;'>ComediaGonzos te da la bienvenida! </h1>", unsafe_allow_html=True)
 
@@ -311,6 +357,11 @@ class View():
             st.session_state['gui_view'].desactivate_menu()
 
     def eliminar_evento(self):
+        """
+            This method is responsible for managing the interface for deleting an existing event.
+            It prompts the user to input the type and name of the event to be deleted.
+            Upon user confirmation, it calls the appropriate method to delete the event.
+            """
         st.title("Eliminar evento")
         tipo_evento = st.selectbox("Seleccione el tipo de evento", ["Bar", "Teatro", "Filantropico"])
         nombre_evento = st.text_input("Ingrese el nombre del evento a eliminar")
@@ -386,6 +437,11 @@ class View():
             st.session_state['gui_view'].activate_menu()
 
     def crear_artista(self):
+        """
+           This method is responsible for managing the interface for creating a new artist.
+           It prompts the user to input the name and type of the artist.
+           Upon user confirmation, it calls the appropriate method to create the artist.
+           """
         st.title("Crear Nuevo Artista")
         container = st.container()
         col1, col2 = container.columns(2)
@@ -428,6 +484,11 @@ class View():
             st.session_state['gui_view'].activate_menu()
 
     def mostrar_detalles_evento(self):
+        """
+           This method is responsible for managing the interface for displaying the details of an existing event.
+           It prompts the user to input the type and name of the event whose details are to be displayed.
+           Upon user confirmation, it calls the appropriate method to fetch and display the event details.
+           """
         st.title("Mostrar Detalles de Evento")
         tipo_evento = st.selectbox("Seleccione el tipo de evento", ["bar", "teatro", "filantropico"])
         nombre_evento = st.text_input("Ingrese el nombre del evento a mostrar")
@@ -444,6 +505,11 @@ class View():
             st.session_state['gui_view'].activate_menu()
 
     def imprimir_eventos(self):
+        """
+           This method is responsible for managing the interface for printing the details of existing events.
+           It provides buttons for the user to select the type of event to print (Bar, Theater, Philanthropic).
+           Upon user selection, it calls the appropriate method to fetch and print the details of the events of the selected type.
+           """
         st.title("Imprimir Eventos")
 
         if st.button("Imprimir Eventos de tipo Bar"):
@@ -466,6 +532,11 @@ class View():
             st.session_state['gui_view'].activate_menu()
 
     def registrar_ingreso(self):
+        """
+           This method is responsible for managing the interface for registering the entry of attendees to an event.
+           It prompts the user to input the type and name of the event, the name of the attendee, and the number of people entering.
+           Upon user confirmation, it calls the appropriate method to register the entry.
+           """
         st.title("Registrar Ingreso")
         tipo_evento = st.selectbox("Tipo de evento", ["Filantropico", "Bar", "Teatro"], key=self.generate_key('unique_keys'))
         nombre_evento = st.text_input("Nombre del evento", key=self.generate_key('unique_keys'))
@@ -485,6 +556,11 @@ class View():
             st.session_state['gui_view'].activate_menu()
 
     def mostrar_reportes(self):
+        """
+            This method is responsible for managing the interface for generating various types of reports.
+            It provides a dropdown for the user to select the type of report to generate (Sales, Financial, Buyers, Artist Data).
+            Upon user selection, it calls the appropriate method to generate and display the selected report.
+            """
         st.title("Reportes")
 
         reporte_option = st.selectbox("Seleccione el tipo de reporte",
@@ -492,8 +568,6 @@ class View():
                                        "Generar Reporte de Compradores", "Generar Reporte de Datos por Artista"])
 
         # Pide al usuario el nombre y tipo del evento
-
-
 
         if reporte_option == "Generar Reporte de Ventas":
             nombre_evento = st.text_input("Nombre del evento")
@@ -545,6 +619,11 @@ class View():
             st.session_state['gui_view'].desactivate_mostrar_reportes()
             st.session_state['gui_view'].activate_menu()
     def asignar_patrocinadores(self):
+        """
+           This method is responsible for managing the interface for assigning sponsors to an event.
+           It prompts the user to input the name of the event and the name and donation amount of the sponsor.
+           Upon user confirmation, it calls the appropriate method to assign the sponsor to the event.
+           """
         st.title("Asignar Patrocinadores")
         container = st.container()
         col1, col2 = container.columns(2)
@@ -575,6 +654,14 @@ class View():
             st.session_state['gui_view'].activate_menu()
 
     def dashboard(self):
+        """
+            This method is responsible for managing the dashboard interface of the application.
+            It provides a date range selector for the user to select the range of dates for which the dashboard should be generated.
+            Upon user confirmation, it calls the appropriate method to fetch the data for the selected date range and generates two plots:
+            1. A histogram showing the number of events by type.
+            2. A line plot showing the total income from events over time.
+            It also provides a button to return to the main menu.
+            """
         st.title("Tablero de Control")
 
         # Selector de rango de fechas
@@ -596,6 +683,11 @@ class View():
             st.session_state['gui_view'].activate_menu()
 
     def asignar_precios_boletas(self):
+        """
+            This method is responsible for managing the interface for assigning ticket prices.
+            It prompts the user to input the pre-sale and regular prices for the tickets.
+            Upon user confirmation, it calls the appropriate method to assign the prices to the tickets.
+            """
         st.title("Asignar Precio a Boletas")
         precio_preventa = st.number_input("Precio de preventa", min_value=0, step=1,
                                           key=self.generate_key('unique_keys'))

@@ -1,6 +1,11 @@
 from typing import List, Dict
 class GuiController:
     def __init__(self):
+        """
+        This method is responsible for managing the interface for assigning ticket prices.
+        It prompts the user to input the pre-sale and regular prices for the tickets.
+        Upon user confirmation, it calls the appropriate method to assign the prices to the tickets.
+        """
         #self.filantropicos: List[Filantropico] = []
         #self.bares: List[Bar] = []
         #self.teatros: List[Teatro] = []

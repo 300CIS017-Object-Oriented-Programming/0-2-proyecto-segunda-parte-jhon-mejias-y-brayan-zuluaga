@@ -2,9 +2,11 @@ from models.Evento import Evento
 
 
 class Bar(Evento):
-    def __init__(self, nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo,pago_artistas):
+    def __init__(self, nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo,pago_artistas, maximo_preventa, maximo_cortesia):
         super().__init__(nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo)
         self.pago_artistas = pago_artistas
+        self.maximo_preventa = maximo_preventa
+        self.maximo_cortesia = maximo_cortesia
     def pagar_comediante(self):
         # Implementa la lógica para pagar al comediante si es necesario
         pass
@@ -115,3 +117,12 @@ class Bar(Evento):
     
     def get_patrocinadores(self):
         return []
+
+    def get_maximo_preventa(self):
+        return self.maximo_preventa
+    def get_maximo_cortesia(self):
+        return self.maximo_cortesia
+    def set_maximo_preventa(self, maximo_preventa):
+        self.maximo_preventa = maximo_preventa
+    def set_maximo_cortesia(self, maximo_cortesia):
+        self.maximo_cortesia = maximo_cortesia

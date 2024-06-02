@@ -160,8 +160,10 @@ class View():
                 hora_inicio = st.time_input("Ingrese la hora de inicio del evento: ",key=self.generate_key('unique_keys'))
                 lugar = st.text_input("Ingrese el lugar del evento: ",key=self.generate_key('unique_keys'))
                 direccion = st.text_input("Ingrese la dirección del evento: ",key=self.generate_key('unique_keys'))
-
-
+                max_boletas_cortesia = st.number_input("Máximo de boletas de cortesía", min_value=0, step=1,
+                                                       key=self.generate_key('unique_keys'))  # Nueva casilla
+                max_boletas_preventa = st.number_input("Máximo de boletas de preventa", min_value=0, step=1,
+                                                   key=self.generate_key('unique_keys'))  # Nueva casilla
 
             with col2:
                 hora_show = st.time_input("Ingrese la hora del show: ", key=self.generate_key('unique_keys'))
@@ -177,7 +179,7 @@ class View():
                     aforo = int(aforo)  # Convertir el aforo a un entero
                     st.session_state['controler'].crear_bar(nombre, fecha, hora_inicio, hora_show, lugar, direccion,
                                                             ciudad,
-                                                            estado, aforo, pago_artistas)
+                                                            estado, aforo, pago_artistas, max_boletas_preventa, max_boletas_cortesia)
                     st.success("Evento Bar creado exitosamente.")
                 else:
                     st.error("Por favor, llena todas las casillas antes de enviar.")
@@ -243,13 +245,16 @@ class View():
                 aforo = st.number_input("Ingrese el aforo del evento", min_value=0, value=1, key=self.generate_key('unique_keys'))
                 pago_artistas = st.number_input("Valor a pagar al Artista:", min_value=0, value=5000,
                                                 key=self.generate_key('unique_keys'))
-
+                max_boletas_cortesia = st.number_input("Máximo de boletas de cortesía", min_value=0, step=1,
+                                                       key=self.generate_key('unique_keys'))  # Nueva casilla
+                max_boletas_preventa = st.number_input("Máximo de boletas de preventa", min_value=0, step=1,
+                                                   key=self.generate_key('unique_keys'))  # Nueva casilla
             submit_button = st.form_submit_button(label='Finalizar')
             if submit_button:
                 if nombre and fecha and hora_inicio and lugar and direccion and hora_show and ciudad and estado and aforo:
                     aforo = int(aforo)  # Convertir el aforo a un entero
                     st.session_state['controler'].crear_filantropico(nombre, fecha, hora_inicio, hora_show, lugar,
-                                                                     direccion, ciudad, estado, aforo, pago_artistas)
+                                                                     direccion, ciudad, estado, aforo, pago_artistas, max_boletas_preventa, max_boletas_cortesia)
                     st.success("Evento Filantropico creado exitosamente.")
                 else:
                     st.error("Por favor, llena todas las casillas antes de enviar.")
@@ -265,6 +270,9 @@ class View():
                 hora_inicio = st.time_input("Ingrese la hora de inicio del evento: ", key=self.generate_key('unique_keys'))
                 lugar = st.text_input("Ingrese el lugar del evento: ",key=self.generate_key('unique_keys'))
                 direccion = st.text_input("Ingrese la dirección del evento: ",key=self.generate_key('unique_keys'))
+                max_boletas_cortesia = st.number_input("Máximo de boletas de cortesía", min_value=0, step=1,
+                                                   key=self.generate_key('unique_keys'))  # Nueva casilla
+                max_boletas_preventa = st.number_input("Máximo de boletas de preventa", min_value=0, step=1, key=self.generate_key('unique_keys'))  # Nueva casilla
 
             with col2:
                 hora_show = st.time_input("Ingrese la hora del show: ", key="hora_show_teatro")
@@ -281,7 +289,7 @@ class View():
                 if nombre and fecha and hora_inicio and lugar and direccion and hora_show and ciudad and estado and aforo:
                     aforo = int(aforo)  # Convertir el aforo a un entero
                     st.session_state['controler'].crear_teatro(nombre, fecha, hora_inicio, hora_show, lugar, direccion,
-                                                               ciudad, estado, aforo, costo, pago_artistas)
+                                                               ciudad, estado, aforo, costo, pago_artistas, max_boletas_preventa, max_boletas_cortesia)
                     st.success("Evento Teatro creado exitosamente.")
                 else:
                     st.error("Por favor, llena todas las casillas antes de enviar.")

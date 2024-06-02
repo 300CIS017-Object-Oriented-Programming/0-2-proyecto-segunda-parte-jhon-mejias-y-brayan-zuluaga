@@ -5,7 +5,6 @@ from models.Teatro import Teatro
 from models.Artista import Artista
 from models.Asistente import Asistente
 from models.Boleteria import Boleteria
-import reportlab
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 from reportlab.lib.colors import HexColor
@@ -30,7 +29,7 @@ class AdministrarEventos:
 
 
 
-    def crear_bar(self, nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo, pago_artistas):
+    def crear_bar(self, nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo, pago_artistas, maximo_preventa, maximo_cortesia):
 
         """
         Creates a new bar event and adds it to the list of bar events.
@@ -53,10 +52,10 @@ class AdministrarEventos:
         None
         """
 
-        bar = Bar(nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo, pago_artistas)
+        bar = Bar(nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo, pago_artistas,maximo_preventa, maximo_cortesia)
         self.bares.append(bar)
 
-    def crear_teatro(self, nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo, costo, pago_artistas):
+    def crear_teatro(self, nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo, costo, pago_artistas, maximo_preventa, maximo_cortesia):
 
         """
         Creates a new theater event and adds it to the list of theater events.
@@ -80,11 +79,11 @@ class AdministrarEventos:
         None
         """
 
-        teatro = Teatro(nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo,pago_artistas)
+        teatro = Teatro(nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo,pago_artistas, maximo_preventa, maximo_cortesia)
         teatro.costo = costo
         self.teatros.append(teatro)
 
-    def crear_filantropico(self, nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo, pago_artistas):
+    def crear_filantropico(self, nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo, pago_artistas, maximo_preventa, maximo_cortesia):
         """
         Creates a new philanthropic event and adds it to the list of philanthropic events.
 
@@ -106,7 +105,7 @@ class AdministrarEventos:
         Returns:
         None
         """
-        filantropico = Filantropico(nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo, pago_artistas)
+        filantropico = Filantropico(nombre, fecha, hora_inicio, hora_show, lugar, direccion, ciudad, estado, aforo, pago_artistas, maximo_preventa, maximo_cortesia)
 
 
         self.filantropicos.append(filantropico)
@@ -195,8 +194,20 @@ class AdministrarEventos:
         if evento_seleccionado is None:
             return "Error: El evento no existe."
         # Check if the event is closed or cancelled
+
         if evento_seleccionado.get_estado() in ["Cerrado", "Cancelado", "Realizado"]:
             return f"Error: El evento {nombre_evento} está {evento_seleccionado.get_estado()}."
+
+        vendidas_boletas_cortesia = len(
+            [boleteria for boleteria in evento_seleccionado.boleteria if boleteria.tipo_boleteria == "cortesia"])
+        vendidas_boletas_preventa = len(
+            [boleteria for boleteria in evento_seleccionado.boleteria if boleteria.tipo_boleteria == "preventa"])
+
+        if tipo_boleteria == "cortesia" and vendidas_boletas_cortesia >= evento_seleccionado.get_maximo_cortesia():
+            return "Error: Se ha alcanzado el máximo de boletas de cortesía."
+
+        if tipo_boleteria == "preventa" and vendidas_boletas_preventa >= evento_seleccionado.get_maximo_preventa():
+            return "Error: Se ha alcanzado el máximo de boletas de preventa."
 
         if evento_seleccionado.get_cantidad_asistentes() + cantidad_boletas <= evento_seleccionado.get_aforo():
             asistente = Asistente(nombre_asistente, apellido_asistente, edad, direccion, medio_enterado)
